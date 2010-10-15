@@ -1,0 +1,12 @@
+PARSER_BEGIN(TaskListParser)
+package net.sourceforge.myjorganizer.parser;
+
+public class TaskListParser
+{
+}
+PARSER_END(TaskListParser)
+
+TOKEN : {
+  < TASK : "task" >
+| < DUES : "dues" >
+}

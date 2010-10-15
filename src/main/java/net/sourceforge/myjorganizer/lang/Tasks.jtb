@@ -1,0 +1,30 @@
+/**
+ * JTB template file created by SF JavaCC plugin 1.5.17+ wizard for JTB 1.4.0.2+ and JavaCC 1.5.0+
+ */options{  JDK_VERSION = "1.6";  static = true;}PARSER_BEGIN(TaskParser)package net.sourceforge.myjorganizer.lang;
+import net.sourceforge.myjorganizer.lang.syntaxtree.*;import net.sourceforge.myjorganizer.lang.visitor.*;
+
+public class TaskParser{  public static void main(String args [])  {      }}class MyVisitor extends DepthFirstVoidVisitor{  }PARSER_END(TaskParser)SKIP :{  " "| "\t"| "\n"| "\r"| < "//" (~[ "\n", "\r" ])*    (      "\n"    | "\r"    | "\r\n"    ) >| < "/*" (~[ "*" ])* "*"    (      ~[ "/" ] (~[ "*" ])* "*"    )*    "/" >}TOKEN :
+{
+  < TASK : "task" >
+| < DEPENDS : "depends" >
+}
+
+TOKEN :
+{
+< LPAREN: "(" >
+| < RPAREN: ")" >
+| < LBRACE: "{" >
+| < RBRACE: "}" >
+| < LBRACKET: "[" >
+| < RBRACKET: "]" >
+| < SEMICOLON: ";" >
+| < COMMA: "," >
+| < DOT: "." >
+}
+
+void TaskDeclaration() :{}
+{
+  < TASK >
+  < LBRACE >
+  < RBRACE >
+}

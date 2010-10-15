@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="net.sourceforge.myjorganizer.data">
+	<class name="Task" table="task">
+		<id name="id" column="task_id">
+			<generator class="native" />
+		</id>
+		<property name="name" column="name" type="string" length="255" not-null="true"/>
+		<property name="urgent" column="urgent" type="boolean" not-null="true"/>
+		<property name="important" column="important" type="boolean" not-null="true"/>
+		<component name="status">
+		  <property name="name" column="status" type="string" length="255"/>
+		</component>
+	</class>
+</hibernate-mapping>
