@@ -9,4 +9,5 @@ PARSER_END(TaskListParser)
 TOKEN : {
   < TASK : "task" >
 | < DUES : "dues" >
+| < REPEATS : "repeats" >
 }
