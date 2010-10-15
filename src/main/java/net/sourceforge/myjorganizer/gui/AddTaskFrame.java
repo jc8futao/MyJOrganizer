@@ -29,8 +29,8 @@ public class AddTaskFrame extends JFrame {
 
 	private final JTextField taskTitleText = new JTextField();
 	private final JTextArea taskDescriptionText = new JTextArea();
-	private final JCheckBox taskUrgentCheck = new JCheckBox();
-	private final JCheckBox taskImportantCheck = new JCheckBox();
+	private final JCheckBox taskUrgentCheck = new JCheckBox(_("YES"));
+	private final JCheckBox taskImportantCheck = new JCheckBox(_("YES"));
 	private final JTextField taskStartDateText = new JTextField();
 	private final JTextField taskDueDateText = new JTextField();
 	private final JComboBox taskStatusCombo = new JComboBox();
