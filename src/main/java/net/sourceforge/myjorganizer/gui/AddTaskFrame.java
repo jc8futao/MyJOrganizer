@@ -68,6 +68,6 @@ public class AddTaskFrame extends JFrame {
 		contentPane.addLabeledComponent(taskDueDateLabel, taskDueDateText);
 		contentPane.addLabeledComponent(taskStatusLabel, taskStatusCombo);
 
-		pack();
+		setSize(400, 350);
 	}
 }

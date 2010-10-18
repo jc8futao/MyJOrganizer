@@ -16,7 +16,6 @@
 		<property name="connection.pool_size">1</property>
 
 		<!-- SQL dialect -->
-
 		<property name="dialect">org.hibernate.dialect.H2Dialect</property>
 
 		<!-- Enable Hibernate's automatic session context management -->

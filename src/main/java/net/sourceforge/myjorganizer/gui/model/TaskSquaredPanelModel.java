@@ -20,7 +20,6 @@ public class TaskSquaredPanelModel {
 	 * @return
 	 */
 	public Map<Priority, TaskListModel> getListModels() {
-		// TODO Auto-generated method stub
 		return listModels;
 	}
 
