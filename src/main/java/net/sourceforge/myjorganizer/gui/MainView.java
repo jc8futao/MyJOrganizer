@@ -8,13 +8,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import net.sourceforge.myjorganizer.data.HibernateUtil;
 import net.sourceforge.myjorganizer.data.Priority;
 import net.sourceforge.myjorganizer.data.Task;
 import net.sourceforge.myjorganizer.gui.model.TaskModel;
 import net.sourceforge.myjorganizer.gui.model.TaskSquaredPanelModel;
 
-import org.h2.engine.SessionFactory;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.FrameView;
