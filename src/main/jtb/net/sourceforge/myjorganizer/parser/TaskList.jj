@@ -6,8 +6,22 @@ public class TaskListParser
 }
 PARSER_END(TaskListParser)
 
+SKIP:
+{
+        <" ">
+|       <"\t">
+|       <"\n">
+}
+
 TOKEN : {
   < TASK : "task" >
 | < DUES : "dues" >
 | < REPEATS : "repeats" >
+| < DEPENDENCIES : "dependencies" >
+| < LBRACE : "{" >
+| < RBRACE : "}" >}
+
+void TaskDefinition():{
 }
+{
+  (< TASK > < LBRACE > < RBRACE >)}
