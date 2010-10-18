@@ -1,12 +1,23 @@
 package net.sourceforge.myjorganizer.data;
 
 import java.util.Date;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 
 /**
  * Class representing a Task
  * 
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  */
+
+@Entity
+@Table(name="tasks")
 public class Task {
 
 	private String name;
@@ -71,6 +82,7 @@ public class Task {
 	 * 
 	 * @return the task's due date
 	 */
+	@Column(name="due_date")
 	public Date getDueDate() {
 		return this.dueDate;
 	}
@@ -92,6 +104,7 @@ public class Task {
 	 * 
 	 * @return the start date
 	 */
+	@Column(name="start_date")
 	public Date getStartDate() {
 		return this.startDate;
 	}
@@ -113,6 +126,7 @@ public class Task {
 	 * 
 	 * @return the task status
 	 */
+	@ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
 	public TaskStatus getStatus() {
 		return status;
 	}
@@ -123,6 +137,7 @@ public class Task {
 		return this;
 	}
 
+	@Id
 	public int getId() {
 		return this.id;
 	}
@@ -137,14 +152,48 @@ public class Task {
 		return this;
 	}
 
+	/**
+	 * Completion getter
+	 * @return int (0 to 100)
+	 */
 	public int getCompletion() {
-		// TODO Auto-generated method stub
 		return this.completion;
 	}
 
 	@Override
 	public String toString() {
 		return this.getName();
+	}
+
+	public boolean isUrgent() {
+		return getPriority().isUrgent();
+	}
+
+	public Task setUrgent(boolean urgent) {
+		this.priority = Priority.factory(urgent, isImportant());
+		
+		return this;
+	}
+
+	public boolean isImportant() {
+		return priority.isImportant();
+	}
+
+	public Task setImportant(boolean important) {
+		this.priority = Priority.factory(isUrgent(), important);
+		
+		return this;
+	}
+
+	public Task setPriority(Priority priority) {
+		this.priority = priority;
+		
+		return this;
+	}
+
+	@Transient
+	public Priority getPriority() {
+		return this.priority;
 	}
 
 	@Override
@@ -155,6 +204,8 @@ public class Task {
 		result = prime * result + ((dueDate == null) ? 0 : dueDate.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((priority == null) ? 0 : priority.hashCode());
 		result = prime * result
 				+ ((startDate == null) ? 0 : startDate.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
@@ -184,6 +235,11 @@ public class Task {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
+		if (priority == null) {
+			if (other.priority != null)
+				return false;
+		} else if (!priority.equals(other.priority))
+			return false;
 		if (startDate == null) {
 			if (other.startDate != null)
 				return false;
@@ -195,36 +251,5 @@ public class Task {
 		} else if (!status.equals(other.status))
 			return false;
 		return true;
-	}
-
-	public boolean isUrgent() {
-		// TODO Auto-generated method stub
-		return getPriority().isUrgent();
-	}
-
-	public Task setUrgent(boolean urgent) {
-		this.priority = Priority.factory(urgent, isImportant());
-		
-		return this;
-	}
-
-	public boolean isImportant() {
-		return priority.isImportant();
-	}
-
-	public Task setImportant(boolean important) {
-		this.priority = Priority.factory(isUrgent(), important);
-		
-		return this;
-	}
-
-	public Task setPriority(Priority priority) {
-		this.priority = priority;
-		
-		return this;
-	}
-
-	public Priority getPriority() {
-		return this.priority;
 	}
 }

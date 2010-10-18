@@ -1,7 +1,15 @@
 package net.sourceforge.myjorganizer.data;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="task_statuses")
 public class TaskStatus {
 	private String name;
+	
+	private int id;
 
 	private TaskStatus() {
 	}
@@ -43,5 +51,16 @@ public class TaskStatus {
 
 	private void setName(String name) {
 		this.name = name;
+	}
+
+	@Id
+	public int getId() {
+		return id;
+	}
+
+	public TaskStatus setId(int id) {
+		this.id = id;
+		
+		return this;
 	}
 }

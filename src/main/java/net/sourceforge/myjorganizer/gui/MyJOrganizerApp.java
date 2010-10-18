@@ -1,7 +1,10 @@
 package net.sourceforge.myjorganizer.gui;
 
+import org.h2.tools.Server;
+
 import static net.sourceforge.myjorganizer.i18n.Translator._;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.EventObject;
 
@@ -14,10 +17,16 @@ import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
 
 public class MyJOrganizerApp extends SingleFrameApplication {
+	public final boolean DEBUG = true;
 
 	public MyJOrganizerApp() {
-		getContext().getResourceManager().setApplicationBundleNames(Arrays.asList("net.sourceforge.myjorganizer.gui.resources.MyJOrganizerApp"));
+		getContext()
+				.getResourceManager()
+				.setApplicationBundleNames(
+						Arrays
+								.asList("net.sourceforge.myjorganizer.gui.resources.MyJOrganizerApp"));
 	}
+
 	public static void main(String args[]) {
 		launch(MyJOrganizerApp.class, args);
 	}
@@ -27,8 +36,10 @@ public class MyJOrganizerApp extends SingleFrameApplication {
 	}
 
 	private String language;
-	
+
 	private SessionFactory sessionFactory;
+	private Server h2Server;
+	private Server webServer;
 
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
@@ -41,7 +52,17 @@ public class MyJOrganizerApp extends SingleFrameApplication {
 	@Override
 	protected void startup() {
 		registerExitListener();
-		
+
+		try {
+			if (DEBUG) {
+				this.webServer = Server.createWebServer().start();
+			}
+			this.h2Server = Server.createTcpServer().start();
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
 		this.sessionFactory = HibernateUtil.getSessionFactory();
 
 		show(new MainView(this));
@@ -52,18 +73,21 @@ public class MyJOrganizerApp extends SingleFrameApplication {
 			@Override
 			public boolean canExit(EventObject e) {
 				int option = JOptionPane.showConfirmDialog(null,
-						_("REALLY_EXIT"), _("EXIT"),
-						JOptionPane.YES_NO_OPTION);
+						_("REALLY_EXIT"), _("EXIT"), JOptionPane.YES_NO_OPTION);
 				return option == JOptionPane.YES_OPTION;
 			}
 
 			@Override
 			public void willExit(EventObject e) {
+				h2Server.shutdown();
+
+				if (webServer != null) {
+					webServer.shutdown();
+				}
 			}
 		};
 		addExitListener(maybeExit);
 	}
-
 
 	public String getLanguage() {
 		return this.language;

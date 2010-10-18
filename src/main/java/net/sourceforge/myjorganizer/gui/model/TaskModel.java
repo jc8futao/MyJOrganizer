@@ -22,7 +22,6 @@ public class TaskModel {
 	}
 
 	public Priority getPriority() {
-		// TODO Auto-generated method stub
 		return this.task.getPriority();
 	}
 
@@ -63,7 +62,6 @@ public class TaskModel {
 	}
 
 	public String getName() {
-		// TODO Auto-generated method stub
 		return task.getName();
 	}
 
@@ -104,7 +102,6 @@ public class TaskModel {
 	}
 
 	public TaskStatus getStatus() {
-		// TODO Auto-generated method stub
 		return task.getStatus();
 	}
 

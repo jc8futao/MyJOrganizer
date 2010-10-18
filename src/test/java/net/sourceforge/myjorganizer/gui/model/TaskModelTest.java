@@ -136,10 +136,10 @@ public class TaskModelTest {
 
 	@Test
 	public void testIdGetter() {
-		for (int i = 0; i < 100; i++) {
-			task.setId(i);
-			assertEquals(task.getId(), taskModel.getId());
-		}
+		int id = 10;
+
+		task.setId(id);
+		assertEquals(task.getId(), taskModel.getId());
 	}
 
 	@Test

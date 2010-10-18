@@ -85,9 +85,10 @@ public class TaskTest {
 
 	@Test
 	public void testIdAccessors() {
-		task.setId(1);
+		int id = 1;
+		task.setId(id);
 
-		assertEquals(1, task.getId());
+		assertEquals(id, task.getId());
 	}
 
 	@Test
