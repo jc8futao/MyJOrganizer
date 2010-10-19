@@ -23,7 +23,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	net.sourceforge.myjorganizer.gui.model.AllTests.class
+	net.sourceforge.myjorganizer.gui.mvc.model.AllTests.class
 })
 public class AllTests {
 

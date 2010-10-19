@@ -15,7 +15,7 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.gui.model;
+package net.sourceforge.myjorganizer.gui.mvc.model;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -23,9 +23,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	TaskListModelTest.class,
-	TaskModelTest.class,
-	TaskSquaredPanelModelTest.class
+	TaskModelTest.class
 })
 public class AllTests {
 

@@ -17,11 +17,8 @@
 
 package net.sourceforge.myjorganizer.gui;
 
-import org.h2.tools.Server;
-
 import static net.sourceforge.myjorganizer.i18n.Translator._;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.EventObject;
 
@@ -34,7 +31,7 @@ import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
 
 public class MyJOrganizerApp extends SingleFrameApplication {
-	public final boolean DEBUG = true;
+	public final static boolean DEBUG = true;
 
 	public MyJOrganizerApp() {
 		getContext()
@@ -55,8 +52,6 @@ public class MyJOrganizerApp extends SingleFrameApplication {
 	private String language;
 
 	private SessionFactory sessionFactory;
-	private Server h2Server;
-	private Server webServer;
 
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
@@ -69,16 +64,6 @@ public class MyJOrganizerApp extends SingleFrameApplication {
 	@Override
 	protected void startup() {
 		registerExitListener();
-
-		try {
-			if (DEBUG) {
-				this.webServer = Server.createWebServer().start();
-			}
-			this.h2Server = Server.createTcpServer().start();
-
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
 
 		this.sessionFactory = HibernateUtil.getSessionFactory();
 
@@ -96,11 +81,7 @@ public class MyJOrganizerApp extends SingleFrameApplication {
 
 			@Override
 			public void willExit(EventObject e) {
-				h2Server.shutdown();
-
-				if (webServer != null) {
-					webServer.shutdown();
-				}
+				HibernateUtil.shutdownServers();
 			}
 		};
 		addExitListener(maybeExit);

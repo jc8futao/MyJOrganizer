@@ -24,11 +24,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
-import net.sourceforge.myjorganizer.data.Priority;
-import net.sourceforge.myjorganizer.data.Task;
-import net.sourceforge.myjorganizer.gui.model.TaskModel;
-import net.sourceforge.myjorganizer.gui.model.TaskSquaredPanelModel;
+import net.sourceforge.myjorganizer.gui.mvc.controller.TaskController;
 
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
@@ -67,15 +65,11 @@ public class MainView extends FrameView {
 
 		menuBar.add(fileMenu);
 		menuBar.add(taskMenu);
-		
-		TaskSquaredPanelModel model;
-		mainPanel.add(new TaskSquaredPanel(model = new TaskSquaredPanelModel(
-				Priority.getAll())));
 
-		model.add(new TaskModel(new Task("ciao1", Priority.factory(false, false))));
-		model.add(new TaskModel(new Task("ciao2", Priority.factory(false, true))));
-		model.add(new TaskModel(new Task("ciao3", Priority.factory(true, false))));
-		model.add(new TaskModel(new Task("ciao4", Priority.factory(true, true))));
+		JTabbedPane tabbedPane = new JTabbedPane();
+		mainPanel.add(tabbedPane);
+		
+		TaskController controller = new net.sourceforge.myjorganizer.gui.mvc.controller.TaskController(tabbedPane);
 
 		getFrame().pack();
 	}
