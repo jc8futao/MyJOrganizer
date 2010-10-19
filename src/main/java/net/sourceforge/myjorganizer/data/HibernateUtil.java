@@ -17,28 +17,58 @@
 
 package net.sourceforge.myjorganizer.data;
 
+import java.sql.SQLException;
+
+import net.sourceforge.myjorganizer.gui.MyJOrganizerApp;
+
+import org.h2.tools.Server;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 public class HibernateUtil {
 
-	private static final SessionFactory sessionFactory = buildSessionFactory();
+	private static final SessionFactory sessionFactory;
+	private static Server webServer;
+	private static Server h2Server;
 
-	private static SessionFactory buildSessionFactory() {
-
+	static {
 		try {
-			// Create the SessionFactory from hibernate.cfg.xml
-			return new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
-		}
+			try {
+				if (MyJOrganizerApp.DEBUG) {
+					webServer = Server.createWebServer().start();
+				}
+				h2Server = Server.createTcpServer().start();
 
-		catch (Throwable ex) {
-			// Make sure you log the exception, as it might be swallowed
-			System.err.println("Initial SessionFactory creation failed." + ex);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			sessionFactory = new Configuration().configure()
+					.buildSessionFactory();
+
+		} catch (Throwable ex) {
+			// Log exception!
 			throw new ExceptionInInitializerError(ex);
 		}
 	}
 
+	public static Session getSession() throws HibernateException {
+		return sessionFactory.openSession();
+	}
+
 	public static SessionFactory getSessionFactory() {
 		return sessionFactory;
+	}
+
+	public static void shutdownServers() {
+		if (h2Server != null) {
+			h2Server.shutdown();
+		}
+
+		if (webServer != null) {
+			webServer.shutdown();
+		}
 	}
 }

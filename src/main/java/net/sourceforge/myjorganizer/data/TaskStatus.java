@@ -18,6 +18,7 @@
 package net.sourceforge.myjorganizer.data;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -71,6 +72,7 @@ public class TaskStatus {
 	}
 
 	@Id
+	@GeneratedValue
 	public int getId() {
 		return id;
 	}
