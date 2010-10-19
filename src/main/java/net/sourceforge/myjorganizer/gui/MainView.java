@@ -69,7 +69,7 @@ public class MainView extends FrameView {
 		JTabbedPane tabbedPane = new JTabbedPane();
 		mainPanel.add(tabbedPane);
 		
-		TaskController controller = new net.sourceforge.myjorganizer.gui.mvc.controller.TaskController(tabbedPane);
+		new TaskController(tabbedPane);
 
 		getFrame().pack();
 	}
