@@ -36,15 +36,23 @@ public class TaskTest {
 	@Test
 	// fluent interface
 	public void testNameSetterReturnsTask() {
-		assertEquals(task, task.setName(null));
+		assertEquals(task, task.setTitle(null));
 	}
 
 	@Test
-	public void testNameAccessors() {
+	public void testTitleAccessors() {
 		String name = "piripicchio";
-		task.setName(name);
+		task.setTitle(name);
 
-		assertEquals(name, task.getName());
+		assertEquals(name, task.getTitle());
+	}
+	
+	@Test
+	public void testDescriptionAccessors() {
+		String description = "piripicchio";
+		task.setDescription(description);
+
+		assertEquals(description, task.getDescription());
 	}
 	
 	@Test
@@ -55,7 +63,7 @@ public class TaskTest {
 		
 		task = new Task(name, priority);
 		
-		assertEquals(name, task.getName());
+		assertEquals(name, task.getTitle());
 		assertEquals(priority, task.getPriority());
 	}
 
@@ -139,8 +147,8 @@ public class TaskTest {
 	@Test
 	public void testToString() {
 
-		task.setName("DonaldDuck");
-		assertEquals(task.getName(), task.toString());
+		task.setTitle("DonaldDuck");
+		assertEquals(task.getTitle(), task.toString());
 	}
 
 	@Test

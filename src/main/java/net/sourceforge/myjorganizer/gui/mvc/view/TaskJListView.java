@@ -24,8 +24,7 @@ public class TaskJListView extends JPanel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		TaskSetModel model = (TaskSetModel)o;
-		
-		this.jlist.setListData(model.getList().toArray());
+		setListData(model.getList().toArray());
 	}
 
 	public void setListData(Object[] array) {

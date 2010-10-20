@@ -28,6 +28,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.NotFound;
 
 /**
  * Class representing a Task
@@ -36,7 +37,7 @@ import javax.persistence.Transient;
  */
 
 @Entity
-@Table(name="tasks")
+@Table(name = "tasks")
 public class Task {
 
 	private String name;
@@ -46,6 +47,7 @@ public class Task {
 	private int id;
 	private int completion;
 	private Priority priority = Priority.factory(false, false);
+	private String description;
 
 	public Task() {
 	}
@@ -53,7 +55,7 @@ public class Task {
 	public Task(String name) {
 		this();
 
-		this.setName(name);
+		this.setTitle(name);
 	}
 
 	public Task(String name, Priority priority) {
@@ -69,7 +71,7 @@ public class Task {
 	 *            of the task
 	 * @return Task (fluent interface)
 	 */
-	public Task setName(String name) {
+	public Task setTitle(String name) {
 		this.name = name;
 
 		return this;
@@ -80,7 +82,8 @@ public class Task {
 	 * 
 	 * @return name of the task
 	 */
-	public String getName() {
+	@Column(nullable=false)
+	public String getTitle() {
 		return name;
 	}
 
@@ -101,7 +104,7 @@ public class Task {
 	 * 
 	 * @return the task's due date
 	 */
-	@Column(name="due_date")
+	@Column(name = "due_date")
 	public Date getDueDate() {
 		return this.dueDate;
 	}
@@ -123,7 +126,7 @@ public class Task {
 	 * 
 	 * @return the start date
 	 */
-	@Column(name="start_date")
+	@Column(name = "start_date")
 	public Date getStartDate() {
 		return this.startDate;
 	}
@@ -145,7 +148,7 @@ public class Task {
 	 * 
 	 * @return the task status
 	 */
-	@ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	public TaskStatus getStatus() {
 		return status;
 	}
@@ -157,7 +160,7 @@ public class Task {
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	public int getId() {
 		return this.id;
 	}
@@ -168,12 +171,13 @@ public class Task {
 					"Completion must be between 0 and 100");
 
 		this.completion = completion;
-		
+
 		return this;
 	}
 
 	/**
 	 * Completion getter
+	 * 
 	 * @return int (0 to 100)
 	 */
 	public int getCompletion() {
@@ -182,7 +186,7 @@ public class Task {
 
 	@Override
 	public String toString() {
-		return this.getName();
+		return this.getTitle();
 	}
 
 	public boolean isUrgent() {
@@ -191,7 +195,7 @@ public class Task {
 
 	public Task setUrgent(boolean urgent) {
 		this.priority = Priority.factory(urgent, isImportant());
-		
+
 		return this;
 	}
 
@@ -201,13 +205,13 @@ public class Task {
 
 	public Task setImportant(boolean important) {
 		this.priority = Priority.factory(isUrgent(), important);
-		
+
 		return this;
 	}
 
 	public Task setPriority(Priority priority) {
 		this.priority = priority;
-		
+
 		return this;
 	}
 
@@ -216,60 +220,13 @@ public class Task {
 		return this.priority;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + completion;
-		result = prime * result + ((dueDate == null) ? 0 : dueDate.hashCode());
-		result = prime * result + id;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result
-				+ ((priority == null) ? 0 : priority.hashCode());
-		result = prime * result
-				+ ((startDate == null) ? 0 : startDate.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		return result;
+	public Task setDescription(String description) {
+		this.description = description;
+
+		return this;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Task other = (Task) obj;
-		if (completion != other.completion)
-			return false;
-		if (dueDate == null) {
-			if (other.dueDate != null)
-				return false;
-		} else if (!dueDate.equals(other.dueDate))
-			return false;
-		if (id != other.id)
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (priority == null) {
-			if (other.priority != null)
-				return false;
-		} else if (!priority.equals(other.priority))
-			return false;
-		if (startDate == null) {
-			if (other.startDate != null)
-				return false;
-		} else if (!startDate.equals(other.startDate))
-			return false;
-		if (status == null) {
-			if (other.status != null)
-				return false;
-		} else if (!status.equals(other.status))
-			return false;
-		return true;
+	public String getDescription() {
+		return this.description;
 	}
 }
