@@ -23,7 +23,6 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	TaskModelTest.class
 })
 public class AllTests {
 
