@@ -26,6 +26,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import net.sourceforge.myjorganizer.data.HibernateUtil;
+import net.sourceforge.myjorganizer.gui.mvc.controller.TaskController;
+
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.FrameView;
@@ -66,6 +69,8 @@ public class MainView extends FrameView {
 
 		JTabbedPane tabbedPane = new JTabbedPane();
 		mainPanel.add(tabbedPane);
+		
+		new TaskController(HibernateUtil.getSession(), tabbedPane);
 		
 		getFrame().pack();
 	}
