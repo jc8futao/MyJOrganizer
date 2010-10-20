@@ -38,7 +38,6 @@ public class TaskController {
 		pane.add(sourceView);
 		pane.add(jListView);
 		
-
 		int i = 0;
 		pane.setTitleAt(i++, _("TASK_SOURCE"));
 		pane.setTitleAt(i++, _("TASK_LIST"));

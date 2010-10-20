@@ -30,7 +30,12 @@ public class TaskSourceView extends JPanel implements Observer {
 		textArea.setText("");
 
 		for (Task task : model.getList()) {
-			textArea.append("task:\n");
+
+			if (task.getId() > 0) {
+				textArea.append("task " + task.getIdentifier() + ":\n");
+			} else {
+				textArea.append("task:\n");
+			}
 			textArea.append("    title: \"" + task.getTitle() + "\"\n");
 
 			String description;

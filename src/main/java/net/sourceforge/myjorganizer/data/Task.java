@@ -28,8 +28,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.NotFound;
-
 /**
  * Class representing a Task
  * 
@@ -48,6 +46,7 @@ public class Task {
 	private int completion;
 	private Priority priority = Priority.factory(false, false);
 	private String description;
+	private String identifier;
 
 	public Task() {
 	}
@@ -82,7 +81,7 @@ public class Task {
 	 * 
 	 * @return name of the task
 	 */
-	@Column(nullable=false)
+	@Column(nullable = false)
 	public String getTitle() {
 		return name;
 	}
@@ -189,6 +188,7 @@ public class Task {
 		return this.getTitle();
 	}
 
+	@Column(nullable=false)
 	public boolean isUrgent() {
 		return getPriority().isUrgent();
 	}
@@ -199,6 +199,7 @@ public class Task {
 		return this;
 	}
 
+	@Column(nullable=false)
 	public boolean isImportant() {
 		return priority.isImportant();
 	}
@@ -228,5 +229,18 @@ public class Task {
 
 	public String getDescription() {
 		return this.description;
+	}
+
+	@Column(unique=true)
+	public String getIdentifier() {
+		if (this.identifier == null) {
+			this.identifier = "$task" + getId();
+		}
+		
+		return this.identifier;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
 	}
 }

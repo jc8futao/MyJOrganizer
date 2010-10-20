@@ -32,7 +32,7 @@ public class TaskTest {
 	public void setup() {
 		task = new Task();
 	}
-	
+
 	@Test
 	// fluent interface
 	public void testNameSetterReturnsTask() {
@@ -46,7 +46,7 @@ public class TaskTest {
 
 		assertEquals(name, task.getTitle());
 	}
-	
+
 	@Test
 	public void testDescriptionAccessors() {
 		String description = "piripicchio";
@@ -54,15 +54,14 @@ public class TaskTest {
 
 		assertEquals(description, task.getDescription());
 	}
-	
+
 	@Test
-	public void testConstructorNameAndPriority()
-	{
+	public void testConstructorNameAndPriority() {
 		String name = "hello";
 		Priority priority = Priority.factory(true, true);
-		
+
 		task = new Task(name, priority);
-		
+
 		assertEquals(name, task.getTitle());
 		assertEquals(priority, task.getPriority());
 	}
@@ -187,5 +186,19 @@ public class TaskTest {
 	@Test
 	public void testPrioritySetterIsFluent() {
 		assertEquals(task, task.setPriority(null));
+	}
+
+	@Test
+	public void testIdentifierAccessors() {
+		task.setIdentifier("$pippo");
+		
+		assertEquals("$pippo", task.getIdentifier());
+	}
+
+	@Test
+	public void testGeneratedIdentifier() {
+		task.setId(10);
+
+		assertEquals("$task10", task.getIdentifier());
 	}
 }
