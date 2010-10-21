@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sourceforge.myjorganizer</groupId>
 	<artifactId>MyJOrganizer</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<name>MyJOrganizer</name>
 	<description>Simple Swing-Base Personal Information Management</description>
 	<url>http://myjorganizer.sourceforge.net/</url>
@@ -100,6 +100,7 @@
 					<header>${basedir}/src/main/resources/header.txt</header>
 					<quiet>false</quiet>
 					<failIfMissing>true</failIfMissing>
+					<strictCheck>true</strictCheck>
 					<aggregate>false</aggregate>
 					<includes>
 						<include>src/**</include>
