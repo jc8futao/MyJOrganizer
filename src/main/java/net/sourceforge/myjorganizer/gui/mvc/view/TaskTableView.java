@@ -15,18 +15,32 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.dao;
+package net.sourceforge.myjorganizer.gui.mvc.view;
 
-import java.io.Serializable;
-import java.util.Collection;
+import java.util.Observable;
+import java.util.Observer;
 
-public interface AbstractDao<ID extends Serializable, T> {
-	public ID create(T entity);
-	public T retrieve(ID id);
+import javax.swing.JPanel;
+import javax.swing.JTable;
 
-	public void update(T entity);
+public class TaskTableView extends JPanel implements Observer {
 
-	public void delete(T entity);
-	
-	public Collection<T> findAll();
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4741518527769099366L;
+	private JTable jTable;
+
+	public TaskTableView() {
+		this.jTable = new JTable();
+		
+		add(this.jTable);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

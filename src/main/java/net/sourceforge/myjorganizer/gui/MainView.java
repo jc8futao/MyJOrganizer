@@ -69,9 +69,9 @@ public class MainView extends FrameView {
 
 		JTabbedPane tabbedPane = new JTabbedPane();
 		mainPanel.add(tabbedPane);
-		
+
 		new TaskController(HibernateUtil.getSession(), tabbedPane);
-		
+
 		getFrame().pack();
 	}
 
@@ -83,5 +83,15 @@ public class MainView extends FrameView {
 	@Action
 	public void newTask() {
 		new AddTaskFrame().setVisible(true);
+	}
+	
+	@Action
+	public void importFile()
+	{
+	}
+	
+	@Action
+	public void exportFile()
+	{
 	}
 }

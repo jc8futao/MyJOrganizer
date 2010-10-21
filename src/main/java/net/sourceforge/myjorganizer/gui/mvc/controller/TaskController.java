@@ -1,45 +1,66 @@
+/**
+ * This file is part of MyJOrganizer.
+ *
+ * MyJOrganizer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * MyJOrganizer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package net.sourceforge.myjorganizer.gui.mvc.controller;
 
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
+import static net.sourceforge.myjorganizer.i18n.Translator._;
 
 import javax.swing.JTabbedPane;
 
 import net.sourceforge.myjorganizer.dao.HibernateDao;
 import net.sourceforge.myjorganizer.data.Task;
 import net.sourceforge.myjorganizer.gui.mvc.model.TaskSetModel;
-import net.sourceforge.myjorganizer.gui.mvc.view.TaskJListView;
+import net.sourceforge.myjorganizer.gui.mvc.view.TaskFourQuadrantsView;
 import net.sourceforge.myjorganizer.gui.mvc.view.TaskSourceView;
-
-import static net.sourceforge.myjorganizer.i18n.Translator._;
+import net.sourceforge.myjorganizer.gui.mvc.view.TaskTableView;
 
 import org.hibernate.Session;
 
 public class TaskController {
 	private TaskSetModel taskSetModel;
 	private HibernateDao<Integer, Task> taskDao;
-	private TaskJListView jListView;
+	private TaskTableView jTableView;
 	private TaskSourceView sourceView;
+	private TaskFourQuadrantsView fourQuadrantsView;
 
 	public TaskController(Session session, JTabbedPane pane) {
 		this.taskDao = new HibernateDao<Integer, Task>(Task.class);
 		taskDao.setSession(session);
 		this.taskSetModel = new TaskSetModel(taskDao);
 
-		jListView = new TaskJListView();
+		jTableView = new TaskTableView();
 		sourceView = new TaskSourceView();
-		
-		taskSetModel.addObserver(jListView);
+		fourQuadrantsView = new TaskFourQuadrantsView();
+
+		taskSetModel.addObserver(jTableView);
 		taskSetModel.addObserver(sourceView);
-		
+		taskSetModel.addObserver(fourQuadrantsView);
+
 		sourceView.update(taskSetModel, null);
-		jListView.update(taskSetModel, null);
-		
+		jTableView.update(taskSetModel, null);
+		fourQuadrantsView.update(taskSetModel, null);
+
 		pane.add(sourceView);
-		pane.add(jListView);
-		
+		pane.add(jTableView);
+		pane.add(fourQuadrantsView);
+
 		int i = 0;
 		pane.setTitleAt(i++, _("TASK_SOURCE"));
 		pane.setTitleAt(i++, _("TASK_LIST"));
+		pane.setTitleAt(i++, _("TASK_QUADRANTS"));
 	}
 }
