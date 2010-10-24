@@ -18,6 +18,7 @@
 package net.sourceforge.myjorganizer.data;
 
 import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +27,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 
 /**
  * Class representing a Task
@@ -44,6 +47,7 @@ public class Task {
 	private TaskStatus status;
 	private int id;
 	private int completion;
+	
 	private Priority priority = Priority.factory(false, false);
 	private String description;
 	private String identifier;
@@ -159,7 +163,7 @@ public class Task {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public int getId() {
 		return this.id;
 	}
@@ -179,6 +183,8 @@ public class Task {
 	 * 
 	 * @return int (0 to 100)
 	 */
+	@Min(value=0) 
+	@Max(value=100)
 	public int getCompletion() {
 		return this.completion;
 	}
@@ -188,35 +194,13 @@ public class Task {
 		return this.getTitle();
 	}
 
-	@Column(nullable=false)
-	public boolean isUrgent() {
-		return getPriority().isUrgent();
-	}
-
-	public Task setUrgent(boolean urgent) {
-		this.priority = Priority.factory(urgent, isImportant());
-
-		return this;
-	}
-
-	@Column(nullable=false)
-	public boolean isImportant() {
-		return priority.isImportant();
-	}
-
-	public Task setImportant(boolean important) {
-		this.priority = Priority.factory(isUrgent(), important);
-
-		return this;
-	}
-
 	public Task setPriority(Priority priority) {
 		this.priority = priority;
 
 		return this;
 	}
 
-	@Transient
+	@ManyToOne
 	public Priority getPriority() {
 		return this.priority;
 	}

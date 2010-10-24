@@ -33,7 +33,6 @@ public class TaskSetModel extends Observable {
 	public TaskSetModel(EntityManager entityManager) {
 		this.entityManager = entityManager;
 
-		// TODO verificare lock in lettura
 		EntityTransaction tx = entityManager.getTransaction();
 		tx.begin();
 		this.taskList = entityManager.createQuery("FROM Task", Task.class).getResultList();
@@ -59,12 +58,11 @@ public class TaskSetModel extends Observable {
 	public void update(Task task) {
 		EntityTransaction tx = entityManager.getTransaction();
 		tx.begin();
-
-		entityManager.merge(task);
-
-		taskList.add(task);
-
-		// TODO e se fosse un clone?
+		
+		Task newtask = entityManager.merge(task);
+		
+		taskList.remove(task);
+		taskList.add(newtask);
 
 		tx.commit();
 

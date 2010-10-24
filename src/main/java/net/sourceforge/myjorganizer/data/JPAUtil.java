@@ -7,31 +7,22 @@ import javax.persistence.Persistence;
 
 import net.sourceforge.myjorganizer.gui.MyJOrganizerApp;
 
-import org.h2.tools.Server;
-
 public class JPAUtil {
-	private static Server webServer;
-	private static Server h2Server;
+	private static DatabaseLauncher databaseLauncher;
+
+	static {
+		databaseLauncher = new DummyDatabaseLauncher();
+	}
 
 	public static EntityManagerFactory createEntityManagerFactory() {
 		return Persistence.createEntityManagerFactory("myjorganizer");
 	}
 
 	public static void startServers() throws SQLException {
-		if (MyJOrganizerApp.DEBUG) {
-			webServer = Server.createWebServer().start();
-		}
-		h2Server = Server.createTcpServer().start();
+		databaseLauncher.start();
 	}
 
 	public static void shutdownServers() {
-		if (h2Server != null) {
-			h2Server.shutdown();
-		}
-
-		if (webServer != null) {
-			webServer.shutdown();
-		}
+		databaseLauncher.stop();
 	}
-
 }

@@ -36,7 +36,14 @@ public class TaskStatusTest {
 
 		TaskStatus tstatus = new TaskStatus("Hello");
 		tstatus.setId(id);
-		
+
 		assertEquals(id, tstatus.getId());
 	}
+
+	@Test
+	public void testToString() {
+		TaskStatus tstatus = new TaskStatus("Hello");
+		assertEquals("Hello", tstatus.toString());
+	}
+
 }

@@ -23,10 +23,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="task_statuses")
+@Table(name = "task_statuses")
 public class TaskStatus {
 	private String name;
-	
+
 	private int id;
 
 	private TaskStatus() {
@@ -40,6 +40,10 @@ public class TaskStatus {
 
 	public String getName() {
 		return name;
+	}
+
+	public String toString() {
+		return getName();
 	}
 
 	@Override
@@ -79,7 +83,7 @@ public class TaskStatus {
 
 	public TaskStatus setId(int id) {
 		this.id = id;
-		
+
 		return this;
 	}
 }

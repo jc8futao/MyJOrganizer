@@ -7,11 +7,11 @@
 		<class>net.sourceforge.myjorganizer.data.Task</class>
 		<class>net.sourceforge.myjorganizer.data.TaskStatus</class>
 		<properties>
-			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 
-			<property name="hibernate.connection.driver_class" value="org.h2.Driver" />
-			<property name="hibernate.connection.url" value="jdbc:h2:tcp://localhost/~/myjorganizer" />
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost/myjorganizer" />
 			<property name="hibernate.connection.username" value="myjorganizer" />
 			<property name="hibernate.connection.password" value="myjorganizer" />
 		</properties>

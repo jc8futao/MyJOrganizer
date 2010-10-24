@@ -58,12 +58,12 @@ public class TaskSourceView extends JPanel implements Observer {
 			String description;
 			if ((description = task.getDescription()) != null
 					&& description.length() > 0) {
-				textArea.append("    description: \"" + description + "\"");
+				textArea.append("    description: \"" + description + "\"\n");
 			}
 
 			textArea.append("    completion: " + task.getCompletion() + "%\n");
-			textArea.append("    urgent: " + task.isUrgent() + "\n");
-			textArea.append("    important: " + task.isImportant() + "\n");
+			textArea.append("    urgent: " + task.getPriority().isUrgent() + "\n");
+			textArea.append("    important: " + task.getPriority().isImportant() + "\n");
 			if (task.getStatus() != null)
 				textArea.append("    status: " + task.getStatus() + "\n");
 			textArea.append("end task\n");

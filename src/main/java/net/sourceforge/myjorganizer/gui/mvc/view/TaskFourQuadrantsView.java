@@ -17,11 +17,21 @@
 
 package net.sourceforge.myjorganizer.gui.mvc.view;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTable;
+import javax.swing.JScrollPane;
+
+import net.sourceforge.myjorganizer.data.Priority;
+import net.sourceforge.myjorganizer.data.Task;
+import net.sourceforge.myjorganizer.gui.mvc.model.TaskSetModel;
 
 public class TaskFourQuadrantsView extends JPanel implements Observer {
 
@@ -29,18 +39,33 @@ public class TaskFourQuadrantsView extends JPanel implements Observer {
 	 * 
 	 */
 	private static final long serialVersionUID = 1944351748661553463L;
-	private JTable jTable;
+	HashMap<Priority, JList> lists = new HashMap<Priority, JList>();
+	HashMap<Priority, List<Task>> listData = new HashMap<Priority, List<Task>>();
 
 	public TaskFourQuadrantsView() {
-		this.jTable = new JTable();
+		for (Priority priority : Priority.getAll()) {
+			JList currentList = new JList();
+			lists.put(priority, currentList);
+			listData.put(priority, new ArrayList<Task>());
 
-		add(this.jTable);
+			add(new JScrollPane(currentList));
+		}
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+		TaskSetModel model = (TaskSetModel) o;
 
+		for (List<Task> tasks : listData.values()) {
+			tasks.clear();
+		}
+
+		for (Task task : model.getList()) {
+			listData.get(task.getPriority()).add(task);
+		}
+
+		for (Entry<Priority, List<Task>> entry : listData.entrySet()) {
+			lists.get(entry.getKey()).setListData(entry.getValue().toArray());
+		}
 	}
-
 }

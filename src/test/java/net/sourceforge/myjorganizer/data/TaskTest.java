@@ -151,32 +151,6 @@ public class TaskTest {
 	}
 
 	@Test
-	public void testUrgentAccessors() {
-		boolean urgent = !task.isUrgent();
-		task.setUrgent(urgent);
-
-		assertEquals(urgent, task.isUrgent());
-	}
-
-	@Test
-	public void testUrgentSetterIsFluent() {
-		assertEquals(task, task.setUrgent(true));
-	}
-
-	@Test
-	public void testImportantAccessors() {
-		boolean important = !task.isImportant();
-		task.setImportant(important);
-
-		assertEquals(important, task.isImportant());
-	}
-
-	@Test
-	public void testImportantSetterIsFluent() {
-		assertEquals(task, task.setImportant(true));
-	}
-
-	@Test
 	public void testPriorityAccessors() {
 		task.setPriority(Priority.factory(true, true));
 
