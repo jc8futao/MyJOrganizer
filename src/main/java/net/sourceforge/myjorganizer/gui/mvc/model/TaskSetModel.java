@@ -35,12 +35,14 @@ public class TaskSetModel extends Observable {
 
 		// TODO verificare lock in lettura
 		EntityTransaction tx = entityManager.getTransaction();
+		tx.begin();
 		this.taskList = entityManager.createQuery("FROM Task", Task.class).getResultList();
 		tx.commit();
 	}
 
 	public int add(Task task) {
 		EntityTransaction tx = entityManager.getTransaction();
+		tx.begin();
 
 		entityManager.persist(task);
 
@@ -56,6 +58,7 @@ public class TaskSetModel extends Observable {
 
 	public void update(Task task) {
 		EntityTransaction tx = entityManager.getTransaction();
+		tx.begin();
 
 		entityManager.merge(task);
 
@@ -71,6 +74,7 @@ public class TaskSetModel extends Observable {
 
 	public void delete(Task task) {
 		EntityTransaction tx = entityManager.getTransaction();
+		tx.begin();
 		
 		entityManager.remove(task);
 		taskList.remove(task);
