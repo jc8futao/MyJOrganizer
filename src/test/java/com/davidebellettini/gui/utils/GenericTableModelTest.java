@@ -28,18 +28,24 @@ public class GenericTableModelTest {
 
 	@Test
 	public void testColumnName() {
-		assertEquals("Dummy", genericTableModel.getColumnName(1));
+		assertEquals("Dummy", genericTableModel.getColumnName(0));
+		assertEquals("Dummy2", genericTableModel.getColumnName(1));
+	}
+
+	@Test
+	public void testColumnClass() {
+		assertEquals(String.class, genericTableModel.getColumnClass(0));
 	}
 
 	private class TestType {
 		@SuppressWarnings("unused")
-		@DisplayInTable(position=0)
+		@DisplayInTable(position = 0)
 		public String getDummy() {
 			return "dummy";
 		}
 
 		@SuppressWarnings("unused")
-		@DisplayInTable(position=1)
+		@DisplayInTable(position = 1)
 		public String getDummy2() {
 			return "dummy";
 		}

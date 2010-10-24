@@ -54,7 +54,7 @@ public class GenericTableModel<T> implements TableModel {
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		// TODO Auto-generated method stub
-		return null;
+		return getters.get(columnIndex).getReturnType();
 	}
 
 	@Override
