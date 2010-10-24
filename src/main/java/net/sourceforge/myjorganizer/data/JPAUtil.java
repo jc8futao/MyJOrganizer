@@ -5,8 +5,6 @@ import java.sql.SQLException;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import net.sourceforge.myjorganizer.gui.MyJOrganizerApp;
-
 public class JPAUtil {
 	private static DatabaseLauncher databaseLauncher;
 

@@ -20,10 +20,10 @@ package net.sourceforge.myjorganizer.gui;
 import static net.sourceforge.myjorganizer.i18n.Translator._;
 
 import javax.swing.ActionMap;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import net.sourceforge.myjorganizer.gui.mvc.controller.TaskController;
@@ -33,7 +33,7 @@ import org.jdesktop.application.Application;
 import org.jdesktop.application.FrameView;
 
 public class MainView extends FrameView {
-	private JPanel mainPanel;
+	private JTabbedPane mainPanel = new JTabbedPane();
 	private JMenuBar menuBar;
 
 	public MainView(Application application) {
@@ -43,11 +43,11 @@ public class MainView extends FrameView {
 	}
 
 	private void initComponents() {
-		mainPanel = new JPanel();
 		menuBar = new JMenuBar();
 
 		setComponent(mainPanel);
 		setMenuBar(menuBar);
+		setStatusBar(new JLabel("hello world!"));
 
 		JMenu fileMenu = new JMenu(_("FILE_MENU"));
 		JMenuItem exitMenuItem = new JMenuItem();
@@ -65,12 +65,9 @@ public class MainView extends FrameView {
 
 		menuBar.add(fileMenu);
 		menuBar.add(taskMenu);
-
-		JTabbedPane tabbedPane = new JTabbedPane();
-		mainPanel.add(tabbedPane);
-
+		
 		MyJOrganizerApp application = (MyJOrganizerApp)getApplication();
-		new TaskController(application.getEntityManager(), tabbedPane);
+		new TaskController(application.getEntityManager(), mainPanel);
 
 		getFrame().pack();
 	}

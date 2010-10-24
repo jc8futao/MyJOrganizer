@@ -17,9 +17,10 @@
 
 package net.sourceforge.myjorganizer.gui.mvc.view;
 
+import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Observable;
@@ -43,7 +44,12 @@ public class TaskFourQuadrantsView extends JPanel implements Observer {
 	HashMap<Priority, List<Task>> listData = new HashMap<Priority, List<Task>>();
 
 	public TaskFourQuadrantsView() {
-		for (Priority priority : Priority.getAll()) {
+		Collection<Priority> priorities = Priority.getAll();
+
+		int cols = priorities.size() / 2 + priorities.size() % 2;
+		setLayout(new GridLayout(cols, 2));
+
+		for (Priority priority : priorities) {
 			JList currentList = new JList();
 			lists.put(priority, currentList);
 			listData.put(priority, new ArrayList<Task>());

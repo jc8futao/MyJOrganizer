@@ -17,6 +17,7 @@
 
 package net.sourceforge.myjorganizer.gui.mvc.view;
 
+import java.awt.GridLayout;
 import java.awt.event.InputMethodListener;
 import java.util.Observable;
 import java.util.Observer;
@@ -37,15 +38,14 @@ public class TaskSourceView extends JPanel implements Observer {
 	private JTextArea textArea = new JTextArea();
 
 	public TaskSourceView() {
-		this.add(new JScrollPane(this.textArea));
+		super(new GridLayout(1,1));
+		this.add(new JScrollPane(textArea));
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		TaskSetModel model = (TaskSetModel) o;
-
-		textArea.setText("");
-
+		
 		for (Task task : model.getList()) {
 
 			if (task.getId() > 0) {
@@ -66,7 +66,7 @@ public class TaskSourceView extends JPanel implements Observer {
 			textArea.append("    important: " + task.getPriority().isImportant() + "\n");
 			if (task.getStatus() != null)
 				textArea.append("    status: " + task.getStatus() + "\n");
-			textArea.append("end task\n");
+			textArea.append("end task\n\n");
 		}
 	}
 

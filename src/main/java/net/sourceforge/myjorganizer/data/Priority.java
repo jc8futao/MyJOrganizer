@@ -43,10 +43,10 @@ public final class Priority implements Serializable {
 	private static ArrayList<Priority> instances = new ArrayList<Priority>();
 
 	static {
-		instances.add(new Priority(false, false));
+		instances.add(new Priority(true, true));
 		instances.add(new Priority(false, true));
 		instances.add(new Priority(true, false));
-		instances.add(new Priority(true, true));
+		instances.add(new Priority(false, false));
 	}
 
 	private Priority() {

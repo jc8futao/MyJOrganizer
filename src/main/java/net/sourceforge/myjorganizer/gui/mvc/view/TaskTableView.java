@@ -22,6 +22,8 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableModel;
 
 public class TaskTableView extends JPanel implements Observer {
 
@@ -39,8 +41,6 @@ public class TaskTableView extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
