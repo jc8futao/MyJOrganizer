@@ -19,19 +19,27 @@ package net.sourceforge.myjorganizer.gui;
 
 import static net.sourceforge.myjorganizer.i18n.Translator._;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.EventObject;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 
-import net.sourceforge.myjorganizer.data.HibernateUtil;
+import net.sourceforge.myjorganizer.data.JPAUtil;
 
-import org.hibernate.SessionFactory;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
 
 public class MyJOrganizerApp extends SingleFrameApplication {
 	public final static boolean DEBUG = true;
+
+	private String language;
+
+	private EntityManagerFactory emFactory;
+
+	private EntityManager entityManager;
 
 	public MyJOrganizerApp() {
 		getContext()
@@ -49,24 +57,31 @@ public class MyJOrganizerApp extends SingleFrameApplication {
 		return Application.getInstance(MyJOrganizerApp.class);
 	}
 
-	private String language;
-
-	private SessionFactory sessionFactory;
-
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
+	public EntityManagerFactory getEntityManagerFactory() {
+		return emFactory;
+	}
+	
+	public String getLanguage() {
+		return this.language;
 	}
 
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
+	public EntityManager getEntityManager() {
+		return entityManager;
 	}
 
 	@Override
 	protected void startup() {
 		registerExitListener();
-
-		this.sessionFactory = HibernateUtil.getSessionFactory();
-
+	
+		try {
+			JPAUtil.startServers();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		this.emFactory = JPAUtil.createEntityManagerFactory();
+		this.entityManager = emFactory.createEntityManager();
+		
 		show(new MainView(this));
 	}
 
@@ -78,16 +93,14 @@ public class MyJOrganizerApp extends SingleFrameApplication {
 						_("REALLY_EXIT"), _("EXIT"), JOptionPane.YES_NO_OPTION);
 				return option == JOptionPane.YES_OPTION;
 			}
-
+	
 			@Override
 			public void willExit(EventObject e) {
-				HibernateUtil.shutdownServers();
+				entityManager.close();
+				emFactory.close();
+				JPAUtil.shutdownServers();
 			}
 		};
 		addExitListener(maybeExit);
-	}
-
-	public String getLanguage() {
-		return this.language;
 	}
 }

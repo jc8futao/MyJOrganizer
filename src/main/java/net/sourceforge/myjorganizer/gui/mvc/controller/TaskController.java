@@ -19,28 +19,22 @@ package net.sourceforge.myjorganizer.gui.mvc.controller;
 
 import static net.sourceforge.myjorganizer.i18n.Translator._;
 
+import javax.persistence.EntityManager;
 import javax.swing.JTabbedPane;
 
-import net.sourceforge.myjorganizer.dao.HibernateDao;
-import net.sourceforge.myjorganizer.data.Task;
 import net.sourceforge.myjorganizer.gui.mvc.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.mvc.view.TaskFourQuadrantsView;
 import net.sourceforge.myjorganizer.gui.mvc.view.TaskSourceView;
 import net.sourceforge.myjorganizer.gui.mvc.view.TaskTableView;
 
-import org.hibernate.Session;
-
 public class TaskController {
 	private TaskSetModel taskSetModel;
-	private HibernateDao<Integer, Task> taskDao;
 	private TaskTableView jTableView;
 	private TaskSourceView sourceView;
 	private TaskFourQuadrantsView fourQuadrantsView;
 
-	public TaskController(Session session, JTabbedPane pane) {
-		this.taskDao = new HibernateDao<Integer, Task>(Task.class);
-		taskDao.setSession(session);
-		this.taskSetModel = new TaskSetModel(taskDao);
+	public TaskController(EntityManager entityManager, JTabbedPane pane) {
+		this.taskSetModel = new TaskSetModel(entityManager);
 
 		jTableView = new TaskTableView();
 		sourceView = new TaskSourceView();

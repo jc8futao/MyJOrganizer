@@ -20,29 +20,29 @@ package net.sourceforge.myjorganizer.gui.mvc.model;
 import java.util.Collection;
 import java.util.Observable;
 
-import org.hibernate.Transaction;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
-import net.sourceforge.myjorganizer.dao.HibernateDao;
 import net.sourceforge.myjorganizer.data.Task;
 
 public class TaskSetModel extends Observable {
 
-	private HibernateDao<Integer, Task> dao;
 	private Collection<Task> taskList;
+	private EntityManager entityManager;
 
-	public TaskSetModel(HibernateDao<Integer, Task> dao) {
-		this.dao = dao;
+	public TaskSetModel(EntityManager entityManager) {
+		this.entityManager = entityManager;
 
 		// TODO verificare lock in lettura
-		Transaction tx = dao.getSession().beginTransaction();
-		this.taskList = dao.findAll();
+		EntityTransaction tx = entityManager.getTransaction();
+		this.taskList = entityManager.createQuery("FROM Task", Task.class).getResultList();
 		tx.commit();
 	}
 
 	public int add(Task task) {
-		Transaction tx = dao.getSession().beginTransaction();
+		EntityTransaction tx = entityManager.getTransaction();
 
-		int id = dao.create(task);
+		entityManager.persist(task);
 
 		taskList.add(task);
 
@@ -51,13 +51,13 @@ public class TaskSetModel extends Observable {
 		setChanged();
 		notifyObservers();
 
-		return id;
+		return task.getId();
 	}
 
 	public void update(Task task) {
-		Transaction tx = dao.getSession().beginTransaction();
+		EntityTransaction tx = entityManager.getTransaction();
 
-		dao.update(task);
+		entityManager.merge(task);
 
 		taskList.add(task);
 
@@ -70,9 +70,9 @@ public class TaskSetModel extends Observable {
 	}
 
 	public void delete(Task task) {
-		Transaction tx = dao.getSession().beginTransaction();
-
-		dao.delete(task);
+		EntityTransaction tx = entityManager.getTransaction();
+		
+		entityManager.remove(task);
 		taskList.remove(task);
 
 		tx.commit();

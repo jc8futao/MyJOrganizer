@@ -23,7 +23,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	HibernateUtilTest.class,
+	JPAUtilTest.class,
 	PriorityTest.class,
 	TaskTest.class,
 	TaskStatusTest.class
