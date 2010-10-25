@@ -60,10 +60,20 @@ public class TaskSetModel extends Observable {
 		EntityTransaction tx = entityManager.getTransaction();
 		tx.begin();
 
-		Task newtask = entityManager.merge(task);
+		rawUpdate(task);
 
-		taskList.remove(task);
-		taskList.add(newtask);
+		tx.commit();
+		setChanged();
+		notifyObservers();
+	}
+
+	public void updateMany(Collection<Task> tasks) {
+		EntityTransaction tx = entityManager.getTransaction();
+		tx.begin();
+
+		for (Task task : tasks) {
+			rawUpdate(task);
+		}
 
 		tx.commit();
 		setChanged();
@@ -85,5 +95,12 @@ public class TaskSetModel extends Observable {
 
 	public Collection<Task> getList() {
 		return taskList;
+	}
+
+	protected void rawUpdate(Task task) {
+		entityManager.merge(task);
+
+//		taskList.remove(task);
+//		taskList.add(newtask);
 	}
 }

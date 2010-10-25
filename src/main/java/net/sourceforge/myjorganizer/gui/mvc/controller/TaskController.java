@@ -22,46 +22,54 @@ import static net.sourceforge.myjorganizer.i18n.Translator._;
 import javax.persistence.EntityManager;
 import javax.swing.JTabbedPane;
 
+import net.sourceforge.myjorganizer.gui.mvc.model.TaskEvent;
+import net.sourceforge.myjorganizer.gui.mvc.model.TaskEventListener;
 import net.sourceforge.myjorganizer.gui.mvc.model.TaskSetModel;
+import net.sourceforge.myjorganizer.gui.mvc.view.AbstractTaskView;
 import net.sourceforge.myjorganizer.gui.mvc.view.TaskFourQuadrantsView;
-import net.sourceforge.myjorganizer.gui.mvc.view.TaskStatView;
 import net.sourceforge.myjorganizer.gui.mvc.view.TaskSourceView;
+import net.sourceforge.myjorganizer.gui.mvc.view.TaskStatView;
 import net.sourceforge.myjorganizer.gui.mvc.view.TaskTableView;
 
-public class TaskController {
+public class TaskController implements TaskEventListener {
 	private TaskSetModel taskSetModel;
 	private TaskTableView jTableView;
 	private TaskSourceView sourceView;
 	private TaskFourQuadrantsView fourQuadrantsView;
 	private TaskStatView statView;
+	private JTabbedPane pane;
 
 	public TaskController(EntityManager entityManager, JTabbedPane pane) {
 		this.taskSetModel = new TaskSetModel(entityManager);
+		this.pane = pane;
 
 		jTableView = new TaskTableView();
 		sourceView = new TaskSourceView();
 		fourQuadrantsView = new TaskFourQuadrantsView();
 		statView = new TaskStatView();
-
-		taskSetModel.addObserver(jTableView);
-		taskSetModel.addObserver(sourceView);
-		taskSetModel.addObserver(fourQuadrantsView);
-		taskSetModel.addObserver(statView);
-
-		sourceView.update(taskSetModel, null);
-		jTableView.update(taskSetModel, null);
-		fourQuadrantsView.update(taskSetModel, null);
-		statView.update(taskSetModel, null);
-
-		pane.add(sourceView);
-		pane.add(jTableView);
-		pane.add(fourQuadrantsView);
-		pane.add(statView);
+		
+		addView(sourceView);
+		addView(jTableView);
+		addView(fourQuadrantsView);
+		addView(statView);
 
 		int i = 0;
 		pane.setTitleAt(i++, _("TASK_SOURCE"));
 		pane.setTitleAt(i++, _("TASK_LIST"));
 		pane.setTitleAt(i++, _("TASK_QUADRANTS"));
 		pane.setTitleAt(i++, _("TASK_STATS"));
+	}
+
+	@Override
+	public void tasksChanged(TaskEvent e) {
+		taskSetModel.updateMany(e.getChangedTasks());
+		System.err.println("Task: "+e.getChangedTasks().size());
+	}
+
+	private void addView(AbstractTaskView view) {
+		pane.add(view);
+		view.addTaskEventListener(this);
+		view.update(taskSetModel, null);
+		taskSetModel.addObserver(view);
 	}
 }

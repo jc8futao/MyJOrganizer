@@ -170,7 +170,7 @@ public class Task {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@ShowInTable(position = 0)
+	@ShowInTable(position = 0, editable = false)
 	public int getId() {
 		return this.id;
 	}
@@ -239,18 +239,18 @@ public class Task {
 	}
 
 	@Transient
-	@ShowInTable(position=4)
+	@ShowInTable(position = 4)
 	public boolean isUrgent() {
 		return this.getPriority().isUrgent();
 	}
 
 	public void setUrgent(boolean urgent) {
 		setPriority(Priority.factory(urgent, isImportant()));
-		
+
 	}
 
 	@Transient
-	@ShowInTable(position=5)
+	@ShowInTable(position = 5)
 	public boolean isImportant() {
 		return getPriority().isImportant();
 	}

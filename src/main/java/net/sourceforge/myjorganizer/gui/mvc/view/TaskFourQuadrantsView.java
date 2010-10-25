@@ -24,17 +24,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import net.sourceforge.myjorganizer.data.Priority;
 import net.sourceforge.myjorganizer.data.Task;
 import net.sourceforge.myjorganizer.gui.mvc.model.TaskSetModel;
 
-public class TaskFourQuadrantsView extends JPanel implements Observer {
+public class TaskFourQuadrantsView extends AbstractTaskView {
 
 	/**
 	 * 

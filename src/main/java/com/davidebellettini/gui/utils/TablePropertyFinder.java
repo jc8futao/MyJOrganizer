@@ -66,13 +66,16 @@ public class TablePropertyFinder {
 				} else {
 					property.setName(displayAnnotation.name());
 				}
-				
+
 				property.setPosition(displayAnnotation.position());
 
-				Method setter = setters.get(entry.getKey());
+				if (displayAnnotation.editable()) {
+					Method setter = setters.get(entry.getKey());
 
-				if (setter != null && setter.getParameterTypes().length == 1) {
-					property.setSetter(setter);
+					if (setter != null
+							&& setter.getParameterTypes().length == 1) {
+						property.setSetter(setter);
+					}
 				}
 
 				properties.add(property);

@@ -18,18 +18,22 @@
 package net.sourceforge.myjorganizer.gui.mvc.view;
 
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Observable;
-import java.util.Observer;
 
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import net.sourceforge.myjorganizer.data.Task;
+import net.sourceforge.myjorganizer.gui.mvc.model.TaskEvent;
 import net.sourceforge.myjorganizer.gui.mvc.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.mvc.model.TaskTableModel;
+import net.sourceforge.myjorganizer.gui.mvc.model.TaskTableModelProxy;
 
-public class TaskTableView extends JPanel implements Observer {
+public class TaskTableView extends AbstractTaskView {
 
 	/**
 	 * 
@@ -37,25 +41,36 @@ public class TaskTableView extends JPanel implements Observer {
 	private static final long serialVersionUID = 4741518527769099366L;
 	private JTable jTable;
 	private TaskTableModel tableModel = new TaskTableModel();
+	private TaskTableModelProxy tableModelProxy = new TaskTableModelProxy(tableModel);
 
 	public TaskTableView() {
-		super(new GridLayout(1,1));
-		
-		this.jTable = new JTable(tableModel);
+		super(new GridLayout(1, 1));
+
+		this.jTable = new JTable(tableModelProxy);
 		add(new JScrollPane(this.jTable));
+		
+		tableModelProxy.addTableModelListener(new TableModelListener() {
+
+			@Override
+			public void tableChanged(TableModelEvent e) {
+
+				Collection<Task> changedTasks = new ArrayList<Task>();
+
+				try {
+					for (int i = e.getFirstRow(), last = e.getLastRow(); i <= last; i++) {
+						changedTasks.add(tableModel.getRowData(i));
+					}
+				} catch (IndexOutOfBoundsException ex) {
+				}
+
+				fireTaskEvent(new TaskEvent(this, changedTasks));
+			}
+		});
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		TaskSetModel taskSetModel = (TaskSetModel) o;
 		tableModel.setList(taskSetModel.getList());
-	}
-
-	public void addTableModelListener(TableModelListener l) {
-		tableModel.addTableModelListener(l);
-	}
-
-	public void removeTableModelListener(TableModelListener l) {
-		tableModel.removeTableModelListener(l);
 	}
 }

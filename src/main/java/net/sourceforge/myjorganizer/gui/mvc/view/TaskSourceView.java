@@ -18,18 +18,15 @@
 package net.sourceforge.myjorganizer.gui.mvc.view;
 
 import java.awt.GridLayout;
-import java.awt.event.InputMethodListener;
 import java.util.Observable;
-import java.util.Observer;
 
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import net.sourceforge.myjorganizer.data.Task;
 import net.sourceforge.myjorganizer.gui.mvc.model.TaskSetModel;
 
-public class TaskSourceView extends JPanel implements Observer {
+public class TaskSourceView extends AbstractTaskView {
 
 	/**
 	 * 
@@ -45,6 +42,8 @@ public class TaskSourceView extends JPanel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		TaskSetModel model = (TaskSetModel) o;
+		
+		textArea.setText("");
 		
 		for (Task task : model.getList()) {
 
@@ -68,9 +67,5 @@ public class TaskSourceView extends JPanel implements Observer {
 				textArea.append("    status: " + task.getStatus() + "\n");
 			textArea.append("end task\n\n");
 		}
-	}
-
-	public void addInputMethodListener(InputMethodListener l) {
-		textArea.addInputMethodListener(l);
 	}
 }

@@ -22,7 +22,6 @@ import static net.sourceforge.myjorganizer.i18n.Translator._;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -37,13 +36,14 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
-public class TaskStatView extends JPanel implements Observer {
+// TODO refactoring
+public class TaskStatView extends AbstractTaskView implements TaskView {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -2541380650705637543L;
-	
+
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	private DefaultPieDataset completionDataSet = new DefaultPieDataset();
 	private DefaultPieDataset priorityDataSet = new DefaultPieDataset();
@@ -52,11 +52,11 @@ public class TaskStatView extends JPanel implements Observer {
 		super(new GridLayout(1, 1));
 
 		tabbedPane.add(createCompletionPanel());
-		tabbedPane.setTitleAt(0, _("TASK_COMPLETION"));
-		
 		tabbedPane.add(createPriorityPanel());
+
+		tabbedPane.setTitleAt(0, _("TASK_COMPLETION"));
 		tabbedPane.setTitleAt(1, _("TASK_PRIORITY"));
-		
+
 		this.add(tabbedPane);
 	}
 
@@ -67,16 +67,41 @@ public class TaskStatView extends JPanel implements Observer {
 		int complete = 0;
 		int open = 0;
 
+		int urgentImportant = 0;
+		int notUrgentImportant = 0;
+		int urgentNotImportant = 0;
+		int notUrgentNotImportant = 0;
+
 		for (Task task : model.getList()) {
 			if (task.getCompletion() == 100) {
 				complete++;
 			} else {
 				open++;
 			}
+
+			if (task.isUrgent()) {
+				if (task.isImportant()) {
+					urgentImportant++;
+				} else {
+					urgentNotImportant++;
+				}
+			} else {
+				if (task.isImportant()) {
+					notUrgentImportant++;
+				} else {
+					notUrgentNotImportant++;
+				}
+			}
+
 		}
 
 		completionDataSet.setValue(_("TASK_COMPLETED"), complete);
 		completionDataSet.setValue(_("TASK_NOTCOMPLETED"), open);
+		
+		priorityDataSet.setValue(_("URGENT_IMPORTANT"), urgentImportant);
+		priorityDataSet.setValue(_("NOT_URGENT_IMPORTANT"), notUrgentImportant);
+		priorityDataSet.setValue(_("URGENT_NOT_IMPORTANT"), urgentNotImportant);
+		priorityDataSet.setValue(_("NOT_URGENT_NOT_IMPORTANT"), notUrgentNotImportant);
 	}
 
 	/**
@@ -90,7 +115,7 @@ public class TaskStatView extends JPanel implements Observer {
 	private static JFreeChart createChart(PieDataset dataset, String title) {
 
 		JFreeChart chart = ChartFactory.createPieChart(title, // chart
-																			// title
+																// title
 				dataset, // data
 				true, // include legend
 				true, false);
@@ -112,7 +137,7 @@ public class TaskStatView extends JPanel implements Observer {
 		JFreeChart chart = createChart(completionDataSet, _("TASK_COMPLETION"));
 		return new ChartPanel(chart);
 	}
-	
+
 	/**
 	 * Creates a panel for the demo (used by SuperDemo.java).
 	 * 

@@ -27,4 +27,5 @@ import java.lang.annotation.Target;
 public @interface ShowInTable {
 	int position() default Integer.MAX_VALUE;
 	String name() default "";
+	boolean editable() default true;
 }
