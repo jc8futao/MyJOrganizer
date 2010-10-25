@@ -25,6 +25,8 @@ import javax.swing.JTable;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
+import net.sourceforge.myjorganizer.gui.mvc.model.TaskTableModel;
+
 public class TaskTableView extends JPanel implements Observer {
 
 	/**
@@ -34,7 +36,7 @@ public class TaskTableView extends JPanel implements Observer {
 	private JTable jTable;
 
 	public TaskTableView() {
-		this.jTable = new JTable();
+		this.jTable = new JTable(new TaskTableModel());
 		
 		add(this.jTable);
 	}

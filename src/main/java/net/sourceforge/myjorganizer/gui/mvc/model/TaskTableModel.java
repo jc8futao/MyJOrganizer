@@ -25,6 +25,10 @@ import com.davidebellettini.gui.utils.GenericTableModel;
 
 public class TaskTableModel extends GenericTableModel<Task>{
 
+	/**
+	 * @see Serializable
+	 */
+	private static final long serialVersionUID = -4356614797850225465L;
 	private ArrayList<Task> tasks = new ArrayList<Task>();
 	
 	public TaskTableModel() {
@@ -33,7 +37,6 @@ public class TaskTableModel extends GenericTableModel<Task>{
 
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
 		return tasks.size();
 	}
 
@@ -46,6 +49,5 @@ public class TaskTableModel extends GenericTableModel<Task>{
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		// TODO Auto-generated method stub
-		
 	}
 }

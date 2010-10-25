@@ -17,16 +17,15 @@
 
 package com.davidebellettini.gui.utils;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.swing.table.AbstractTableModel;
 
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableModel;
-
-public abstract class GenericTableModel<T> implements TableModel {
+public abstract class GenericTableModel<T> extends AbstractTableModel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8213634086228585295L;
+	
 	private TableProperty[] properties;
-	private List<TableModelListener> listeners = new ArrayList<TableModelListener>();
 
 	public GenericTableModel(Class<? extends T> type) {
 		properties = TablePropertyFinder.find(type);
@@ -51,21 +50,5 @@ public abstract class GenericTableModel<T> implements TableModel {
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		return properties[columnIndex].isWritable();
-	}
-
-	@Override
-	public void addTableModelListener(TableModelListener l) {
-		listeners.add(l);
-	}
-
-	@Override
-	public void removeTableModelListener(TableModelListener l) {
-		listeners.remove(l);
-	}
-
-	protected void notifyListeners(TableModelEvent e) {
-		for (TableModelListener l : listeners) {
-			l.tableChanged(e);
-		}
 	}
 }
