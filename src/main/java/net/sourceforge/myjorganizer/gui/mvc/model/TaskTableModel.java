@@ -18,16 +18,15 @@
 package net.sourceforge.myjorganizer.gui.mvc.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import net.sourceforge.myjorganizer.data.Task;
 
 import com.davidebellettini.gui.utils.GenericTableModel;
+import com.davidebellettini.gui.utils.TableProperty;
 
 public class TaskTableModel extends GenericTableModel<Task>{
 
-	/**
-	 * @see Serializable
-	 */
 	private static final long serialVersionUID = -4356614797850225465L;
 	private ArrayList<Task> tasks = new ArrayList<Task>();
 	
@@ -42,12 +41,40 @@ public class TaskTableModel extends GenericTableModel<Task>{
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		return null;
+		Task t = tasks.get(rowIndex);
+		
+		TableProperty property = getProperty(columnIndex);
+		
+		try {
+			return property.getGetter().invoke(t);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
+		System.err.println(aValue + "ciaooo");
+		Task t = tasks.get(rowIndex);
+		TableProperty property = getProperty(columnIndex);
+		
+		try {
+			property.getSetter().invoke(t, aValue);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		fireTableCellUpdated(rowIndex, columnIndex);
+	}
+
+	public void setList(Collection<Task> list) {
+		this.tasks = new ArrayList<Task>(list);
+		
+		fireTableDataChanged();
+	}
+
+	@Override
+	public Task getRowData(int rowIndex) {
+		return tasks.get(rowIndex);
 	}
 }

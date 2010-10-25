@@ -54,12 +54,13 @@ public class MainView extends FrameView {
 		fileMenu.add(exitMenuItem);
 
 		ActionMap actionMap = getApplication().getContext().getActionMap(this);
+		
 		exitMenuItem.setAction(actionMap.get("exit"));
 		exitMenuItem.setText(_("EXIT"));
 
 		JMenu taskMenu = new JMenu(_("TASK_MENU"));
 		JMenuItem taskNewMenuItem = new JMenuItem();
-		taskMenu.add(taskNewMenuItem);
+		taskMenu.add(taskNewMenuItem); 
 		taskNewMenuItem.setAction(actionMap.get("newTask"));
 		taskNewMenuItem.setText(_("NEW_TASK"));
 

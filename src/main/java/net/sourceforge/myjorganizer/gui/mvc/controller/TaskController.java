@@ -24,6 +24,7 @@ import javax.swing.JTabbedPane;
 
 import net.sourceforge.myjorganizer.gui.mvc.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.mvc.view.TaskFourQuadrantsView;
+import net.sourceforge.myjorganizer.gui.mvc.view.TaskStatView;
 import net.sourceforge.myjorganizer.gui.mvc.view.TaskSourceView;
 import net.sourceforge.myjorganizer.gui.mvc.view.TaskTableView;
 
@@ -32,6 +33,7 @@ public class TaskController {
 	private TaskTableView jTableView;
 	private TaskSourceView sourceView;
 	private TaskFourQuadrantsView fourQuadrantsView;
+	private TaskStatView statView;
 
 	public TaskController(EntityManager entityManager, JTabbedPane pane) {
 		this.taskSetModel = new TaskSetModel(entityManager);
@@ -39,22 +41,27 @@ public class TaskController {
 		jTableView = new TaskTableView();
 		sourceView = new TaskSourceView();
 		fourQuadrantsView = new TaskFourQuadrantsView();
+		statView = new TaskStatView();
 
 		taskSetModel.addObserver(jTableView);
 		taskSetModel.addObserver(sourceView);
 		taskSetModel.addObserver(fourQuadrantsView);
+		taskSetModel.addObserver(statView);
 
 		sourceView.update(taskSetModel, null);
 		jTableView.update(taskSetModel, null);
 		fourQuadrantsView.update(taskSetModel, null);
+		statView.update(taskSetModel, null);
 
 		pane.add(sourceView);
 		pane.add(jTableView);
 		pane.add(fourQuadrantsView);
+		pane.add(statView);
 
 		int i = 0;
 		pane.setTitleAt(i++, _("TASK_SOURCE"));
 		pane.setTitleAt(i++, _("TASK_LIST"));
 		pane.setTitleAt(i++, _("TASK_QUADRANTS"));
+		pane.setTitleAt(i++, _("TASK_STATS"));
 	}
 }

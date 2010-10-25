@@ -35,7 +35,8 @@ public class TaskSetModel extends Observable {
 
 		EntityTransaction tx = entityManager.getTransaction();
 		tx.begin();
-		this.taskList = entityManager.createQuery("FROM Task", Task.class).getResultList();
+		this.taskList = entityManager.createQuery("FROM Task", Task.class)
+				.getResultList();
 		tx.commit();
 	}
 
@@ -58,14 +59,13 @@ public class TaskSetModel extends Observable {
 	public void update(Task task) {
 		EntityTransaction tx = entityManager.getTransaction();
 		tx.begin();
-		
+
 		Task newtask = entityManager.merge(task);
-		
+
 		taskList.remove(task);
 		taskList.add(newtask);
 
 		tx.commit();
-
 		setChanged();
 		notifyObservers();
 	}
@@ -73,7 +73,7 @@ public class TaskSetModel extends Observable {
 	public void delete(Task task) {
 		EntityTransaction tx = entityManager.getTransaction();
 		tx.begin();
-		
+
 		entityManager.remove(task);
 		taskList.remove(task);
 

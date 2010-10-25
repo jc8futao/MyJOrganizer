@@ -18,7 +18,9 @@
 package net.sourceforge.myjorganizer.data;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 
@@ -165,7 +167,7 @@ public class TaskTest {
 	@Test
 	public void testIdentifierAccessors() {
 		task.setIdentifier("$pippo");
-		
+
 		assertEquals("$pippo", task.getIdentifier());
 	}
 
@@ -174,5 +176,19 @@ public class TaskTest {
 		task.setId(10);
 
 		assertEquals("$task10", task.getIdentifier());
+	}
+
+	@Test
+	public void testUrgentAccessors() {
+		assertFalse(task.isUrgent());
+		task.setUrgent(true);
+		assertTrue(task.isUrgent());
+	}
+	
+	@Test
+	public void testImportantAccessors() {
+		assertFalse(task.isImportant());
+		task.setImportant(true);
+		assertTrue(task.isImportant());
 	}
 }

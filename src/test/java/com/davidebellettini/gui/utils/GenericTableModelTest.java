@@ -34,6 +34,11 @@ public class GenericTableModelTest {
 	public void setUp() {
 		this.genericTableModel = new GenericTableModel<TestType>(TestType.class) {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -2189372718553533468L;
+
 			@Override
 			public int getRowCount() {
 				// TODO Auto-generated method stub
@@ -62,6 +67,12 @@ public class GenericTableModelTest {
 			public void removeTableModelListener(TableModelListener l) {
 				// TODO Auto-generated method stub
 
+			}
+
+			@Override
+			public TestType getRowData(int rowIndex) {
+				// TODO Auto-generated method stub
+				return null;
 			}
 		};
 	}

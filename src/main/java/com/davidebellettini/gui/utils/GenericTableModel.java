@@ -17,6 +17,8 @@
 
 package com.davidebellettini.gui.utils;
 
+import java.util.HashMap;
+
 import javax.swing.table.AbstractTableModel;
 
 public abstract class GenericTableModel<T> extends AbstractTableModel {
@@ -24,7 +26,24 @@ public abstract class GenericTableModel<T> extends AbstractTableModel {
 	 * 
 	 */
 	private static final long serialVersionUID = 8213634086228585295L;
+	private static HashMap<Class<?>, Class<?>> conversionTypes = new HashMap<Class<?>, Class<?>>();
 	
+	static {
+		conversionTypes.put(Integer.TYPE, Integer.class);
+		conversionTypes.put(Double.TYPE, Double.class);
+		conversionTypes.put(Boolean.TYPE, Boolean.class);
+		conversionTypes.put(Float.TYPE, Float.class);
+	}
+	
+	private static Class<?> convertToNonPrimitive(Class<?> type) {
+		Class<?> converted = conversionTypes.get(type);
+		
+		if(converted != null)
+			return converted;
+		
+		return type;
+	}
+
 	private TableProperty[] properties;
 
 	public GenericTableModel(Class<? extends T> type) {
@@ -33,7 +52,6 @@ public abstract class GenericTableModel<T> extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
 		return properties.length;
 	}
 
@@ -44,11 +62,21 @@ public abstract class GenericTableModel<T> extends AbstractTableModel {
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		return properties[columnIndex].getType();
+		return convertToNonPrimitive(properties[columnIndex].getType());
 	}
 
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		return properties[columnIndex].isWritable();
+	}
+	
+	public abstract T getRowData(int rowIndex);
+
+	protected TableProperty[] getProperties() {
+		return properties;
+	}
+
+	protected TableProperty getProperty(int index) {
+		return properties[index];
 	}
 }

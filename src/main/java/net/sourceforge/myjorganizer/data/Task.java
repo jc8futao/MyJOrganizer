@@ -27,9 +27,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import com.davidebellettini.gui.utils.ShowInTable;
 
 /**
  * Class representing a Task
@@ -47,7 +49,7 @@ public class Task {
 	private TaskStatus status;
 	private int id;
 	private int completion;
-	
+
 	private Priority priority = Priority.factory(false, false);
 	private String description;
 	private String identifier;
@@ -86,6 +88,7 @@ public class Task {
 	 * @return name of the task
 	 */
 	@Column(nullable = false)
+	@ShowInTable(position = 2)
 	public String getTitle() {
 		return name;
 	}
@@ -108,6 +111,7 @@ public class Task {
 	 * @return the task's due date
 	 */
 	@Column(name = "due_date")
+	@ShowInTable
 	public Date getDueDate() {
 		return this.dueDate;
 	}
@@ -130,6 +134,7 @@ public class Task {
 	 * @return the start date
 	 */
 	@Column(name = "start_date")
+	@ShowInTable
 	public Date getStartDate() {
 		return this.startDate;
 	}
@@ -152,6 +157,7 @@ public class Task {
 	 * @return the task status
 	 */
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@ShowInTable
 	public TaskStatus getStatus() {
 		return status;
 	}
@@ -164,6 +170,7 @@ public class Task {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@ShowInTable(position = 0)
 	public int getId() {
 		return this.id;
 	}
@@ -183,8 +190,9 @@ public class Task {
 	 * 
 	 * @return int (0 to 100)
 	 */
-	@Min(value=0) 
-	@Max(value=100)
+	@Min(value = 0)
+	@Max(value = 100)
+	@ShowInTable(position = 6)
 	public int getCompletion() {
 		return this.completion;
 	}
@@ -211,20 +219,43 @@ public class Task {
 		return this;
 	}
 
+	@ShowInTable(position = 3)
 	public String getDescription() {
 		return this.description;
 	}
 
-	@Column(unique=true)
+	@Column(unique = true)
+	@ShowInTable(position = 1)
 	public String getIdentifier() {
 		if (this.identifier == null) {
 			this.identifier = "$task" + getId();
 		}
-		
+
 		return this.identifier;
 	}
 
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
+	}
+
+	@Transient
+	@ShowInTable(position=4)
+	public boolean isUrgent() {
+		return this.getPriority().isUrgent();
+	}
+
+	public void setUrgent(boolean urgent) {
+		setPriority(Priority.factory(urgent, isImportant()));
+		
+	}
+
+	@Transient
+	@ShowInTable(position=5)
+	public boolean isImportant() {
+		return getPriority().isImportant();
+	}
+
+	public void setImportant(boolean important) {
+		setPriority(Priority.factory(isUrgent(), important));
 	}
 }

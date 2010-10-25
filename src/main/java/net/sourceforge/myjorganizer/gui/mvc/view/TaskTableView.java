@@ -17,14 +17,16 @@
 
 package net.sourceforge.myjorganizer.gui.mvc.view;
 
+import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.TableModel;
 
+import net.sourceforge.myjorganizer.gui.mvc.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.mvc.model.TaskTableModel;
 
 public class TaskTableView extends JPanel implements Observer {
@@ -34,15 +36,26 @@ public class TaskTableView extends JPanel implements Observer {
 	 */
 	private static final long serialVersionUID = 4741518527769099366L;
 	private JTable jTable;
+	private TaskTableModel tableModel = new TaskTableModel();
 
 	public TaskTableView() {
-		this.jTable = new JTable(new TaskTableModel());
+		super(new GridLayout(1,1));
 		
-		add(this.jTable);
+		this.jTable = new JTable(tableModel);
+		add(new JScrollPane(this.jTable));
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
+		TaskSetModel taskSetModel = (TaskSetModel) o;
+		tableModel.setList(taskSetModel.getList());
 	}
 
+	public void addTableModelListener(TableModelListener l) {
+		tableModel.addTableModelListener(l);
+	}
+
+	public void removeTableModelListener(TableModelListener l) {
+		tableModel.removeTableModelListener(l);
+	}
 }
