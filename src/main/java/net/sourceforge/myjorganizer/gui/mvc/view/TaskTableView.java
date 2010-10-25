@@ -31,7 +31,6 @@ import net.sourceforge.myjorganizer.data.Task;
 import net.sourceforge.myjorganizer.gui.mvc.model.TaskEvent;
 import net.sourceforge.myjorganizer.gui.mvc.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.mvc.model.TaskTableModel;
-import net.sourceforge.myjorganizer.gui.mvc.model.TaskTableModelProxy;
 
 public class TaskTableView extends AbstractTaskView {
 
@@ -41,16 +40,15 @@ public class TaskTableView extends AbstractTaskView {
 	private static final long serialVersionUID = 4741518527769099366L;
 	private JTable jTable;
 	private TaskTableModel tableModel = new TaskTableModel();
-	private TaskTableModelProxy tableModelProxy = new TaskTableModelProxy(tableModel);
+	private TableModelListener tableListener;
 
 	public TaskTableView() {
 		super(new GridLayout(1, 1));
 
-		this.jTable = new JTable(tableModelProxy);
+		this.jTable = new JTable(tableModel);
 		add(new JScrollPane(this.jTable));
-		
-		tableModelProxy.addTableModelListener(new TableModelListener() {
 
+		this.tableListener = new TableModelListener() {
 			@Override
 			public void tableChanged(TableModelEvent e) {
 
@@ -65,12 +63,15 @@ public class TaskTableView extends AbstractTaskView {
 
 				fireTaskEvent(new TaskEvent(this, changedTasks));
 			}
-		});
+		};
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		TaskSetModel taskSetModel = (TaskSetModel) o;
+		
+		tableModel.removeTableModelListener(tableListener);
 		tableModel.setList(taskSetModel.getList());
+		tableModel.addTableModelListener(tableListener);
 	}
 }

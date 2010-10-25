@@ -54,7 +54,6 @@ public class TaskTableModel extends GenericTableModel<Task>{
 
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		System.err.println(aValue + "ciaooo");
 		Task t = tasks.get(rowIndex);
 		TableProperty property = getProperty(columnIndex);
 		

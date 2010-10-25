@@ -63,7 +63,6 @@ public class TaskController implements TaskEventListener {
 	@Override
 	public void tasksChanged(TaskEvent e) {
 		taskSetModel.updateMany(e.getChangedTasks());
-		System.err.println("Task: "+e.getChangedTasks().size());
 	}
 
 	private void addView(AbstractTaskView view) {

@@ -37,6 +37,7 @@ public class TaskSourceView extends AbstractTaskView {
 	public TaskSourceView() {
 		super(new GridLayout(1,1));
 		this.add(new JScrollPane(textArea));
+		textArea.setEditable(false);
 	}
 
 	@Override
