@@ -15,29 +15,20 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.data;
+package com.davidebellettini.gui.utils;
 
-import java.sql.SQLException;
+import com.davidebellettini.reflection.Property;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
-public class JPAUtil {
-	private static DatabaseLauncher databaseLauncher;
+public class TableProperty extends Property {
 
-	static {
-		databaseLauncher = new DummyDatabaseLauncher();
+	private int position;
+
+	public void setPosition(int position) {
+		this.position = position;
 	}
 
-	public static EntityManagerFactory createEntityManagerFactory() {
-		return Persistence.createEntityManagerFactory("myjorganizer");
-	}
-
-	public static void startServers() throws SQLException {
-		databaseLauncher.start();
-	}
-
-	public static void shutdownServers() {
-		databaseLauncher.stop();
+	public int getPosition() {
+		return this.position;
 	}
 }

@@ -15,29 +15,16 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.data;
+package com.davidebellettini.gui.utils;
 
-import java.sql.SQLException;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
-public class JPAUtil {
-	private static DatabaseLauncher databaseLauncher;
-
-	static {
-		databaseLauncher = new DummyDatabaseLauncher();
-	}
-
-	public static EntityManagerFactory createEntityManagerFactory() {
-		return Persistence.createEntityManagerFactory("myjorganizer");
-	}
-
-	public static void startServers() throws SQLException {
-		databaseLauncher.start();
-	}
-
-	public static void shutdownServers() {
-		databaseLauncher.stop();
-	}
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ShowInTable {
+	int position() default 0;
+	String name() default "";
 }

@@ -15,29 +15,37 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.data;
+package net.sourceforge.myjorganizer.gui.mvc.model;
 
-import java.sql.SQLException;
+import java.util.ArrayList;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import net.sourceforge.myjorganizer.data.Task;
 
-public class JPAUtil {
-	private static DatabaseLauncher databaseLauncher;
+import com.davidebellettini.gui.utils.GenericTableModel;
 
-	static {
-		databaseLauncher = new DummyDatabaseLauncher();
+public class TaskTableModel extends GenericTableModel<Task>{
+
+	private ArrayList<Task> tasks = new ArrayList<Task>();
+	
+	public TaskTableModel() {
+		super(Task.class);
 	}
 
-	public static EntityManagerFactory createEntityManagerFactory() {
-		return Persistence.createEntityManagerFactory("myjorganizer");
+	@Override
+	public int getRowCount() {
+		// TODO Auto-generated method stub
+		return tasks.size();
 	}
 
-	public static void startServers() throws SQLException {
-		databaseLauncher.start();
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public static void shutdownServers() {
-		databaseLauncher.stop();
+	@Override
+	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+		// TODO Auto-generated method stub
+		
 	}
 }
