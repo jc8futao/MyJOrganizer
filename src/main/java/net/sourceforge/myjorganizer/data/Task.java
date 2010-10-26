@@ -53,6 +53,7 @@ public class Task {
 	private Priority priority = Priority.factory(false, false);
 	private String description;
 	private String identifier;
+	private Task parent;
 
 	public Task() {
 	}
@@ -257,5 +258,14 @@ public class Task {
 
 	public void setImportant(boolean important) {
 		setPriority(Priority.factory(isUrgent(), important));
+	}
+
+	public void setParent(Task parent) {
+		this.parent = parent;
+	}
+
+	@ManyToOne
+	public Task getParent() {
+		return this.parent;
 	}
 }

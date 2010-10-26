@@ -191,4 +191,13 @@ public class TaskTest {
 		task.setImportant(true);
 		assertTrue(task.isImportant());
 	}
+	
+	@Test
+	public void testParentAccessors() {
+		Task parent = new Task("Dad");
+		Task son = new Task("John");
+		
+		son.setParent(parent);
+		assertEquals(parent, son.getParent());
+	}
 }

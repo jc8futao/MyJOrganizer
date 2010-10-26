@@ -215,7 +215,7 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>[1.2.144,)</version>
+			<version>1.2.144</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>

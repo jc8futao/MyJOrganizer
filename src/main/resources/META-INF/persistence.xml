@@ -24,6 +24,7 @@
 	<persistence-unit name="myjorganizer"
 		transaction-type="RESOURCE_LOCAL">
 		<class>net.sourceforge.myjorganizer.data.Task</class>
+		<class>net.sourceforge.myjorganizer.data.TaskDependency</class>
 		<class>net.sourceforge.myjorganizer.data.TaskStatus</class>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
