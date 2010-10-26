@@ -17,7 +17,9 @@
 	</licenses>
 
 	<build>
-		<!-- we dont want the version to be part of the generated war file name -->
+		<!--
+			we dont want the version to be part of the generated war file name
+		-->
 		<finalName>${project.artifactId}</finalName>
 		<directory>target</directory>
 		<outputDirectory>target/classes</outputDirectory>
@@ -135,6 +137,12 @@
 	</build>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>org.jdesktop</groupId>
+			<artifactId>appframework</artifactId>
+			<version>1.0.3</version>
+		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -161,8 +169,10 @@
 			<scope>compile</scope>
 		</dependency>
 
-		<!-- Hibernate uses slf4j for logging, for our purposes here use the simple 
-			backend -->
+		<!--
+			Hibernate uses slf4j for logging, for our purposes here use the
+			simple backend
+		-->
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -171,8 +181,10 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- Hibernate gives you a choice of bytecode providers between cglib and 
-			javassist -->
+		<!--
+			Hibernate gives you a choice of bytecode providers between cglib and
+			javassist
+		-->
 		<dependency>
 			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
@@ -201,18 +213,6 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>net.java.dev.appframework</groupId>
-			<artifactId>appframework</artifactId>
-			<version>1.03</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.swinglabs</groupId>
-			<artifactId>swing-worker</artifactId>
-			<version>1.1</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>1.2.144</version>
@@ -225,17 +225,18 @@
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>jfree</groupId>
 			<artifactId>jfreechart</artifactId>
-			<version>[1.0.0,)</version>
+			<version>1.0.9-brew</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>jfree</groupId>
 			<artifactId>jcommon</artifactId>
-			<version>[1.0.15,)</version>
+			<version>1.0.16</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

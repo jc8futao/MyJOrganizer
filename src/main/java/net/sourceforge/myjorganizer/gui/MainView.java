@@ -19,11 +19,15 @@ package net.sourceforge.myjorganizer.gui;
 
 import static net.sourceforge.myjorganizer.i18n.Translator._;
 
+import java.io.File;
+
 import javax.swing.ActionMap;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 
 import net.sourceforge.myjorganizer.gui.mvc.controller.TaskController;
@@ -34,7 +38,8 @@ import org.jdesktop.application.FrameView;
 
 public class MainView extends FrameView {
 	private JTabbedPane mainPanel = new JTabbedPane();
-	private JMenuBar menuBar;
+	private JMenuBar menuBar = new JMenuBar();
+	private JLabel statusBar = new JLabel(_("MSG_READY"));
 
 	public MainView(Application application) {
 		super(application);
@@ -43,31 +48,44 @@ public class MainView extends FrameView {
 	}
 
 	private void initComponents() {
-		menuBar = new JMenuBar();
-
 		setComponent(mainPanel);
 		setMenuBar(menuBar);
-		setStatusBar(new JLabel("hello world!"));
-
-		JMenu fileMenu = new JMenu(_("FILE_MENU"));
-		JMenuItem exitMenuItem = new JMenuItem();
-		fileMenu.add(exitMenuItem);
+		setStatusBar(statusBar);
 
 		ActionMap actionMap = getApplication().getContext().getActionMap(this);
-		
+
+		JMenu fileMenu = new JMenu(_("FILE_MENU"));
+
+		JMenuItem importMenuItem = new JMenuItem();
+		importMenuItem.setAction(actionMap.get("importFile"));
+		importMenuItem.setText(_("FILE_IMPORT"));
+		fileMenu.add(importMenuItem);
+
+		JMenuItem exportMenuItem = new JMenuItem();
+		exportMenuItem.setAction(actionMap.get("exportFile"));
+		exportMenuItem.setText(_("FILE_EXPORT"));
+		fileMenu.add(exportMenuItem);
+
+		fileMenu.add(new JSeparator());
+
+		JMenuItem exitMenuItem = new JMenuItem();
 		exitMenuItem.setAction(actionMap.get("exit"));
 		exitMenuItem.setText(_("EXIT"));
+		fileMenu.add(exitMenuItem);
+
+		menuBar.add(fileMenu);
 
 		JMenu taskMenu = new JMenu(_("TASK_MENU"));
+
 		JMenuItem taskNewMenuItem = new JMenuItem();
-		taskMenu.add(taskNewMenuItem); 
+		taskMenu.add(taskNewMenuItem);
+
 		taskNewMenuItem.setAction(actionMap.get("newTask"));
 		taskNewMenuItem.setText(_("NEW_TASK"));
 
-		menuBar.add(fileMenu);
 		menuBar.add(taskMenu);
-		
-		MyJOrganizerApp application = (MyJOrganizerApp)getApplication();
+
+		MyJOrganizerApp application = (MyJOrganizerApp) getApplication();
 		new TaskController(application.getEntityManager(), mainPanel);
 
 		getFrame().pack();
@@ -82,14 +100,17 @@ public class MainView extends FrameView {
 	public void newTask() {
 		new AddTaskFrame().setVisible(true);
 	}
-	
+
 	@Action
-	public void importFile()
-	{
+	public void importFile() {
+		JFileChooser chooser = new JFileChooser();
+		int option = chooser.showOpenDialog(getFrame());
+		if (option == JFileChooser.APPROVE_OPTION) {
+			File file = chooser.getSelectedFile();
+		}
 	}
-	
+
 	@Action
-	public void exportFile()
-	{
+	public void exportFile() {
 	}
 }
