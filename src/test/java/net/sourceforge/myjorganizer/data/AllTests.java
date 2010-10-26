@@ -26,6 +26,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	JPAUtilTest.class,
 	PriorityTest.class,
 	TaskTest.class,
+	TaskDependencyTest.class,
 	TaskStatusTest.class
 })
 public class AllTests {
