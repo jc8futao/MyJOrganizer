@@ -21,7 +21,10 @@ import java.util.Observer;
 
 import net.sourceforge.myjorganizer.gui.task.model.TaskEventListener;
 
-public interface TaskView extends Observer {
+public interface TaskView {
 	public void addTaskEventListener(TaskEventListener l);
 	public void removeTaskEventListener(TaskEventListener l);
+	
+	public Observer getTaskSetModelObserver();
+	public Observer getTaskStatusModelObserver();
 }

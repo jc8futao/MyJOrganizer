@@ -15,26 +15,34 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.data;
+package net.sourceforge.myjorganizer.gui.task.model;
 
-import java.util.ArrayList;
+import java.util.Observable;
 
-import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
-public class SampleData {
+public abstract class ObservableEntityModel extends Observable {
 
-	public static void loadSampleTaskData(TaskSetModel taskSetModel) {
-		ArrayList<Task> tasks = new ArrayList<Task>();
-		tasks.add(new Task("Task 1"));
-		tasks.add(new Task("Task 2"));
-		tasks.add(new Task("Task 3"));
-		tasks.add(new Task("Task 4"));
+	private final EntityManager entityManager;
 
-		tasks.get(1).setUrgent(true);
-		tasks.get(2).setImportant(true);
-		tasks.get(3).setUrgent(true);
-		tasks.get(3).setImportant(true);
+	public ObservableEntityModel(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 
-		taskSetModel.addMany(tasks);
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	protected EntityTransaction beginTransaction() {
+		EntityTransaction tx = entityManager.getTransaction();
+		tx.begin();
+		return tx;
+	}
+
+	protected void commitAndNotify(EntityTransaction tx) {
+		tx.commit();
+		setChanged();
+		notifyObservers();
 	}
 }

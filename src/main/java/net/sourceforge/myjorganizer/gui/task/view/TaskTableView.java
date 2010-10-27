@@ -21,15 +21,19 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.TableColumn;
 
 import net.sourceforge.myjorganizer.data.Task;
+import net.sourceforge.myjorganizer.data.TaskStatus;
 import net.sourceforge.myjorganizer.gui.task.model.TaskEvent;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
+import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskTableModel;
 
 public class TaskTableView extends AbstractTaskView {
@@ -40,6 +44,7 @@ public class TaskTableView extends AbstractTaskView {
 	private static final long serialVersionUID = 4741518527769099366L;
 	private JTable jTable;
 	private TaskTableModel tableModel = new TaskTableModel();
+	private TaskStatus[] taskStatuses = new TaskStatus[0];
 	private TableModelListener tableListener;
 
 	public TaskTableView() {
@@ -66,12 +71,39 @@ public class TaskTableView extends AbstractTaskView {
 		};
 	}
 
+	public TaskStatus[] getTaskStatuses() {
+		return taskStatuses;
+	}
+
 	@Override
-	public void update(Observable o, Object arg) {
-		TaskSetModel taskSetModel = (TaskSetModel) o;
-		
-		tableModel.removeTableModelListener(tableListener);
-		tableModel.setList(taskSetModel.getList());
-		tableModel.addTableModelListener(tableListener);
+	public Observer getTaskSetModelObserver() {
+		return new Observer() {
+			public void update(Observable o, Object arg) {
+				TaskSetModel taskSetModel = (TaskSetModel) o;
+
+				tableModel.removeTableModelListener(tableListener);
+				tableModel.setList(taskSetModel.getList());
+				tableModel.addTableModelListener(tableListener);
+			}
+		};
+	}
+
+	@Override
+	public Observer getTaskStatusModelObserver() {
+		return new Observer() {
+
+			@Override
+			public void update(Observable o, Object arg) {
+				TaskStatusModel model = (TaskStatusModel) o;
+				taskStatuses = model.getList().toArray(taskStatuses);
+
+				TableColumn statusColumn = jTable.getColumn("Status");
+
+				statusColumn.setCellEditor(new TaskStatusComboBoxEditor(
+						taskStatuses));
+				statusColumn.setCellRenderer(new TaskStatusComboBoxRenderer(
+						taskStatuses));
+			}
+		};
 	}
 }

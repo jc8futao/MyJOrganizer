@@ -15,26 +15,20 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.data;
+package net.sourceforge.myjorganizer.gui.task.view;
 
-import java.util.ArrayList;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 
-import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
+import net.sourceforge.myjorganizer.data.TaskStatus;
 
-public class SampleData {
+public class TaskStatusComboBoxEditor extends DefaultCellEditor {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2650011890512281580L;
 
-	public static void loadSampleTaskData(TaskSetModel taskSetModel) {
-		ArrayList<Task> tasks = new ArrayList<Task>();
-		tasks.add(new Task("Task 1"));
-		tasks.add(new Task("Task 2"));
-		tasks.add(new Task("Task 3"));
-		tasks.add(new Task("Task 4"));
-
-		tasks.get(1).setUrgent(true);
-		tasks.get(2).setImportant(true);
-		tasks.get(3).setUrgent(true);
-		tasks.get(3).setImportant(true);
-
-		taskSetModel.addMany(tasks);
+	public TaskStatusComboBoxEditor(TaskStatus[] items) {
+		super(new JComboBox(items));
 	}
 }

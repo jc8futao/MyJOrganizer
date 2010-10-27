@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JList;
 import javax.swing.JScrollPane;
@@ -32,7 +33,7 @@ import net.sourceforge.myjorganizer.data.Priority;
 import net.sourceforge.myjorganizer.data.Task;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 
-public class TaskFourQuadrantsView extends AbstractTaskView {
+public class TaskFourQuadrantsView extends AbstractTaskView implements Observer {
 
 	/**
 	 * 
@@ -71,5 +72,15 @@ public class TaskFourQuadrantsView extends AbstractTaskView {
 		for (Entry<Priority, List<Task>> entry : listData.entrySet()) {
 			lists.get(entry.getKey()).setListData(entry.getValue().toArray());
 		}
+	}
+
+	@Override
+	public Observer getTaskSetModelObserver() {
+		return this;
+	}
+
+	@Override
+	public Observer getTaskStatusModelObserver() {
+		return null;
 	}
 }

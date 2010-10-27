@@ -23,30 +23,31 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import net.sourceforge.myjorganizer.data.Task;
+import net.sourceforge.myjorganizer.data.TaskStatus;
 
-public class TaskSetModel extends ObservableEntityModel {
+public class TaskStatusModel extends ObservableEntityModel {
 
-	private Collection<Task> taskList;
+	private Collection<TaskStatus> taskStatusList;
 
-	public TaskSetModel(EntityManager entityManager) {
+	public TaskStatusModel(EntityManager entityManager) {
 		super(entityManager);
 
-		EntityTransaction tx = entityManager.getTransaction();
-		tx.begin();
-		this.taskList = entityManager.createQuery("FROM Task", Task.class)
-				.getResultList();
+		EntityTransaction tx = beginTransaction();
+
+		this.taskStatusList = entityManager.createQuery("FROM TaskStatus",
+				TaskStatus.class).getResultList();
 		tx.commit();
 	}
 
-	public int add(Task task) {
+	public int add(TaskStatus taskStatus) {
 		EntityTransaction tx = beginTransaction();
 
-		getEntityManager().persist(task);
-		taskList.add(task);
+		getEntityManager().persist(taskStatus);
+		taskStatusList.add(taskStatus);
 
 		commitAndNotify(tx);
 
-		return task.getId();
+		return taskStatus.getId();
 	}
 
 	public void update(Task task) {
@@ -71,21 +72,21 @@ public class TaskSetModel extends ObservableEntityModel {
 		EntityTransaction tx = beginTransaction();
 
 		getEntityManager().remove(task);
-		taskList.remove(task);
+		taskStatusList.remove(task);
 
 		commitAndNotify(tx);
 	}
 
-	public Collection<Task> getList() {
-		return taskList;
+	public Collection<TaskStatus> getList() {
+		return taskStatusList;
 	}
 
-	public void addMany(Iterable<Task> tasks) {
+	public void addMany(Iterable<TaskStatus> tasks) {
 		EntityTransaction tx = beginTransaction();
 
-		for (Task task : tasks) {
+		for (TaskStatus task : tasks) {
 			getEntityManager().persist(task);
-			taskList.add(task);
+			taskStatusList.add(task);
 		}
 
 		commitAndNotify(tx);

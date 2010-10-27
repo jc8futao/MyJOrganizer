@@ -19,14 +19,15 @@ package net.sourceforge.myjorganizer.gui.task.view;
 
 import java.awt.GridLayout;
 import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import net.sourceforge.myjorganizer.data.Task;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
+import net.sourceforge.myjorganizer.parser.TaskSourceFormatter;
 
-public class TaskSourceView extends AbstractTaskView {
+public class TaskSourceView extends AbstractTaskView implements Observer {
 
 	/**
 	 * 
@@ -35,38 +36,27 @@ public class TaskSourceView extends AbstractTaskView {
 	private JTextArea textArea = new JTextArea();
 
 	public TaskSourceView() {
-		super(new GridLayout(1,1));
+		super(new GridLayout(1, 1));
 		this.add(new JScrollPane(textArea));
 		textArea.setEditable(false);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		TaskSetModel model = (TaskSetModel) o;
-		
-		textArea.setText("");
-		
-		for (Task task : model.getList()) {
+		textArea.setText(formatSource((TaskSetModel) o));
+	}
 
-			if (task.getId() > 0) {
-				textArea.append("task " + task.getIdentifier() + ":\n");
-			} else {
-				textArea.append("task:\n");
-			}
-			textArea.append("    title: \"" + task.getTitle() + "\"\n");
+	@Override
+	public Observer getTaskSetModelObserver() {
+		return this;
+	}
 
-			String description;
-			if ((description = task.getDescription()) != null
-					&& description.length() > 0) {
-				textArea.append("    description: \"" + description + "\"\n");
-			}
+	@Override
+	public Observer getTaskStatusModelObserver() {
+		return null;
+	}
 
-			textArea.append("    completion: " + task.getCompletion() + "%\n");
-			textArea.append("    urgent: " + task.getPriority().isUrgent() + "\n");
-			textArea.append("    important: " + task.getPriority().isImportant() + "\n");
-			if (task.getStatus() != null)
-				textArea.append("    status: " + task.getStatus() + "\n");
-			textArea.append("end task\n\n");
-		}
+	public static String formatSource(TaskSetModel model) {
+		return TaskSourceFormatter.formatSource(model.getList());
 	}
 }

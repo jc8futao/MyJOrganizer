@@ -21,10 +21,11 @@ import static net.sourceforge.myjorganizer.i18n.Translator._;
 
 import java.awt.GridLayout;
 import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JTabbedPane;
 
-public class TaskStatView extends AbstractTaskView implements TaskView {
+public class TaskStatView extends AbstractTaskView implements TaskView, Observer {
 
 	/**
 	 * 
@@ -51,5 +52,15 @@ public class TaskStatView extends AbstractTaskView implements TaskView {
 	public void update(Observable o, Object arg) {
 		completionView.update(o, arg);
 		priorityView.update(o, arg);
+	}
+
+	@Override
+	public Observer getTaskSetModelObserver() {
+		return this;
+	}
+
+	@Override
+	public Observer getTaskStatusModelObserver() {
+		return null;
 	}
 }

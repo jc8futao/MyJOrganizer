@@ -228,7 +228,7 @@ public class Task {
 	@Column(unique = true)
 	@ShowInTable(position = 1)
 	public String getIdentifier() {
-		if (this.identifier == null) {
+		if (this.identifier == null && getId() != 0) {
 			this.identifier = "$task" + getId();
 		}
 

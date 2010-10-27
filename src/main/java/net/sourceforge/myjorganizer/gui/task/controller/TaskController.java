@@ -19,12 +19,17 @@ package net.sourceforge.myjorganizer.gui.task.controller;
 
 import static net.sourceforge.myjorganizer.i18n.Translator._;
 
+import java.util.Observer;
+
 import javax.persistence.EntityManager;
 import javax.swing.JTabbedPane;
 
+import net.sourceforge.myjorganizer.data.SampleData;
+import net.sourceforge.myjorganizer.data.TaskStatus;
 import net.sourceforge.myjorganizer.gui.task.model.TaskEvent;
 import net.sourceforge.myjorganizer.gui.task.model.TaskEventListener;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
+import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
 import net.sourceforge.myjorganizer.gui.task.view.AbstractTaskView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskFourQuadrantsView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskSourceView;
@@ -38,16 +43,21 @@ public class TaskController implements TaskEventListener {
 	private TaskFourQuadrantsView fourQuadrantsView;
 	private TaskStatView statView;
 	private JTabbedPane pane;
+	private TaskStatusModel taskStatusModel;
 
 	public TaskController(EntityManager entityManager, JTabbedPane pane) {
 		this.taskSetModel = new TaskSetModel(entityManager);
+		this.taskStatusModel = new TaskStatusModel(entityManager);
 		this.pane = pane;
 
 		jTableView = new TaskTableView();
 		sourceView = new TaskSourceView();
 		fourQuadrantsView = new TaskFourQuadrantsView();
 		statView = new TaskStatView();
-		
+
+		TaskStatus[] taskStatuses = new TaskStatus[0];
+		taskStatuses = taskStatusModel.getList().toArray(taskStatuses);
+
 		addView(sourceView);
 		addView(jTableView);
 		addView(fourQuadrantsView);
@@ -67,8 +77,28 @@ public class TaskController implements TaskEventListener {
 
 	private void addView(AbstractTaskView view) {
 		pane.add(view);
+
 		view.addTaskEventListener(this);
-		view.update(taskSetModel, null);
-		taskSetModel.addObserver(view);
+
+		Observer taskSetModelObserver = view.getTaskSetModelObserver();
+		Observer taskStatusModelObserver = view.getTaskStatusModelObserver();
+
+		if (taskSetModelObserver != null) {
+			taskSetModelObserver.update(taskSetModel, null);
+			taskSetModel.addObserver(taskSetModelObserver);
+		}
+
+		if (taskStatusModelObserver != null) {
+			taskStatusModelObserver.update(taskStatusModel, null);
+			taskStatusModel.addObserver(taskStatusModelObserver);
+		}
+	}
+
+	public void loadSampledata() {
+		SampleData.loadSampleTaskData(taskSetModel);
+	}
+
+	public TaskSetModel getTaskSetModel() {
+		return taskSetModel;
 	}
 }

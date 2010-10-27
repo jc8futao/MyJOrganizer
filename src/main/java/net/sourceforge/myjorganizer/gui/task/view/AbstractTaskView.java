@@ -39,7 +39,7 @@ public abstract class AbstractTaskView extends JPanel implements TaskView {
 	protected AbstractTaskView() {
 		super();
 	}
-
+	
 	@Override
 	public void addTaskEventListener(TaskEventListener l) {
 		this.listeners.add(l);

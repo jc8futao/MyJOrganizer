@@ -17,6 +17,104 @@
 
 package net.sourceforge.myjorganizer.parser.visitor;
 
-public class TaskCreatingVisitor extends DepthFirstVisitor{
+import java.util.ArrayList;
 
+import net.sourceforge.myjorganizer.data.Task;
+import net.sourceforge.myjorganizer.parser.syntaxtree.NodeToken;
+import net.sourceforge.myjorganizer.parser.syntaxtree.TaskCompletion;
+import net.sourceforge.myjorganizer.parser.syntaxtree.TaskDefinition;
+import net.sourceforge.myjorganizer.parser.syntaxtree.TaskImportance;
+import net.sourceforge.myjorganizer.parser.syntaxtree.TaskTitle;
+import net.sourceforge.myjorganizer.parser.syntaxtree.TaskUrgency;
+
+public class TaskCreatingVisitor extends DepthFirstVisitor {
+	private Task currentTask;
+	private ArrayList<Task> visitedTasks = new ArrayList<Task>();
+	private PropertyParser propertyParser;
+
+	@Override
+	public void visit(TaskDefinition n) {
+		this.currentTask = new Task();
+		visitedTasks.add(this.currentTask);
+
+		super.visit(n);
+	}
+
+	/**
+	 * f0 -> "title" f1 -> <COLON> f2 -> <STRING_LITERAL>
+	 */
+	public void visit(TaskTitle n) {
+		this.propertyParser = new PropertyParser() {
+
+			@Override
+			public void setValue(String value) {
+				currentTask.setTitle(value);
+
+				System.err.println("Title: " + value);
+			}
+		};
+
+		n.f2.accept(this);
+
+		this.propertyParser = null;
+	}
+
+	/**
+	 * f0 -> "completion" f1 -> <COLON> f2 -> <INTEGER_LITERAL> f3 -> <PERCENT>
+	 */
+	public void visit(TaskCompletion n) {
+		this.propertyParser = new PropertyParser() {
+			@Override
+			public void setValue(String value) {
+				currentTask.setCompletion(Integer.parseInt(value));
+			}
+		};
+
+		n.f2.accept(this);
+
+		this.propertyParser = null;
+	}
+
+	/**
+	 * f0 -> "urgent" f1 -> <COLON> f2 -> <BOOL_LITERAL>
+	 */
+	public void visit(TaskUrgency n) {
+		this.propertyParser = new PropertyParser() {
+			@Override
+			public void setValue(String value) {
+				currentTask.setUrgent(value.equals("true"));				
+			}
+		};
+		
+		n.f2.accept(this);
+		
+		this.propertyParser = null;
+	}
+	
+	/**
+	 * f0 -> "important" f1 -> <COLON> f2 -> <BOOL_LITERAL>
+	 */
+	public void visit(TaskImportance n) {
+		this.propertyParser = new PropertyParser() {
+			@Override
+			public void setValue(String value) {
+				currentTask.setImportant(value.equals("true"));				
+			}
+		};
+		
+		n.f2.accept(this);
+		
+		this.propertyParser = null;
+	}
+
+	@Override
+	public void visit(NodeToken n) {
+		if (propertyParser != null) {
+			propertyParser.setValue(n.tokenImage);
+		}
+	}
+
+	private interface PropertyParser {
+		public void setValue(String value);
+	}
 }
