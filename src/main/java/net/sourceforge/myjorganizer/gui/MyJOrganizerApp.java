@@ -81,7 +81,7 @@ public class MyJOrganizerApp extends SingleFrameApplication {
 		this.emFactory = JPAUtil.createEntityManagerFactory();
 		this.entityManager = emFactory.createEntityManager();
 		
-		MyJOrganizerController controller = new MyJOrganizerController(this);
+		new MyJOrganizerController(this);
 	}
 
 	private void registerExitListener() {

@@ -9,7 +9,14 @@ public class TaskSourceFormatter {
 
 		for (Task task : tasks) {
 			if (task.getId() > 0) {
-				sb.append("task " + task.getIdentifier() + ":\n");
+				sb.append("task " + task.getIdentifier());
+
+				if (task.getParent() != null) {
+					sb.append(" childof ");
+					sb.append(task.getParent().getIdentifier());
+				}
+
+				sb.append(":\n");
 			} else {
 				sb.append("task:\n");
 			}
@@ -22,10 +29,9 @@ public class TaskSourceFormatter {
 			}
 
 			sb.append("    completion: " + task.getCompletion() + "%\n");
-			sb.append("    urgent: " + task.getPriority().isUrgent()
+			sb.append("    urgent: " + task.getPriority().isUrgent() + "\n");
+			sb.append("    important: " + task.getPriority().isImportant()
 					+ "\n");
-			sb.append("    important: "
-					+ task.getPriority().isImportant() + "\n");
 			if (task.getStatus() != null)
 				sb.append("    status: \"" + task.getStatus() + "\"\n");
 			sb.append("end task\n\n");
