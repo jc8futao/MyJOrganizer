@@ -34,6 +34,8 @@
 			<property name="hibernate.connection.url" value="jdbc:mysql://localhost/myjorganizer" />
 			<property name="hibernate.connection.username" value="myjorganizer" />
 			<property name="hibernate.connection.password" value="myjorganizer" />
+			
+			<property name="javax.persistence.validation.mode" value="callback, ddl"/>
 		</properties>
 	</persistence-unit>
 </persistence>
