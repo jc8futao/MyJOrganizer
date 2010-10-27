@@ -28,6 +28,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 
 import net.sourceforge.myjorganizer.data.JPAUtil;
+import net.sourceforge.myjorganizer.gui.controller.MyJOrganizerController;
 
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
@@ -36,9 +37,7 @@ public class MyJOrganizerApp extends SingleFrameApplication {
 	public final static boolean DEBUG = true;
 
 	private String language;
-
 	private EntityManagerFactory emFactory;
-
 	private EntityManager entityManager;
 
 	public MyJOrganizerApp() {
@@ -82,7 +81,7 @@ public class MyJOrganizerApp extends SingleFrameApplication {
 		this.emFactory = JPAUtil.createEntityManagerFactory();
 		this.entityManager = emFactory.createEntityManager();
 		
-		show(new MainView(this));
+		MyJOrganizerController controller = new MyJOrganizerController(this);
 	}
 
 	private void registerExitListener() {

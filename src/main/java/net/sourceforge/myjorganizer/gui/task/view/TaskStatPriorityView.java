@@ -15,7 +15,7 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.gui.mvc.view;
+package net.sourceforge.myjorganizer.gui.task.view;
 
 import static net.sourceforge.myjorganizer.i18n.Translator._;
 
@@ -25,7 +25,7 @@ import java.util.Observable;
 import javax.swing.JPanel;
 
 import net.sourceforge.myjorganizer.data.Task;
-import net.sourceforge.myjorganizer.gui.mvc.model.TaskSetModel;
+import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;

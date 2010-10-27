@@ -15,7 +15,7 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.gui;
+package net.sourceforge.myjorganizer.gui.view;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;

@@ -15,7 +15,7 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.gui.mvc.model;
+package net.sourceforge.myjorganizer.gui.task.model;
 
 import java.util.ArrayList;
 import java.util.Collection;

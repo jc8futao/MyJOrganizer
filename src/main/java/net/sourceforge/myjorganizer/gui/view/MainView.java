@@ -15,14 +15,11 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.gui;
+package net.sourceforge.myjorganizer.gui.view;
 
 import static net.sourceforge.myjorganizer.i18n.Translator._;
 
-import java.io.File;
-
 import javax.swing.ActionMap;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -30,9 +27,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 
-import net.sourceforge.myjorganizer.gui.mvc.controller.TaskController;
+import net.sourceforge.myjorganizer.gui.MyJOrganizerApp;
 
-import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.FrameView;
 
@@ -40,9 +36,11 @@ public class MainView extends FrameView {
 	private JTabbedPane mainPanel = new JTabbedPane();
 	private JMenuBar menuBar = new JMenuBar();
 	private JLabel statusBar = new JLabel(_("MSG_READY"));
+	private ActionMap actionMap;
 
-	public MainView(Application application) {
+	public MainView(Application application, ActionMap actionMap) {
 		super(application);
+		this.actionMap = actionMap;
 
 		initComponents();
 	}
@@ -51,8 +49,6 @@ public class MainView extends FrameView {
 		setComponent(mainPanel);
 		setMenuBar(menuBar);
 		setStatusBar(statusBar);
-
-		ActionMap actionMap = getApplication().getContext().getActionMap(this);
 
 		JMenu fileMenu = new JMenu(_("FILE_MENU"));
 
@@ -78,39 +74,22 @@ public class MainView extends FrameView {
 		JMenu taskMenu = new JMenu(_("TASK_MENU"));
 
 		JMenuItem taskNewMenuItem = new JMenuItem();
-		taskMenu.add(taskNewMenuItem);
-
 		taskNewMenuItem.setAction(actionMap.get("newTask"));
 		taskNewMenuItem.setText(_("NEW_TASK"));
+		taskMenu.add(taskNewMenuItem);
+
+		if (MyJOrganizerApp.DEBUG) {
+			JMenuItem taskLoadSampleDataItem = new JMenuItem();
+			taskLoadSampleDataItem.setAction(actionMap.get("loadSampleData"));
+			taskLoadSampleDataItem.setText(_("TASK_SAMPLE_DATA"));
+			taskMenu.add(taskLoadSampleDataItem);
+		}
 
 		menuBar.add(taskMenu);
-
-		MyJOrganizerApp application = (MyJOrganizerApp) getApplication();
-		new TaskController(application.getEntityManager(), mainPanel);
-
 		getFrame().pack();
 	}
 
-	@Action
-	public void exit() {
-		getApplication().exit();
-	}
-
-	@Action
-	public void newTask() {
-		new AddTaskFrame().setVisible(true);
-	}
-
-	@Action
-	public void importFile() {
-		JFileChooser chooser = new JFileChooser();
-		int option = chooser.showOpenDialog(getFrame());
-		if (option == JFileChooser.APPROVE_OPTION) {
-			File file = chooser.getSelectedFile();
-		}
-	}
-
-	@Action
-	public void exportFile() {
+	public JTabbedPane getMainPanel() {
+		return mainPanel;
 	}
 }

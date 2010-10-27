@@ -15,24 +15,13 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.gui.mvc.model;
+package net.sourceforge.myjorganizer.gui.task.view;
 
-import java.util.Collection;
-import java.util.EventObject;
+import java.util.Observer;
 
-import net.sourceforge.myjorganizer.data.Task;
+import net.sourceforge.myjorganizer.gui.task.model.TaskEventListener;
 
-public class TaskEvent extends EventObject {
-	private static final long serialVersionUID = 4144958728704612439L;
-	private final Collection<Task> changedTasks;
-
-	public Collection<Task> getChangedTasks() {
-		return changedTasks;
-	}
-
-	public TaskEvent(Object source, Collection<Task> changedTasks) {
-		super(source);
-
-		this.changedTasks = changedTasks;
-	}
+public interface TaskView extends Observer {
+	public void addTaskEventListener(TaskEventListener l);
+	public void removeTaskEventListener(TaskEventListener l);
 }

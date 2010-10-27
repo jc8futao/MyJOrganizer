@@ -1,4 +1,4 @@
-package net.sourceforge.myjorganizer.gui.mvc.view;
+package net.sourceforge.myjorganizer.gui.task.view;
 
 import static net.sourceforge.myjorganizer.i18n.Translator._;
 

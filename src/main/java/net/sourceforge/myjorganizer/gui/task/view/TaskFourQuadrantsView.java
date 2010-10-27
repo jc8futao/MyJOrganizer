@@ -15,7 +15,7 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.gui.mvc.view;
+package net.sourceforge.myjorganizer.gui.task.view;
 
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import javax.swing.JScrollPane;
 
 import net.sourceforge.myjorganizer.data.Priority;
 import net.sourceforge.myjorganizer.data.Task;
-import net.sourceforge.myjorganizer.gui.mvc.model.TaskSetModel;
+import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 
 public class TaskFourQuadrantsView extends AbstractTaskView {
 

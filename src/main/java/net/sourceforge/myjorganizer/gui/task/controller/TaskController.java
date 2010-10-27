@@ -15,21 +15,21 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.gui.mvc.controller;
+package net.sourceforge.myjorganizer.gui.task.controller;
 
 import static net.sourceforge.myjorganizer.i18n.Translator._;
 
 import javax.persistence.EntityManager;
 import javax.swing.JTabbedPane;
 
-import net.sourceforge.myjorganizer.gui.mvc.model.TaskEvent;
-import net.sourceforge.myjorganizer.gui.mvc.model.TaskEventListener;
-import net.sourceforge.myjorganizer.gui.mvc.model.TaskSetModel;
-import net.sourceforge.myjorganizer.gui.mvc.view.AbstractTaskView;
-import net.sourceforge.myjorganizer.gui.mvc.view.TaskFourQuadrantsView;
-import net.sourceforge.myjorganizer.gui.mvc.view.TaskSourceView;
-import net.sourceforge.myjorganizer.gui.mvc.view.TaskStatView;
-import net.sourceforge.myjorganizer.gui.mvc.view.TaskTableView;
+import net.sourceforge.myjorganizer.gui.task.model.TaskEvent;
+import net.sourceforge.myjorganizer.gui.task.model.TaskEventListener;
+import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
+import net.sourceforge.myjorganizer.gui.task.view.AbstractTaskView;
+import net.sourceforge.myjorganizer.gui.task.view.TaskFourQuadrantsView;
+import net.sourceforge.myjorganizer.gui.task.view.TaskSourceView;
+import net.sourceforge.myjorganizer.gui.task.view.TaskStatView;
+import net.sourceforge.myjorganizer.gui.task.view.TaskTableView;
 
 public class TaskController implements TaskEventListener {
 	private TaskSetModel taskSetModel;

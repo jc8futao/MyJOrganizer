@@ -15,7 +15,7 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.gui.mvc.view;
+package net.sourceforge.myjorganizer.gui.task.view;
 
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -28,9 +28,9 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
 import net.sourceforge.myjorganizer.data.Task;
-import net.sourceforge.myjorganizer.gui.mvc.model.TaskEvent;
-import net.sourceforge.myjorganizer.gui.mvc.model.TaskSetModel;
-import net.sourceforge.myjorganizer.gui.mvc.model.TaskTableModel;
+import net.sourceforge.myjorganizer.gui.task.model.TaskEvent;
+import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
+import net.sourceforge.myjorganizer.gui.task.model.TaskTableModel;
 
 public class TaskTableView extends AbstractTaskView {
 

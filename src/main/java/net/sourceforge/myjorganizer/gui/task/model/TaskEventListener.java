@@ -15,13 +15,8 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.gui.mvc.view;
+package net.sourceforge.myjorganizer.gui.task.model;
 
-import java.util.Observer;
-
-import net.sourceforge.myjorganizer.gui.mvc.model.TaskEventListener;
-
-public interface TaskView extends Observer {
-	public void addTaskEventListener(TaskEventListener l);
-	public void removeTaskEventListener(TaskEventListener l);
+public interface TaskEventListener {
+	public void tasksChanged(TaskEvent e);
 }
