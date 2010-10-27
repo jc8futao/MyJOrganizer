@@ -24,11 +24,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import net.sourceforge.myjorganizer.data.Task;
 import net.sourceforge.myjorganizer.gui.MyJOrganizerApp;
 import net.sourceforge.myjorganizer.gui.task.controller.TaskController;
 import net.sourceforge.myjorganizer.gui.task.view.TaskSourceView;
@@ -91,6 +93,9 @@ public class MyJOrganizerController {
 				
 				TaskCreatingVisitor tcv = new TaskCreatingVisitor();
 				tcv.visit(list);
+				ArrayList<Task> tasks = tcv.getVisitedTasks();
+				
+				taskController.getTaskSetModel().addMany(tasks);
 				
 			} catch (FileNotFoundException e) {
 				statusBar.setText(errorMessage = _("FILE_NOT_FOUND"));
