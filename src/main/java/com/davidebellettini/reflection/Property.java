@@ -26,46 +26,46 @@ import java.lang.reflect.Method;
  */
 public class Property {
 
-	private Method getter;
-	private Method setter;
-	private String name;
+    private Method getter;
+    private Method setter;
+    private String name;
 
-	public Property() {
-	}
+    public Property() {
+    }
 
-	public Method getGetter() {
-		return this.getter;
-	}
+    public Method getGetter() {
+        return this.getter;
+    }
 
-	public Method getSetter() {
-		return this.setter;
-	}
+    public Method getSetter() {
+        return this.setter;
+    }
 
-	public void setGetter(Method getter) {
-		this.getter = getter;
-	}
+    public void setGetter(Method getter) {
+        this.getter = getter;
+    }
 
-	public void setSetter(Method setter) {
-		this.setter = setter;
-	}
+    public void setSetter(Method setter) {
+        this.setter = setter;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public Class<?> getType() {
-		return getGetter().getReturnType();
-	}
+    public Class<?> getType() {
+        return getGetter().getReturnType();
+    }
 
-	public boolean isReadable() {
-		return getGetter() != null;
-	}
+    public boolean isReadable() {
+        return getGetter() != null;
+    }
 
-	public boolean isWritable() {
-		return getSetter() != null;
-	}
+    public boolean isWritable() {
+        return getSetter() != null;
+    }
 }

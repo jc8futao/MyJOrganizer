@@ -8,6 +8,10 @@
 	<name>MyJOrganizer</name>
 	<description>Simple Swing-Base Personal Information Management</description>
 	<url>http://myjorganizer.sourceforge.net/</url>
+	<issueManagement>
+		<system>Trac</system>
+		<url>http://sourceforge.net/apps/trac/myjorganizer/</url>
+	</issueManagement>
 	<inceptionYear>2010</inceptionYear>
 	<licenses>
 		<license>
@@ -86,6 +90,7 @@
 						</goals>
 						<configuration>
 							<!-- options for JTB and JavaCC go here -->
+							<javadocFriendlyComments>true</javadocFriendlyComments>
 						</configuration>
 					</execution>
 				</executions>
@@ -245,8 +250,18 @@
 	<reporting>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.7</version>
+			</plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>javacc-maven-plugin</artifactId>
+				<version>2.6</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.6</version>
 			</plugin>
 		</plugins>

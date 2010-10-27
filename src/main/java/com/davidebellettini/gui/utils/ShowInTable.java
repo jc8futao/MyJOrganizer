@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MyJOrganizer.
  *
  * MyJOrganizer is free software: you can redistribute it and/or modify
@@ -22,10 +22,37 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Valid only on getter methods
+ */
 @Target(ElementType.METHOD)
+/**
+ * Read at runtime
+ */
 @Retention(RetentionPolicy.RUNTIME)
+/**
+ * Annotation for using with GenericTableModel
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ */
 public @interface ShowInTable {
-	int position() default Integer.MAX_VALUE;
-	String name() default "";
-	boolean editable() default true;
+    /**
+     * Used for sorting columns
+     * 
+     * @return
+     */
+    int position() default Integer.MAX_VALUE;
+
+    /**
+     * Overrides guessed column name
+     * 
+     * @return
+     */
+    String name() default "";
+
+    /**
+     * Tells if the cell can be written
+     * 
+     * @return
+     */
+    boolean editable() default true;
 }

@@ -35,6 +35,8 @@ import net.sourceforge.myjorganizer.gui.task.model.TaskEvent;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskTableModel;
+import net.sourceforge.myjorganizer.gui.task.view.table.TaskStatusComboBoxEditor;
+import net.sourceforge.myjorganizer.gui.task.view.table.TaskStatusComboBoxRenderer;
 
 public class TaskTableView extends AbstractTaskView {
 

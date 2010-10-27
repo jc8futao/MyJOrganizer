@@ -15,7 +15,7 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.gui.task.view;
+package net.sourceforge.myjorganizer.gui.task.view.table;
 
 import java.awt.Component;
 

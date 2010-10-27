@@ -17,18 +17,25 @@
 
 package net.sourceforge.myjorganizer.gui.task.view;
 
-import javax.swing.DefaultCellEditor;
-import javax.swing.JComboBox;
+import java.awt.Component;
 
-import net.sourceforge.myjorganizer.data.TaskStatus;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
-public class TaskStatusComboBoxEditor extends DefaultCellEditor {
+public class TitledJList extends JPanel {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2650011890512281580L;
+	private static final long serialVersionUID = 3783337175277683000L;
 
-	public TaskStatusComboBoxEditor(TaskStatus[] items) {
-		super(new JComboBox(items));
+	public TitledJList(JLabel title, JList list) {
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		title.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		add(title);
+		add(new JScrollPane(list));
 	}
 }

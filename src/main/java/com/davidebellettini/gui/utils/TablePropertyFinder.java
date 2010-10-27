@@ -25,73 +25,73 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 public class TablePropertyFinder {
-	public static TableProperty[] find(Class<?> type) {
-		HashMap<String, Method> getters = new HashMap<String, Method>();
-		HashMap<String, Method> setters = new HashMap<String, Method>();
+    public static TableProperty[] find(Class<?> type) {
+        HashMap<String, Method> getters = new HashMap<String, Method>();
+        HashMap<String, Method> setters = new HashMap<String, Method>();
 
-		HashMap<String, HashMap<String, Method>> prefixes = new HashMap<String, HashMap<String, Method>>();
+        HashMap<String, HashMap<String, Method>> prefixes = new HashMap<String, HashMap<String, Method>>();
 
-		prefixes.put("is", getters);
-		prefixes.put("get", getters);
-		prefixes.put("set", setters);
+        prefixes.put("is", getters);
+        prefixes.put("get", getters);
+        prefixes.put("set", setters);
 
-		ArrayList<TableProperty> properties = new ArrayList<TableProperty>();
+        ArrayList<TableProperty> properties = new ArrayList<TableProperty>();
 
-		for (Method method : type.getMethods()) {
-			String methodName = method.getName();
+        for (Method method : type.getMethods()) {
+            String methodName = method.getName();
 
-			if (method.getDeclaringClass() != Object.class) {
-				for (String prefix : prefixes.keySet()) {
-					if (methodName.startsWith(prefix)) {
-						prefixes.get(prefix).put(
-								methodName.substring(prefix.length()), method);
-						break;
-					}
-				}
-			}
-		}
+            if (method.getDeclaringClass() != Object.class) {
+                for (String prefix : prefixes.keySet()) {
+                    if (methodName.startsWith(prefix)) {
+                        prefixes.get(prefix).put(
+                                methodName.substring(prefix.length()), method);
+                        break;
+                    }
+                }
+            }
+        }
 
-		for (Entry<String, Method> entry : getters.entrySet()) {
-			Method getter = entry.getValue();
-			ShowInTable displayAnnotation = getter
-					.getAnnotation(ShowInTable.class);
+        for (Entry<String, Method> entry : getters.entrySet()) {
+            Method getter = entry.getValue();
+            ShowInTable displayAnnotation = getter
+                    .getAnnotation(ShowInTable.class);
 
-			if (displayAnnotation != null
-					&& getter.getReturnType() != Void.class) {
-				TableProperty property = new TableProperty();
-				property.setGetter(getter);
+            if (displayAnnotation != null
+                    && getter.getReturnType() != Void.class) {
+                TableProperty property = new TableProperty();
+                property.setGetter(getter);
 
-				if (displayAnnotation.name().equals("")) {
-					property.setName(entry.getKey());
-				} else {
-					property.setName(displayAnnotation.name());
-				}
+                if (displayAnnotation.name().equals("")) {
+                    property.setName(entry.getKey());
+                } else {
+                    property.setName(displayAnnotation.name());
+                }
 
-				property.setPosition(displayAnnotation.position());
+                property.setPosition(displayAnnotation.position());
 
-				if (displayAnnotation.editable()) {
-					Method setter = setters.get(entry.getKey());
+                if (displayAnnotation.editable()) {
+                    Method setter = setters.get(entry.getKey());
 
-					if (setter != null
-							&& setter.getParameterTypes().length == 1) {
-						property.setSetter(setter);
-					}
-				}
+                    if (setter != null
+                            && setter.getParameterTypes().length == 1) {
+                        property.setSetter(setter);
+                    }
+                }
 
-				properties.add(property);
-			}
-		}
+                properties.add(property);
+            }
+        }
 
-		TableProperty[] propertyArray = new TableProperty[0];
-		propertyArray = properties.toArray(propertyArray);
+        TableProperty[] propertyArray = new TableProperty[0];
+        propertyArray = properties.toArray(propertyArray);
 
-		Arrays.sort(propertyArray, new Comparator<TableProperty>() {
-			@Override
-			public int compare(TableProperty o1, TableProperty o2) {
-				return o1.getPosition() - o2.getPosition();
-			}
-		});
+        Arrays.sort(propertyArray, new Comparator<TableProperty>() {
+            @Override
+            public int compare(TableProperty o1, TableProperty o2) {
+                return o1.getPosition() - o2.getPosition();
+            }
+        });
 
-		return propertyArray;
-	}
+        return propertyArray;
+    }
 }

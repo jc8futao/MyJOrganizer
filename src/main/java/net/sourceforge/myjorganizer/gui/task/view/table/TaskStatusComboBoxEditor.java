@@ -15,24 +15,20 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.davidebellettini.gui.utils;
+package net.sourceforge.myjorganizer.gui.task.view.table;
 
-import com.davidebellettini.reflection.Property;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 
-/**
- * Class representing "reflected" Table Property
- * 
- * @author Davide Bellettini <dbellettini@users.sourceforge.net>
- */
-public class TableProperty extends Property {
+import net.sourceforge.myjorganizer.data.TaskStatus;
 
-    private int position;
+public class TaskStatusComboBoxEditor extends DefaultCellEditor {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2650011890512281580L;
 
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
-    public int getPosition() {
-        return this.position;
-    }
+	public TaskStatusComboBoxEditor(TaskStatus[] items) {
+		super(new JComboBox(items));
+	}
 }

@@ -22,61 +22,61 @@ import java.util.HashMap;
 import javax.swing.table.AbstractTableModel;
 
 public abstract class GenericTableModel<T> extends AbstractTableModel {
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 8213634086228585295L;
-	private static HashMap<Class<?>, Class<?>> conversionTypes = new HashMap<Class<?>, Class<?>>();
-	
-	static {
-		conversionTypes.put(Integer.TYPE, Integer.class);
-		conversionTypes.put(Double.TYPE, Double.class);
-		conversionTypes.put(Boolean.TYPE, Boolean.class);
-		conversionTypes.put(Float.TYPE, Float.class);
-	}
-	
-	private static Class<?> convertToNonPrimitive(Class<?> type) {
-		Class<?> converted = conversionTypes.get(type);
-		
-		if(converted != null)
-			return converted;
-		
-		return type;
-	}
+    private static final long serialVersionUID = 8213634086228585295L;
+    private static HashMap<Class<?>, Class<?>> conversionTypes = new HashMap<Class<?>, Class<?>>();
 
-	private TableProperty[] properties;
+    static {
+        conversionTypes.put(Integer.TYPE, Integer.class);
+        conversionTypes.put(Double.TYPE, Double.class);
+        conversionTypes.put(Boolean.TYPE, Boolean.class);
+        conversionTypes.put(Float.TYPE, Float.class);
+    }
 
-	public GenericTableModel(Class<? extends T> type) {
-		properties = TablePropertyFinder.find(type);
-	}
+    private static Class<?> convertToNonPrimitive(Class<?> type) {
+        Class<?> converted = conversionTypes.get(type);
 
-	@Override
-	public int getColumnCount() {
-		return properties.length;
-	}
+        if (converted != null)
+            return converted;
 
-	@Override
-	public String getColumnName(int columnIndex) {
-		return properties[columnIndex].getName();
-	}
+        return type;
+    }
 
-	@Override
-	public Class<?> getColumnClass(int columnIndex) {
-		return convertToNonPrimitive(properties[columnIndex].getType());
-	}
+    private TableProperty[] properties;
 
-	@Override
-	public boolean isCellEditable(int rowIndex, int columnIndex) {
-		return properties[columnIndex].isWritable();
-	}
-	
-	public abstract T getRowData(int rowIndex);
+    public GenericTableModel(Class<? extends T> type) {
+        properties = TablePropertyFinder.find(type);
+    }
 
-	protected TableProperty[] getProperties() {
-		return properties;
-	}
+    @Override
+    public int getColumnCount() {
+        return properties.length;
+    }
 
-	protected TableProperty getProperty(int index) {
-		return properties[index];
-	}
+    @Override
+    public String getColumnName(int columnIndex) {
+        return properties[columnIndex].getName();
+    }
+
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        return convertToNonPrimitive(properties[columnIndex].getType());
+    }
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return properties[columnIndex].isWritable();
+    }
+
+    public abstract T getRowData(int rowIndex);
+
+    protected TableProperty[] getProperties() {
+        return properties;
+    }
+
+    protected TableProperty getProperty(int index) {
+        return properties[index];
+    }
 }

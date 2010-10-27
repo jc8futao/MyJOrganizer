@@ -17,17 +17,19 @@
 
 package net.sourceforge.myjorganizer.gui.task.view;
 
+import static net.sourceforge.myjorganizer.i18n.Translator._;
+
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Map.Entry;
 
+import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JScrollPane;
 
 import net.sourceforge.myjorganizer.data.Priority;
 import net.sourceforge.myjorganizer.data.Task;
@@ -53,7 +55,9 @@ public class TaskFourQuadrantsView extends AbstractTaskView implements Observer 
 			lists.put(priority, currentList);
 			listData.put(priority, new ArrayList<Task>());
 
-			add(new JScrollPane(currentList));
+			String title = _((priority.isUrgent() ? "" : "NOT_") + "URGENT_"
+					+ (priority.isImportant() ? "" : "NOT_") + "IMPORTANT");
+			add(new TitledJList(new JLabel(title), currentList));
 		}
 	}
 
