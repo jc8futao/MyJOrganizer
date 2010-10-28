@@ -28,31 +28,31 @@ import net.sourceforge.myjorganizer.gui.task.model.TaskEventListener;
 
 public abstract class AbstractTaskView extends JPanel implements TaskView {
 
-	private static final long serialVersionUID = 983360402903856594L;
+    private static final long serialVersionUID = 983360402903856594L;
 
-	private List<TaskEventListener> listeners = new ArrayList<TaskEventListener>();
+    private List<TaskEventListener> listeners = new ArrayList<TaskEventListener>();
 
-	protected AbstractTaskView(LayoutManager layout) {
-		super(layout);
-	}
+    protected AbstractTaskView(LayoutManager layout) {
+        super(layout);
+    }
 
-	protected AbstractTaskView() {
-		super();
-	}
-	
-	@Override
-	public void addTaskEventListener(TaskEventListener l) {
-		this.listeners.add(l);
-	}
+    protected AbstractTaskView() {
+        super();
+    }
 
-	@Override
-	public void removeTaskEventListener(TaskEventListener l) {
-		this.listeners.remove(l);
-	}
+    @Override
+    public void addTaskEventListener(TaskEventListener l) {
+        this.listeners.add(l);
+    }
 
-	protected synchronized void fireTaskEvent(TaskEvent e) {
-		for (TaskEventListener l : this.listeners) {
-			l.tasksChanged(e);
-		}
-	}
+    @Override
+    public void removeTaskEventListener(TaskEventListener l) {
+        this.listeners.remove(l);
+    }
+
+    protected synchronized void fireTaskEvent(TaskEvent e) {
+        for (TaskEventListener l : this.listeners) {
+            l.tasksChanged(e);
+        }
+    }
 }

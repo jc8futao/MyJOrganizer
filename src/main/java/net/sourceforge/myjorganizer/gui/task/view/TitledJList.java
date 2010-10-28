@@ -26,16 +26,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 public class TitledJList extends JPanel {
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 3783337175277683000L;
+    private static final long serialVersionUID = 3783337175277683000L;
 
-	public TitledJList(JLabel title, JList list) {
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		title.setAlignmentX(Component.CENTER_ALIGNMENT);
+    public TitledJList(JLabel title, JList list) {
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		add(title);
-		add(new JScrollPane(list));
-	}
+        add(title);
+        add(new JScrollPane(list));
+    }
 }

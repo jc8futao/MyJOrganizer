@@ -29,34 +29,34 @@ import net.sourceforge.myjorganizer.parser.TaskSourceFormatter;
 
 public class TaskSourceView extends AbstractTaskView implements Observer {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -1394543402648078273L;
-	private JTextArea textArea = new JTextArea();
+    private static final long serialVersionUID = -1394543402648078273L;
+    private JTextArea textArea = new JTextArea();
 
-	public TaskSourceView() {
-		super(new GridLayout(1, 1));
-		this.add(new JScrollPane(textArea));
-		textArea.setEditable(false);
-	}
+    public TaskSourceView() {
+        super(new GridLayout(1, 1));
+        this.add(new JScrollPane(textArea));
+        textArea.setEditable(false);
+    }
 
-	@Override
-	public void update(Observable o, Object arg) {
-		textArea.setText(formatSource((TaskSetModel) o));
-	}
+    @Override
+    public void update(Observable o, Object arg) {
+        textArea.setText(formatSource((TaskSetModel) o));
+    }
 
-	@Override
-	public Observer getTaskSetModelObserver() {
-		return this;
-	}
+    @Override
+    public Observer getTaskSetModelObserver() {
+        return this;
+    }
 
-	@Override
-	public Observer getTaskStatusModelObserver() {
-		return null;
-	}
+    @Override
+    public Observer getTaskStatusModelObserver() {
+        return null;
+    }
 
-	public static String formatSource(TaskSetModel model) {
-		return TaskSourceFormatter.formatSource(model.getList());
-	}
+    public static String formatSource(TaskSetModel model) {
+        return TaskSourceFormatter.formatSource(model.getList());
+    }
 }

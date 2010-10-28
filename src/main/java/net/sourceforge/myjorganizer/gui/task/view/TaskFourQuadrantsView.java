@@ -37,54 +37,54 @@ import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 
 public class TaskFourQuadrantsView extends AbstractTaskView implements Observer {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1944351748661553463L;
-	HashMap<Priority, JList> lists = new HashMap<Priority, JList>();
-	HashMap<Priority, List<Task>> listData = new HashMap<Priority, List<Task>>();
+    private static final long serialVersionUID = 1944351748661553463L;
+    HashMap<Priority, JList> lists = new HashMap<Priority, JList>();
+    HashMap<Priority, List<Task>> listData = new HashMap<Priority, List<Task>>();
 
-	public TaskFourQuadrantsView() {
-		Collection<Priority> priorities = Priority.getAll();
+    public TaskFourQuadrantsView() {
+        Collection<Priority> priorities = Priority.getAll();
 
-		int cols = priorities.size() / 2 + priorities.size() % 2;
-		setLayout(new GridLayout(cols, 2));
+        int cols = priorities.size() / 2 + priorities.size() % 2;
+        setLayout(new GridLayout(cols, 2));
 
-		for (Priority priority : priorities) {
-			JList currentList = new JList();
-			lists.put(priority, currentList);
-			listData.put(priority, new ArrayList<Task>());
+        for (Priority priority : priorities) {
+            JList currentList = new JList();
+            lists.put(priority, currentList);
+            listData.put(priority, new ArrayList<Task>());
 
-			String title = _((priority.isUrgent() ? "" : "NOT_") + "URGENT_"
-					+ (priority.isImportant() ? "" : "NOT_") + "IMPORTANT");
-			add(new TitledJList(new JLabel(title), currentList));
-		}
-	}
+            String title = _((priority.isUrgent() ? "" : "NOT_") + "URGENT_"
+                    + (priority.isImportant() ? "" : "NOT_") + "IMPORTANT");
+            add(new TitledJList(new JLabel(title), currentList));
+        }
+    }
 
-	@Override
-	public void update(Observable o, Object arg) {
-		TaskSetModel model = (TaskSetModel) o;
+    @Override
+    public void update(Observable o, Object arg) {
+        TaskSetModel model = (TaskSetModel) o;
 
-		for (List<Task> tasks : listData.values()) {
-			tasks.clear();
-		}
+        for (List<Task> tasks : listData.values()) {
+            tasks.clear();
+        }
 
-		for (Task task : model.getList()) {
-			listData.get(task.getPriority()).add(task);
-		}
+        for (Task task : model.getList()) {
+            listData.get(task.getPriority()).add(task);
+        }
 
-		for (Entry<Priority, List<Task>> entry : listData.entrySet()) {
-			lists.get(entry.getKey()).setListData(entry.getValue().toArray());
-		}
-	}
+        for (Entry<Priority, List<Task>> entry : listData.entrySet()) {
+            lists.get(entry.getKey()).setListData(entry.getValue().toArray());
+        }
+    }
 
-	@Override
-	public Observer getTaskSetModelObserver() {
-		return this;
-	}
+    @Override
+    public Observer getTaskSetModelObserver() {
+        return this;
+    }
 
-	@Override
-	public Observer getTaskStatusModelObserver() {
-		return null;
-	}
+    @Override
+    public Observer getTaskStatusModelObserver() {
+        return null;
+    }
 }

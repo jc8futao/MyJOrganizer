@@ -34,47 +34,47 @@ import org.jfree.data.general.DefaultPieDataset;
 // TODO refactoring
 public class TaskStatCompletionView extends AbstractTaskSubView {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -5013464742592880984L;
-	/**
+    private static final long serialVersionUID = -5013464742592880984L;
+    /**
 	 * 
 	 */
-	private DefaultPieDataset completionDataSet = new DefaultPieDataset();
+    private DefaultPieDataset completionDataSet = new DefaultPieDataset();
 
-	public TaskStatCompletionView() {
-		super(new GridLayout(1, 1));
+    public TaskStatCompletionView() {
+        super(new GridLayout(1, 1));
 
-		add(createCompletionPanel());
-	}
+        add(createCompletionPanel());
+    }
 
-	@Override
-	public void update(Observable o, Object arg) {
-		TaskSetModel model = (TaskSetModel) o;
+    @Override
+    public void update(Observable o, Object arg) {
+        TaskSetModel model = (TaskSetModel) o;
 
-		int complete = 0;
-		int open = 0;
+        int complete = 0;
+        int open = 0;
 
-		for (Task task : model.getList()) {
-			if (task.getCompletion() == 100) {
-				complete++;
-			} else {
-				open++;
-			}
-		}
+        for (Task task : model.getList()) {
+            if (task.getCompletion() == 100) {
+                complete++;
+            } else {
+                open++;
+            }
+        }
 
-		completionDataSet.setValue(_("TASK_COMPLETED"), complete);
-		completionDataSet.setValue(_("TASK_NOTCOMPLETED"), open);
-	}
+        completionDataSet.setValue(_("TASK_COMPLETED"), complete);
+        completionDataSet.setValue(_("TASK_NOTCOMPLETED"), open);
+    }
 
-	/**
-	 * Creates a panel for the demo (used by SuperDemo.java).
-	 * 
-	 * @return A panel.
-	 */
-	protected JPanel createCompletionPanel() {
-		JFreeChart chart = createChart(completionDataSet, _("TASK_COMPLETION"));
-		return new ChartPanel(chart);
-	}
+    /**
+     * Creates a panel for the demo (used by SuperDemo.java).
+     * 
+     * @return A panel.
+     */
+    protected JPanel createCompletionPanel() {
+        JFreeChart chart = createChart(completionDataSet, _("TASK_COMPLETION"));
+        return new ChartPanel(chart);
+    }
 }

@@ -25,42 +25,43 @@ import java.util.Observer;
 
 import javax.swing.JTabbedPane;
 
-public class TaskStatView extends AbstractTaskView implements TaskView, Observer {
+public class TaskStatView extends AbstractTaskView implements TaskView,
+        Observer {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -2541380650705637543L;
+    private static final long serialVersionUID = -2541380650705637543L;
 
-	private JTabbedPane tabbedPane = new JTabbedPane();
-	private AbstractTaskSubView completionView = new TaskStatCompletionView();
-	private TaskStatPriorityView priorityView = new TaskStatPriorityView();
+    private JTabbedPane tabbedPane = new JTabbedPane();
+    private AbstractTaskSubView completionView = new TaskStatCompletionView();
+    private TaskStatPriorityView priorityView = new TaskStatPriorityView();
 
-	public TaskStatView() {
-		super(new GridLayout(1, 1));
+    public TaskStatView() {
+        super(new GridLayout(1, 1));
 
-		tabbedPane.add(completionView);
-		tabbedPane.add(priorityView);
+        tabbedPane.add(completionView);
+        tabbedPane.add(priorityView);
 
-		tabbedPane.setTitleAt(0, _("TASK_COMPLETION"));
-		tabbedPane.setTitleAt(1, _("TASK_PRIORITY"));
+        tabbedPane.setTitleAt(0, _("TASK_COMPLETION"));
+        tabbedPane.setTitleAt(1, _("TASK_PRIORITY"));
 
-		this.add(tabbedPane);
-	}
+        this.add(tabbedPane);
+    }
 
-	@Override
-	public void update(Observable o, Object arg) {
-		completionView.update(o, arg);
-		priorityView.update(o, arg);
-	}
+    @Override
+    public void update(Observable o, Object arg) {
+        completionView.update(o, arg);
+        priorityView.update(o, arg);
+    }
 
-	@Override
-	public Observer getTaskSetModelObserver() {
-		return this;
-	}
+    @Override
+    public Observer getTaskSetModelObserver() {
+        return this;
+    }
 
-	@Override
-	public Observer getTaskStatusModelObserver() {
-		return null;
-	}
+    @Override
+    public Observer getTaskStatusModelObserver() {
+        return null;
+    }
 }

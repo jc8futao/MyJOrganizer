@@ -23,12 +23,12 @@ import javax.swing.JComboBox;
 import net.sourceforge.myjorganizer.data.TaskStatus;
 
 public class TaskStatusComboBoxEditor extends DefaultCellEditor {
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 2650011890512281580L;
+    private static final long serialVersionUID = 2650011890512281580L;
 
-	public TaskStatusComboBoxEditor(TaskStatus[] items) {
-		super(new JComboBox(items));
-	}
+    public TaskStatusComboBoxEditor(TaskStatus[] items) {
+        super(new JComboBox(items));
+    }
 }

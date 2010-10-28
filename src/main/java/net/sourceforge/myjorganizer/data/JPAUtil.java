@@ -23,21 +23,21 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public class JPAUtil {
-	private static DatabaseLauncher databaseLauncher;
+    private static DatabaseLauncher databaseLauncher;
 
-	static {
-		databaseLauncher = new DummyDatabaseLauncher();
-	}
+    static {
+        databaseLauncher = new DummyDatabaseLauncher();
+    }
 
-	public static EntityManagerFactory createEntityManagerFactory() {
-		return Persistence.createEntityManagerFactory("myjorganizer");
-	}
+    public static EntityManagerFactory createEntityManagerFactory() {
+        return Persistence.createEntityManagerFactory("myjorganizer");
+    }
 
-	public static void startServers() throws SQLException {
-		databaseLauncher.start();
-	}
+    public static void startServers() throws SQLException {
+        databaseLauncher.start();
+    }
 
-	public static void shutdownServers() {
-		databaseLauncher.stop();
-	}
+    public static void shutdownServers() {
+        databaseLauncher.stop();
+    }
 }

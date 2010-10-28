@@ -25,55 +25,55 @@ import net.sourceforge.myjorganizer.data.Task;
 import com.davidebellettini.gui.utils.GenericTableModel;
 import com.davidebellettini.gui.utils.TableProperty;
 
-public class TaskTableModel extends GenericTableModel<Task>{
+public class TaskTableModel extends GenericTableModel<Task> {
 
-	private static final long serialVersionUID = -4356614797850225465L;
-	private ArrayList<Task> tasks = new ArrayList<Task>();
-	
-	public TaskTableModel() {
-		super(Task.class);
-	}
+    private static final long serialVersionUID = -4356614797850225465L;
+    private ArrayList<Task> tasks = new ArrayList<Task>();
 
-	@Override
-	public int getRowCount() {
-		return tasks.size();
-	}
+    public TaskTableModel() {
+        super(Task.class);
+    }
 
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		Task t = tasks.get(rowIndex);
-		
-		TableProperty property = getProperty(columnIndex);
-		
-		try {
-			return property.getGetter().invoke(t);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+    @Override
+    public int getRowCount() {
+        return tasks.size();
+    }
 
-	@Override
-	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		Task t = tasks.get(rowIndex);
-		TableProperty property = getProperty(columnIndex);
-		
-		try {
-			property.getSetter().invoke(t, aValue);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		
-		fireTableCellUpdated(rowIndex, columnIndex);
-	}
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        Task t = tasks.get(rowIndex);
 
-	public void setList(Collection<Task> list) {
-		this.tasks = new ArrayList<Task>(list);
-		
-		fireTableDataChanged();
-	}
+        TableProperty property = getProperty(columnIndex);
 
-	@Override
-	public Task getRowData(int rowIndex) {
-		return tasks.get(rowIndex);
-	}
+        try {
+            return property.getGetter().invoke(t);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        Task t = tasks.get(rowIndex);
+        TableProperty property = getProperty(columnIndex);
+
+        try {
+            property.getSetter().invoke(t, aValue);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        fireTableCellUpdated(rowIndex, columnIndex);
+    }
+
+    public void setList(Collection<Task> list) {
+        this.tasks = new ArrayList<Task>(list);
+
+        fireTableDataChanged();
+    }
+
+    @Override
+    public Task getRowData(int rowIndex) {
+        return tasks.get(rowIndex);
+    }
 }

@@ -35,7 +35,8 @@ public abstract class AbstractTaskSubView extends JPanel implements Observer {
     /**
      * Creates a chart.
      * 
-     * @param dataset the dataset.
+     * @param dataset
+     *            the dataset.
      * @return A chart.
      */
     protected static JFreeChart createChart(PieDataset dataset, String title) {

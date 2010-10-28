@@ -34,58 +34,58 @@ import org.jfree.data.general.DefaultPieDataset;
 // TODO refactoring
 public class TaskStatPriorityView extends AbstractTaskSubView {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 9168880772692119068L;
-	private DefaultPieDataset priorityDataSet = new DefaultPieDataset();
+    private static final long serialVersionUID = 9168880772692119068L;
+    private DefaultPieDataset priorityDataSet = new DefaultPieDataset();
 
-	public TaskStatPriorityView() {
-		super(new GridLayout(1, 1));
+    public TaskStatPriorityView() {
+        super(new GridLayout(1, 1));
 
-		this.add(createPriorityPanel());
-	}
+        this.add(createPriorityPanel());
+    }
 
-	@Override
-	public void update(Observable o, Object arg) {
-		TaskSetModel model = (TaskSetModel) o;
+    @Override
+    public void update(Observable o, Object arg) {
+        TaskSetModel model = (TaskSetModel) o;
 
-		int urgentImportant = 0;
-		int notUrgentImportant = 0;
-		int urgentNotImportant = 0;
-		int notUrgentNotImportant = 0;
+        int urgentImportant = 0;
+        int notUrgentImportant = 0;
+        int urgentNotImportant = 0;
+        int notUrgentNotImportant = 0;
 
-		for (Task task : model.getList()) {
-			if (task.isUrgent()) {
-				if (task.isImportant()) {
-					urgentImportant++;
-				} else {
-					urgentNotImportant++;
-				}
-			} else {
-				if (task.isImportant()) {
-					notUrgentImportant++;
-				} else {
-					notUrgentNotImportant++;
-				}
-			}
+        for (Task task : model.getList()) {
+            if (task.isUrgent()) {
+                if (task.isImportant()) {
+                    urgentImportant++;
+                } else {
+                    urgentNotImportant++;
+                }
+            } else {
+                if (task.isImportant()) {
+                    notUrgentImportant++;
+                } else {
+                    notUrgentNotImportant++;
+                }
+            }
 
-		}
+        }
 
-		priorityDataSet.setValue(_("URGENT_IMPORTANT"), urgentImportant);
-		priorityDataSet.setValue(_("NOT_URGENT_IMPORTANT"), notUrgentImportant);
-		priorityDataSet.setValue(_("URGENT_NOT_IMPORTANT"), urgentNotImportant);
-		priorityDataSet.setValue(_("NOT_URGENT_NOT_IMPORTANT"),
-				notUrgentNotImportant);
-	}
+        priorityDataSet.setValue(_("URGENT_IMPORTANT"), urgentImportant);
+        priorityDataSet.setValue(_("NOT_URGENT_IMPORTANT"), notUrgentImportant);
+        priorityDataSet.setValue(_("URGENT_NOT_IMPORTANT"), urgentNotImportant);
+        priorityDataSet.setValue(_("NOT_URGENT_NOT_IMPORTANT"),
+                notUrgentNotImportant);
+    }
 
-	/**
-	 * Creates a panel for the demo (used by SuperDemo.java).
-	 * 
-	 * @return A panel.
-	 */
-	protected JPanel createPriorityPanel() {
-		JFreeChart chart = createChart(priorityDataSet, _("TASK_PRIORITY"));
-		return new ChartPanel(chart);
-	}
+    /**
+     * Creates a panel for the demo (used by SuperDemo.java).
+     * 
+     * @return A panel.
+     */
+    protected JPanel createPriorityPanel() {
+        JFreeChart chart = createChart(priorityDataSet, _("TASK_PRIORITY"));
+        return new ChartPanel(chart);
+    }
 }

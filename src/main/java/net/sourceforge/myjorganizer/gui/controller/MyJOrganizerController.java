@@ -43,93 +43,94 @@ import net.sourceforge.myjorganizer.parser.visitor.TaskCreatingVisitor;
 import org.jdesktop.application.Action;
 
 public class MyJOrganizerController {
-	private MyJOrganizerApp application;
-	private MainView mainView;
-	private TaskController taskController;
+    private MyJOrganizerApp application;
+    private MainView mainView;
+    private TaskController taskController;
 
-	public MyJOrganizerController(MyJOrganizerApp application) {
-		this.application = application;
-		this.mainView = new MainView(application, application.getContext()
-				.getActionMap(this));
+    public MyJOrganizerController(MyJOrganizerApp application) {
+        this.application = application;
+        this.mainView = new MainView(application, application.getContext()
+                .getActionMap(this));
 
-		this.taskController = new TaskController(
-				application.getEntityManager(), mainView.getMainPanel());
-		application.show(mainView);
-	}
+        this.taskController = new TaskController(
+                application.getEntityManager(), mainView.getMainPanel());
+        application.show(mainView);
+    }
 
-	public MyJOrganizerApp getApplication() {
-		return this.application;
-	}
+    public MyJOrganizerApp getApplication() {
+        return this.application;
+    }
 
-	@Action
-	public void exit() {
-		getApplication().exit();
-	}
+    @Action
+    public void exit() {
+        getApplication().exit();
+    }
 
-	@Action
-	public void newTask() {
-		new AddTaskFrame().setVisible(true);
-	}
+    @Action
+    public void newTask() {
+        new AddTaskFrame().setVisible(true);
+    }
 
-	@Action
-	public void loadSampleData() {
-		taskController.loadSampledata();
-	}
+    @Action
+    public void loadSampleData() {
+        taskController.loadSampledata();
+    }
 
-	@Action
-	public void importFile() {
-		JFileChooser chooser = new JFileChooser();
-		int option = chooser.showOpenDialog(mainView.getFrame());
-		if (option == JFileChooser.APPROVE_OPTION) {
-			File file = chooser.getSelectedFile();
+    @Action
+    public void importFile() {
+        JFileChooser chooser = new JFileChooser();
+        int option = chooser.showOpenDialog(mainView.getFrame());
+        if (option == JFileChooser.APPROVE_OPTION) {
+            File file = chooser.getSelectedFile();
 
-			JLabel statusBar = (JLabel) mainView.getStatusBar();
+            JLabel statusBar = (JLabel) mainView.getStatusBar();
 
-			String errorMessage = null;
+            String errorMessage = null;
 
-			try {
-				TaskListParser parser = new TaskListParser(new FileReader(file));
-				TaskList list = parser.TaskList();
-				
-				TaskCreatingVisitor tcv = new TaskCreatingVisitor();
-				tcv.visit(list);
-				ArrayList<Task> tasks = tcv.getVisitedTasks();
-				
-				taskController.getTaskSetModel().addMany(tasks);
-				
-			} catch (FileNotFoundException e) {
-				statusBar.setText(errorMessage = _("FILE_NOT_FOUND"));
-				errorMessage += "\n" + e.toString();
-			} catch (Throwable e) {
-				statusBar.setText(errorMessage = _("PARSE_ERROR"));
-				errorMessage += "\n" + e.toString();
-			}
+            try {
+                TaskListParser parser = new TaskListParser(new FileReader(file));
+                TaskList list = parser.TaskList();
 
-			if (errorMessage != null) {
-				JOptionPane.showMessageDialog(null, errorMessage, "Error",
-						JOptionPane.ERROR_MESSAGE);
-			}
-		}
-	}
+                TaskCreatingVisitor tcv = new TaskCreatingVisitor();
+                tcv.visit(list);
+                ArrayList<Task> tasks = tcv.getVisitedTasks();
 
-	@Action
-	public void exportFile() {
-		JFileChooser chooser = new JFileChooser();
-		
-		int option = chooser.showSaveDialog(mainView.getFrame());
+                taskController.getTaskSetModel().addMany(tasks);
 
-		if (option == JFileChooser.APPROVE_OPTION) {
-			File file = chooser.getSelectedFile();
-			
-			try {
-				FileWriter fw = new FileWriter(file);
-				fw.write(TaskSourceView.formatSource(taskController.getTaskSetModel()));
-				fw.close();
-			} catch (IOException e) {
-				String errorMessage = _("IO_EXCEPTION");
-				JOptionPane.showMessageDialog(null, errorMessage, "Error",
-						JOptionPane.ERROR_MESSAGE);
-			}
-		}
-	}
+            } catch (FileNotFoundException e) {
+                statusBar.setText(errorMessage = _("FILE_NOT_FOUND"));
+                errorMessage += "\n" + e.toString();
+            } catch (Throwable e) {
+                statusBar.setText(errorMessage = _("PARSE_ERROR"));
+                errorMessage += "\n" + e.toString();
+            }
+
+            if (errorMessage != null) {
+                JOptionPane.showMessageDialog(null, errorMessage, "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    @Action
+    public void exportFile() {
+        JFileChooser chooser = new JFileChooser();
+
+        int option = chooser.showSaveDialog(mainView.getFrame());
+
+        if (option == JFileChooser.APPROVE_OPTION) {
+            File file = chooser.getSelectedFile();
+
+            try {
+                FileWriter fw = new FileWriter(file);
+                fw.write(TaskSourceView.formatSource(taskController
+                        .getTaskSetModel()));
+                fw.close();
+            } catch (IOException e) {
+                String errorMessage = _("IO_EXCEPTION");
+                JOptionPane.showMessageDialog(null, errorMessage, "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
 }

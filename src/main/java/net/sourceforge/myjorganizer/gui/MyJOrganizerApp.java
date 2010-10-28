@@ -34,72 +34,71 @@ import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
 
 public class MyJOrganizerApp extends SingleFrameApplication {
-	public final static boolean DEBUG = true;
+    public final static boolean DEBUG = true;
 
-	private String language;
-	private EntityManagerFactory emFactory;
-	private EntityManager entityManager;
+    private String language;
+    private EntityManagerFactory emFactory;
+    private EntityManager entityManager;
 
-	public MyJOrganizerApp() {
-		getContext()
-				.getResourceManager()
-				.setApplicationBundleNames(
-						Arrays
-								.asList("net.sourceforge.myjorganizer.gui.resources.MyJOrganizerApp"));
-	}
+    public MyJOrganizerApp() {
+        getContext()
+                .getResourceManager()
+                .setApplicationBundleNames(
+                        Arrays.asList("net.sourceforge.myjorganizer.gui.resources.MyJOrganizerApp"));
+    }
 
-	public static void main(String args[]) {
-		launch(MyJOrganizerApp.class, args);
-	}
+    public static void main(String args[]) {
+        launch(MyJOrganizerApp.class, args);
+    }
 
-	public static MyJOrganizerApp getApplication() {
-		return Application.getInstance(MyJOrganizerApp.class);
-	}
+    public static MyJOrganizerApp getApplication() {
+        return Application.getInstance(MyJOrganizerApp.class);
+    }
 
-	public EntityManagerFactory getEntityManagerFactory() {
-		return emFactory;
-	}
-	
-	public String getLanguage() {
-		return this.language;
-	}
+    public EntityManagerFactory getEntityManagerFactory() {
+        return emFactory;
+    }
 
-	public EntityManager getEntityManager() {
-		return entityManager;
-	}
+    public String getLanguage() {
+        return this.language;
+    }
 
-	@Override
-	protected void startup() {
-		registerExitListener();
-	
-		try {
-			JPAUtil.startServers();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		this.emFactory = JPAUtil.createEntityManagerFactory();
-		this.entityManager = emFactory.createEntityManager();
-		
-		new MyJOrganizerController(this);
-	}
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
 
-	private void registerExitListener() {
-		ExitListener maybeExit = new ExitListener() {
-			@Override
-			public boolean canExit(EventObject e) {
-				int option = JOptionPane.showConfirmDialog(null,
-						_("REALLY_EXIT"), _("EXIT"), JOptionPane.YES_NO_OPTION);
-				return option == JOptionPane.YES_OPTION;
-			}
-	
-			@Override
-			public void willExit(EventObject e) {
-				entityManager.close();
-				emFactory.close();
-				JPAUtil.shutdownServers();
-			}
-		};
-		addExitListener(maybeExit);
-	}
+    @Override
+    protected void startup() {
+        registerExitListener();
+
+        try {
+            JPAUtil.startServers();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        this.emFactory = JPAUtil.createEntityManagerFactory();
+        this.entityManager = emFactory.createEntityManager();
+
+        new MyJOrganizerController(this);
+    }
+
+    private void registerExitListener() {
+        ExitListener maybeExit = new ExitListener() {
+            @Override
+            public boolean canExit(EventObject e) {
+                int option = JOptionPane.showConfirmDialog(null,
+                        _("REALLY_EXIT"), _("EXIT"), JOptionPane.YES_NO_OPTION);
+                return option == JOptionPane.YES_OPTION;
+            }
+
+            @Override
+            public void willExit(EventObject e) {
+                entityManager.close();
+                emFactory.close();
+                JPAUtil.shutdownServers();
+            }
+        };
+        addExitListener(maybeExit);
+    }
 }

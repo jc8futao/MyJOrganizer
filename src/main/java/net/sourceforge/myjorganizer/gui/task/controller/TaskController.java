@@ -37,68 +37,68 @@ import net.sourceforge.myjorganizer.gui.task.view.TaskStatView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskTableView;
 
 public class TaskController implements TaskEventListener {
-	private TaskSetModel taskSetModel;
-	private TaskTableView jTableView;
-	private TaskSourceView sourceView;
-	private TaskFourQuadrantsView fourQuadrantsView;
-	private TaskStatView statView;
-	private JTabbedPane pane;
-	private TaskStatusModel taskStatusModel;
+    private TaskSetModel taskSetModel;
+    private TaskTableView jTableView;
+    private TaskSourceView sourceView;
+    private TaskFourQuadrantsView fourQuadrantsView;
+    private TaskStatView statView;
+    private JTabbedPane pane;
+    private TaskStatusModel taskStatusModel;
 
-	public TaskController(EntityManager entityManager, JTabbedPane pane) {
-		this.taskSetModel = new TaskSetModel(entityManager);
-		this.taskStatusModel = new TaskStatusModel(entityManager);
-		this.pane = pane;
+    public TaskController(EntityManager entityManager, JTabbedPane pane) {
+        this.taskSetModel = new TaskSetModel(entityManager);
+        this.taskStatusModel = new TaskStatusModel(entityManager);
+        this.pane = pane;
 
-		jTableView = new TaskTableView();
-		sourceView = new TaskSourceView();
-		fourQuadrantsView = new TaskFourQuadrantsView();
-		statView = new TaskStatView();
+        jTableView = new TaskTableView();
+        sourceView = new TaskSourceView();
+        fourQuadrantsView = new TaskFourQuadrantsView();
+        statView = new TaskStatView();
 
-		TaskStatus[] taskStatuses = new TaskStatus[0];
-		taskStatuses = taskStatusModel.getList().toArray(taskStatuses);
+        TaskStatus[] taskStatuses = new TaskStatus[0];
+        taskStatuses = taskStatusModel.getList().toArray(taskStatuses);
 
-		addView(sourceView);
-		addView(jTableView);
-		addView(fourQuadrantsView);
-		addView(statView);
+        addView(sourceView);
+        addView(jTableView);
+        addView(fourQuadrantsView);
+        addView(statView);
 
-		int i = 0;
-		pane.setTitleAt(i++, _("TASK_SOURCE"));
-		pane.setTitleAt(i++, _("TASK_LIST"));
-		pane.setTitleAt(i++, _("TASK_QUADRANTS"));
-		pane.setTitleAt(i++, _("TASK_STATS"));
-	}
+        int i = 0;
+        pane.setTitleAt(i++, _("TASK_SOURCE"));
+        pane.setTitleAt(i++, _("TASK_LIST"));
+        pane.setTitleAt(i++, _("TASK_QUADRANTS"));
+        pane.setTitleAt(i++, _("TASK_STATS"));
+    }
 
-	@Override
-	public void tasksChanged(TaskEvent e) {
-		taskSetModel.updateMany(e.getChangedTasks());
-	}
+    @Override
+    public void tasksChanged(TaskEvent e) {
+        taskSetModel.updateMany(e.getChangedTasks());
+    }
 
-	private void addView(AbstractTaskView view) {
-		pane.add(view);
+    private void addView(AbstractTaskView view) {
+        pane.add(view);
 
-		view.addTaskEventListener(this);
+        view.addTaskEventListener(this);
 
-		Observer taskSetModelObserver = view.getTaskSetModelObserver();
-		Observer taskStatusModelObserver = view.getTaskStatusModelObserver();
+        Observer taskSetModelObserver = view.getTaskSetModelObserver();
+        Observer taskStatusModelObserver = view.getTaskStatusModelObserver();
 
-		if (taskSetModelObserver != null) {
-			taskSetModelObserver.update(taskSetModel, null);
-			taskSetModel.addObserver(taskSetModelObserver);
-		}
+        if (taskSetModelObserver != null) {
+            taskSetModelObserver.update(taskSetModel, null);
+            taskSetModel.addObserver(taskSetModelObserver);
+        }
 
-		if (taskStatusModelObserver != null) {
-			taskStatusModelObserver.update(taskStatusModel, null);
-			taskStatusModel.addObserver(taskStatusModelObserver);
-		}
-	}
+        if (taskStatusModelObserver != null) {
+            taskStatusModelObserver.update(taskStatusModel, null);
+            taskStatusModel.addObserver(taskStatusModelObserver);
+        }
+    }
 
-	public void loadSampledata() {
-		SampleData.loadSampleTaskData(taskSetModel);
-	}
+    public void loadSampledata() {
+        SampleData.loadSampleTaskData(taskSetModel);
+    }
 
-	public TaskSetModel getTaskSetModel() {
-		return taskSetModel;
-	}
+    public TaskSetModel getTaskSetModel() {
+        return taskSetModel;
+    }
 }

@@ -43,229 +43,229 @@ import com.davidebellettini.gui.utils.ShowInTable;
 @Table(name = "tasks")
 public class Task {
 
-	private String name;
-	private Date dueDate;
-	private Date startDate;
-	private TaskStatus status;
-	private int id;
-	private int completion;
+    private String name;
+    private Date dueDate;
+    private Date startDate;
+    private TaskStatus status;
+    private int id;
+    private int completion;
 
-	private Priority priority = Priority.factory(false, false);
-	private String description;
-	private String identifier;
-	private Task parent;
+    private Priority priority = Priority.factory(false, false);
+    private String description;
+    private String identifier;
+    private Task parent;
 
-	public Task() {
-	}
+    public Task() {
+    }
 
-	public Task(String name) {
-		this();
+    public Task(String name) {
+        this();
 
-		this.setTitle(name);
-	}
+        this.setTitle(name);
+    }
 
-	public Task(String name, Priority priority) {
-		this(name);
+    public Task(String name, Priority priority) {
+        this(name);
 
-		setPriority(priority);
-	}
+        setPriority(priority);
+    }
 
-	/**
-	 * Sets the name of the task
-	 * 
-	 * @param name
-	 *            of the task
-	 * @return Task (fluent interface)
-	 */
-	public Task setTitle(String name) {
-		this.name = name;
+    /**
+     * Sets the name of the task
+     * 
+     * @param name
+     *            of the task
+     * @return Task (fluent interface)
+     */
+    public Task setTitle(String name) {
+        this.name = name;
 
-		return this;
-	}
+        return this;
+    }
 
-	/**
-	 * Gets the name of the task
-	 * 
-	 * @return name of the task
-	 */
-	@Column(nullable = false)
-	@ShowInTable(position = 2)
-	public String getTitle() {
-		return name;
-	}
+    /**
+     * Gets the name of the task
+     * 
+     * @return name of the task
+     */
+    @Column(nullable = false)
+    @ShowInTable(position = 2)
+    public String getTitle() {
+        return name;
+    }
 
-	/**
-	 * Sets the task's due date
-	 * 
-	 * @param dueDate
-	 * @return Task (fluent interface)
-	 */
-	public Task setDueDate(Date dueDate) {
-		this.dueDate = dueDate;
+    /**
+     * Sets the task's due date
+     * 
+     * @param dueDate
+     * @return Task (fluent interface)
+     */
+    public Task setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
 
-		return this;
-	}
+        return this;
+    }
 
-	/**
-	 * Due date getter
-	 * 
-	 * @return the task's due date
-	 */
-	@Column(name = "due_date")
-	@ShowInTable
-	public Date getDueDate() {
-		return this.dueDate;
-	}
+    /**
+     * Due date getter
+     * 
+     * @return the task's due date
+     */
+    @Column(name = "due_date")
+    @ShowInTable
+    public Date getDueDate() {
+        return this.dueDate;
+    }
 
-	/**
-	 * Sets the task's start date
-	 * 
-	 * @param startDate
-	 * @return the task (fluent interface)
-	 */
-	public Task setStartDate(Date startDate) {
-		this.startDate = startDate;
+    /**
+     * Sets the task's start date
+     * 
+     * @param startDate
+     * @return the task (fluent interface)
+     */
+    public Task setStartDate(Date startDate) {
+        this.startDate = startDate;
 
-		return this;
-	}
+        return this;
+    }
 
-	/**
-	 * Gets the start date
-	 * 
-	 * @return the start date
-	 */
-	@Column(name = "start_date")
-	@ShowInTable
-	public Date getStartDate() {
-		return this.startDate;
-	}
+    /**
+     * Gets the start date
+     * 
+     * @return the start date
+     */
+    @Column(name = "start_date")
+    @ShowInTable
+    public Date getStartDate() {
+        return this.startDate;
+    }
 
-	/**
-	 * Task status setter
-	 * 
-	 * @param status
-	 * @return
-	 */
-	public Task setStatus(TaskStatus status) {
-		this.status = status;
+    /**
+     * Task status setter
+     * 
+     * @param status
+     * @return
+     */
+    public Task setStatus(TaskStatus status) {
+        this.status = status;
 
-		return this;
-	}
+        return this;
+    }
 
-	/**
-	 * Status getter
-	 * 
-	 * @return the task status
-	 */
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@ShowInTable
-	public TaskStatus getStatus() {
-		return status;
-	}
+    /**
+     * Status getter
+     * 
+     * @return the task status
+     */
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ShowInTable
+    public TaskStatus getStatus() {
+        return status;
+    }
 
-	public Task setId(int id) {
-		this.id = id;
+    public Task setId(int id) {
+        this.id = id;
 
-		return this;
-	}
+        return this;
+    }
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@ShowInTable(position = 0, editable = false)
-	public int getId() {
-		return this.id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @ShowInTable(position = 0, editable = false)
+    public int getId() {
+        return this.id;
+    }
 
-	public Task setCompletion(int completion) {
-		if (completion < 0 || completion > 100)
-			throw new IllegalArgumentException(
-					"Completion must be between 0 and 100");
+    public Task setCompletion(int completion) {
+        if (completion < 0 || completion > 100)
+            throw new IllegalArgumentException(
+                    "Completion must be between 0 and 100");
 
-		this.completion = completion;
+        this.completion = completion;
 
-		return this;
-	}
+        return this;
+    }
 
-	/**
-	 * Completion getter
-	 * 
-	 * @return int (0 to 100)
-	 */
-	@Min(value = 0)
-	@Max(value = 100)
-	@ShowInTable(position = 6)
-	public int getCompletion() {
-		return this.completion;
-	}
+    /**
+     * Completion getter
+     * 
+     * @return int (0 to 100)
+     */
+    @Min(value = 0)
+    @Max(value = 100)
+    @ShowInTable(position = 6)
+    public int getCompletion() {
+        return this.completion;
+    }
 
-	@Override
-	public String toString() {
-		return this.getTitle();
-	}
+    @Override
+    public String toString() {
+        return this.getTitle();
+    }
 
-	public Task setPriority(Priority priority) {
-		this.priority = priority;
+    public Task setPriority(Priority priority) {
+        this.priority = priority;
 
-		return this;
-	}
+        return this;
+    }
 
-	@ManyToOne
-	public Priority getPriority() {
-		return this.priority;
-	}
+    @ManyToOne
+    public Priority getPriority() {
+        return this.priority;
+    }
 
-	public Task setDescription(String description) {
-		this.description = description;
+    public Task setDescription(String description) {
+        this.description = description;
 
-		return this;
-	}
+        return this;
+    }
 
-	@ShowInTable(position = 3)
-	public String getDescription() {
-		return this.description;
-	}
+    @ShowInTable(position = 3)
+    public String getDescription() {
+        return this.description;
+    }
 
-	@Column(unique = true)
-	@ShowInTable(position = 1)
-	public String getIdentifier() {
-		if (this.identifier == null && getId() != 0) {
-			this.identifier = "$task" + getId();
-		}
+    @Column(unique = true)
+    @ShowInTable(position = 1)
+    public String getIdentifier() {
+        if (this.identifier == null && getId() != 0) {
+            this.identifier = "$task" + getId();
+        }
 
-		return this.identifier;
-	}
+        return this.identifier;
+    }
 
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
-	}
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
 
-	@Transient
-	@ShowInTable(position = 4)
-	public boolean isUrgent() {
-		return this.getPriority().isUrgent();
-	}
+    @Transient
+    @ShowInTable(position = 4)
+    public boolean isUrgent() {
+        return this.getPriority().isUrgent();
+    }
 
-	public void setUrgent(boolean urgent) {
-		setPriority(Priority.factory(urgent, isImportant()));
+    public void setUrgent(boolean urgent) {
+        setPriority(Priority.factory(urgent, isImportant()));
 
-	}
+    }
 
-	@Transient
-	@ShowInTable(position = 5)
-	public boolean isImportant() {
-		return getPriority().isImportant();
-	}
+    @Transient
+    @ShowInTable(position = 5)
+    public boolean isImportant() {
+        return getPriority().isImportant();
+    }
 
-	public void setImportant(boolean important) {
-		setPriority(Priority.factory(isUrgent(), important));
-	}
+    public void setImportant(boolean important) {
+        setPriority(Priority.factory(isUrgent(), important));
+    }
 
-	public void setParent(Task parent) {
-		this.parent = parent;
-	}
+    public void setParent(Task parent) {
+        this.parent = parent;
+    }
 
-	@ManyToOne
-	public Task getParent() {
-		return this.parent;
-	}
+    @ManyToOne
+    public Task getParent() {
+        return this.parent;
+    }
 }

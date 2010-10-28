@@ -27,68 +27,68 @@ import net.sourceforge.myjorganizer.data.TaskStatus;
 
 public class TaskStatusModel extends ObservableEntityModel {
 
-	private Collection<TaskStatus> taskStatusList;
+    private Collection<TaskStatus> taskStatusList;
 
-	public TaskStatusModel(EntityManager entityManager) {
-		super(entityManager);
+    public TaskStatusModel(EntityManager entityManager) {
+        super(entityManager);
 
-		EntityTransaction tx = beginTransaction();
+        EntityTransaction tx = beginTransaction();
 
-		this.taskStatusList = entityManager.createQuery("FROM TaskStatus",
-				TaskStatus.class).getResultList();
-		tx.commit();
-	}
+        this.taskStatusList = entityManager.createQuery("FROM TaskStatus",
+                TaskStatus.class).getResultList();
+        tx.commit();
+    }
 
-	public int add(TaskStatus taskStatus) {
-		EntityTransaction tx = beginTransaction();
+    public int add(TaskStatus taskStatus) {
+        EntityTransaction tx = beginTransaction();
 
-		getEntityManager().persist(taskStatus);
-		taskStatusList.add(taskStatus);
+        getEntityManager().persist(taskStatus);
+        taskStatusList.add(taskStatus);
 
-		commitAndNotify(tx);
+        commitAndNotify(tx);
 
-		return taskStatus.getId();
-	}
+        return taskStatus.getId();
+    }
 
-	public void update(Task task) {
-		EntityTransaction tx = beginTransaction();
+    public void update(Task task) {
+        EntityTransaction tx = beginTransaction();
 
-		getEntityManager().merge(task);
+        getEntityManager().merge(task);
 
-		commitAndNotify(tx);
-	}
+        commitAndNotify(tx);
+    }
 
-	public void updateMany(Iterable<Task> tasks) {
-		EntityTransaction tx = beginTransaction();
+    public void updateMany(Iterable<Task> tasks) {
+        EntityTransaction tx = beginTransaction();
 
-		for (Task task : tasks) {
-			getEntityManager().merge(task);
-		}
+        for (Task task : tasks) {
+            getEntityManager().merge(task);
+        }
 
-		commitAndNotify(tx);
-	}
+        commitAndNotify(tx);
+    }
 
-	public void delete(Task task) {
-		EntityTransaction tx = beginTransaction();
+    public void delete(Task task) {
+        EntityTransaction tx = beginTransaction();
 
-		getEntityManager().remove(task);
-		taskStatusList.remove(task);
+        getEntityManager().remove(task);
+        taskStatusList.remove(task);
 
-		commitAndNotify(tx);
-	}
+        commitAndNotify(tx);
+    }
 
-	public Collection<TaskStatus> getList() {
-		return taskStatusList;
-	}
+    public Collection<TaskStatus> getList() {
+        return taskStatusList;
+    }
 
-	public void addMany(Iterable<TaskStatus> tasks) {
-		EntityTransaction tx = beginTransaction();
+    public void addMany(Iterable<TaskStatus> tasks) {
+        EntityTransaction tx = beginTransaction();
 
-		for (TaskStatus task : tasks) {
-			getEntityManager().persist(task);
-			taskStatusList.add(task);
-		}
+        for (TaskStatus task : tasks) {
+            getEntityManager().persist(task);
+            taskStatusList.add(task);
+        }
 
-		commitAndNotify(tx);
-	}
+        commitAndNotify(tx);
+    }
 }

@@ -24,25 +24,25 @@ import javax.persistence.EntityTransaction;
 
 public abstract class ObservableEntityModel extends Observable {
 
-	private final EntityManager entityManager;
+    private final EntityManager entityManager;
 
-	public ObservableEntityModel(EntityManager entityManager) {
-		this.entityManager = entityManager;
-	}
+    public ObservableEntityModel(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
-	public EntityManager getEntityManager() {
-		return entityManager;
-	}
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
 
-	protected EntityTransaction beginTransaction() {
-		EntityTransaction tx = entityManager.getTransaction();
-		tx.begin();
-		return tx;
-	}
+    protected EntityTransaction beginTransaction() {
+        EntityTransaction tx = entityManager.getTransaction();
+        tx.begin();
+        return tx;
+    }
 
-	protected void commitAndNotify(EntityTransaction tx) {
-		tx.commit();
-		setChanged();
-		notifyObservers();
-	}
+    protected void commitAndNotify(EntityTransaction tx) {
+        tx.commit();
+        setChanged();
+        notifyObservers();
+    }
 }

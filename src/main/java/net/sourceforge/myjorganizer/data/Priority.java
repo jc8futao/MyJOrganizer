@@ -25,84 +25,83 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "priorities")
 public final class Priority implements Serializable {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 5637832605950364727L;
+    private static final long serialVersionUID = 5637832605950364727L;
 
-	@Id
-	private final boolean urgent;
-	@Id
-	private final boolean important;
+    @Id
+    private final boolean urgent;
+    @Id
+    private final boolean important;
 
-	private static ArrayList<Priority> instances = new ArrayList<Priority>();
+    private static ArrayList<Priority> instances = new ArrayList<Priority>();
 
-	static {
-		instances.add(new Priority(true, true));
-		instances.add(new Priority(false, true));
-		instances.add(new Priority(true, false));
-		instances.add(new Priority(false, false));
-	}
+    static {
+        instances.add(new Priority(true, true));
+        instances.add(new Priority(false, true));
+        instances.add(new Priority(true, false));
+        instances.add(new Priority(false, false));
+    }
 
-	private Priority() {
-		this(false, false);
-	}
+    private Priority() {
+        this(false, false);
+    }
 
-	private Priority(boolean urgent, boolean important) {
-		this.urgent = urgent;
-		this.important = important;
-	}
+    private Priority(boolean urgent, boolean important) {
+        this.urgent = urgent;
+        this.important = important;
+    }
 
-	public boolean isUrgent() {
-		return this.urgent;
-	}
+    public boolean isUrgent() {
+        return this.urgent;
+    }
 
-	public boolean isImportant() {
-		return this.important;
-	}
+    public boolean isImportant() {
+        return this.important;
+    }
 
-	public static Priority factory(boolean urgent, boolean important) {
-		for (Priority priority : instances) {
-			if ((priority.isImportant() == important)
-					&& (priority.isUrgent() == urgent)) {
-				return priority;
-			}
-		}
+    public static Priority factory(boolean urgent, boolean important) {
+        for (Priority priority : instances) {
+            if ((priority.isImportant() == important)
+                    && (priority.isUrgent() == urgent)) {
+                return priority;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	public static Collection<Priority> getAll() {
-		return instances;
-	}
+    public static Collection<Priority> getAll() {
+        return instances;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (important ? 1231 : 1237);
-		result = prime * result + (urgent ? 1231 : 1237);
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (important ? 1231 : 1237);
+        result = prime * result + (urgent ? 1231 : 1237);
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Priority other = (Priority) obj;
-		if (important != other.important)
-			return false;
-		if (urgent != other.urgent)
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Priority other = (Priority) obj;
+        if (important != other.important)
+            return false;
+        if (urgent != other.urgent)
+            return false;
+        return true;
+    }
 }

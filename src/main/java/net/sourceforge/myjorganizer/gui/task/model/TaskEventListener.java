@@ -18,5 +18,5 @@
 package net.sourceforge.myjorganizer.gui.task.model;
 
 public interface TaskEventListener {
-	public void tasksChanged(TaskEvent e);
+    public void tasksChanged(TaskEvent e);
 }

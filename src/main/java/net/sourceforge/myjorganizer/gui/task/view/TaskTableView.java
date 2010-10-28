@@ -40,72 +40,72 @@ import net.sourceforge.myjorganizer.gui.task.view.table.TaskStatusComboBoxRender
 
 public class TaskTableView extends AbstractTaskView {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 4741518527769099366L;
-	private JTable jTable;
-	private TaskTableModel tableModel = new TaskTableModel();
-	private TaskStatus[] taskStatuses = new TaskStatus[0];
-	private TableModelListener tableListener;
+    private static final long serialVersionUID = 4741518527769099366L;
+    private JTable jTable;
+    private TaskTableModel tableModel = new TaskTableModel();
+    private TaskStatus[] taskStatuses = new TaskStatus[0];
+    private TableModelListener tableListener;
 
-	public TaskTableView() {
-		super(new GridLayout(1, 1));
+    public TaskTableView() {
+        super(new GridLayout(1, 1));
 
-		this.jTable = new JTable(tableModel);
-		add(new JScrollPane(this.jTable));
+        this.jTable = new JTable(tableModel);
+        add(new JScrollPane(this.jTable));
 
-		this.tableListener = new TableModelListener() {
-			@Override
-			public void tableChanged(TableModelEvent e) {
+        this.tableListener = new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
 
-				Collection<Task> changedTasks = new ArrayList<Task>();
+                Collection<Task> changedTasks = new ArrayList<Task>();
 
-				try {
-					for (int i = e.getFirstRow(), last = e.getLastRow(); i <= last; i++) {
-						changedTasks.add(tableModel.getRowData(i));
-					}
-				} catch (IndexOutOfBoundsException ex) {
-				}
+                try {
+                    for (int i = e.getFirstRow(), last = e.getLastRow(); i <= last; i++) {
+                        changedTasks.add(tableModel.getRowData(i));
+                    }
+                } catch (IndexOutOfBoundsException ex) {
+                }
 
-				fireTaskEvent(new TaskEvent(this, changedTasks));
-			}
-		};
-	}
+                fireTaskEvent(new TaskEvent(this, changedTasks));
+            }
+        };
+    }
 
-	public TaskStatus[] getTaskStatuses() {
-		return taskStatuses;
-	}
+    public TaskStatus[] getTaskStatuses() {
+        return taskStatuses;
+    }
 
-	@Override
-	public Observer getTaskSetModelObserver() {
-		return new Observer() {
-			public void update(Observable o, Object arg) {
-				TaskSetModel taskSetModel = (TaskSetModel) o;
+    @Override
+    public Observer getTaskSetModelObserver() {
+        return new Observer() {
+            public void update(Observable o, Object arg) {
+                TaskSetModel taskSetModel = (TaskSetModel) o;
 
-				tableModel.removeTableModelListener(tableListener);
-				tableModel.setList(taskSetModel.getList());
-				tableModel.addTableModelListener(tableListener);
-			}
-		};
-	}
+                tableModel.removeTableModelListener(tableListener);
+                tableModel.setList(taskSetModel.getList());
+                tableModel.addTableModelListener(tableListener);
+            }
+        };
+    }
 
-	@Override
-	public Observer getTaskStatusModelObserver() {
-		return new Observer() {
+    @Override
+    public Observer getTaskStatusModelObserver() {
+        return new Observer() {
 
-			@Override
-			public void update(Observable o, Object arg) {
-				TaskStatusModel model = (TaskStatusModel) o;
-				taskStatuses = model.getList().toArray(taskStatuses);
+            @Override
+            public void update(Observable o, Object arg) {
+                TaskStatusModel model = (TaskStatusModel) o;
+                taskStatuses = model.getList().toArray(taskStatuses);
 
-				TableColumn statusColumn = jTable.getColumn("Status");
+                TableColumn statusColumn = jTable.getColumn("Status");
 
-				statusColumn.setCellEditor(new TaskStatusComboBoxEditor(
-						taskStatuses));
-				statusColumn.setCellRenderer(new TaskStatusComboBoxRenderer(
-						taskStatuses));
-			}
-		};
-	}
+                statusColumn.setCellEditor(new TaskStatusComboBoxEditor(
+                        taskStatuses));
+                statusColumn.setCellRenderer(new TaskStatusComboBoxRenderer(
+                        taskStatuses));
+            }
+        };
+    }
 }

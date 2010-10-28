@@ -25,25 +25,25 @@ import javax.swing.table.TableCellRenderer;
 
 import net.sourceforge.myjorganizer.data.TaskStatus;
 
-public class TaskStatusComboBoxRenderer extends JComboBox implements TableCellRenderer {
-	private static final long serialVersionUID = -9114625562997469320L;
+public class TaskStatusComboBoxRenderer extends JComboBox implements
+        TableCellRenderer {
+    private static final long serialVersionUID = -9114625562997469320L;
 
-	public TaskStatusComboBoxRenderer(TaskStatus[] items) {
-		super(items);
-	}
+    public TaskStatusComboBoxRenderer(TaskStatus[] items) {
+        super(items);
+    }
 
-	public Component getTableCellRendererComponent(JTable table, Object value,
-			boolean isSelected, boolean hasFocus, int row, int column) {
-		if (isSelected) {
-			setForeground(table.getSelectionForeground());
-			super.setBackground(table.getSelectionBackground());
-		} else {
-			setForeground(table.getForeground());
-			setBackground(table.getBackground());
-		}
-		// Select the current value
-		setSelectedItem(value);
-		return this;
-	}
+    public Component getTableCellRendererComponent(JTable table, Object value,
+            boolean isSelected, boolean hasFocus, int row, int column) {
+        if (isSelected) {
+            setForeground(table.getSelectionForeground());
+            super.setBackground(table.getSelectionBackground());
+        } else {
+            setForeground(table.getForeground());
+            setBackground(table.getBackground());
+        }
+        // Select the current value
+        setSelectedItem(value);
+        return this;
+    }
 }
-
