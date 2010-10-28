@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of MyJOrganizer.
  *
  * MyJOrganizer is free software: you can redistribute it and/or modify
@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package net.sourceforge.myjorganizer.data;
 
 import java.util.ArrayList;
@@ -23,18 +22,18 @@ import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 
 public class SampleData {
 
-	public static void loadSampleTaskData(TaskSetModel taskSetModel) {
-		ArrayList<Task> tasks = new ArrayList<Task>();
-		tasks.add(new Task("Task 1"));
-		tasks.add(new Task("Task 2"));
-		tasks.add(new Task("Task 3"));
-		tasks.add(new Task("Task 4"));
+    public static void loadSampleTaskData(TaskSetModel taskSetModel) {
+        ArrayList<Task> tasks = new ArrayList<Task>();
+        tasks.add(new Task("Task 1"));
+        tasks.add(new Task("Task 2"));
+        tasks.add(new Task("Task 3"));
+        tasks.add(new Task("Task 4"));
 
-		tasks.get(1).setUrgent(true);
-		tasks.get(2).setImportant(true);
-		tasks.get(3).setUrgent(true);
-		tasks.get(3).setImportant(true);
+        tasks.get(1).setUrgent(true);
+        tasks.get(2).setImportant(true);
+        tasks.get(3).setUrgent(true);
+        tasks.get(3).setImportant(true);
 
-		taskSetModel.addMany(tasks);
-	}
+        taskSetModel.addMany(tasks);
+    }
 }
