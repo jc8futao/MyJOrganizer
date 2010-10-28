@@ -289,7 +289,7 @@ public class Task {
     @ShowInTable(position = 1)
     public String getIdentifier() {
         if (this.identifier == null && getId() != 0) {
-            this.identifier = "$task" + getId();
+            this.identifier = "task" + getId();
         }
 
         return this.identifier;
