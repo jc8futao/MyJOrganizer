@@ -40,7 +40,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	net.sourceforge.myjorganizer.data.AllTests.class,
+	net.sourceforge.myjorganizer.jpa.AllTests.class,
 	net.sourceforge.myjorganizer.gui.AllTests.class,
 	net.sourceforge.myjorganizer.i18n.AllTests.class
 })

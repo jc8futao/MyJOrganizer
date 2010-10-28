@@ -15,26 +15,25 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.data;
+package net.sourceforge.myjorganizer.jpa;
 
 import java.sql.SQLException;
 
 /**
- * <p>DatabaseLauncher interface.</p>
+ * <p>DummyDatabaseLauncher class.</p>
  *
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
-public interface DatabaseLauncher {
-    /**
-     * <p>start</p>
-     *
-     * @throws java.sql.SQLException if any.
-     */
-    public void start() throws SQLException;
+public class DummyDatabaseLauncher implements DatabaseLauncher {
 
-    /**
-     * <p>stop</p>
-     */
-    public void stop();
+    /** {@inheritDoc} */
+    @Override
+    public void start() throws SQLException {
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void stop() {
+    }
 }

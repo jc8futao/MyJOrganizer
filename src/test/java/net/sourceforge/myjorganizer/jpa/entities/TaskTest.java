@@ -32,7 +32,7 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.data;
+package net.sourceforge.myjorganizer.jpa.entities;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -40,6 +40,10 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
+
+import net.sourceforge.myjorganizer.jpa.entities.Priority;
+import net.sourceforge.myjorganizer.jpa.entities.Task;
+import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
 import org.junit.Before;
 import org.junit.Test;

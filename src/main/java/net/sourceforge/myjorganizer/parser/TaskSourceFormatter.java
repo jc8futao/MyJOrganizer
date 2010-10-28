@@ -17,7 +17,7 @@
 
 package net.sourceforge.myjorganizer.parser;
 
-import net.sourceforge.myjorganizer.data.Task;
+import net.sourceforge.myjorganizer.jpa.entities.Task;
 
 /**
  * <p>TaskSourceFormatter class.</p>

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-import net.sourceforge.myjorganizer.data.Task;
+import net.sourceforge.myjorganizer.jpa.entities.Task;
 import net.sourceforge.myjorganizer.parser.syntaxtree.ChildOf;
 import net.sourceforge.myjorganizer.parser.syntaxtree.DependencyDefinition;
 import net.sourceforge.myjorganizer.parser.syntaxtree.NodeToken;
@@ -256,7 +256,7 @@ public class TaskCreatingVisitor extends DepthFirstVisitor {
     /**
      * <p>visit</p>
      *
-     * @param n a {@link net.sourceforge.myjorganizer.parser.syntaxtree.TaskStatus} object.
+     * @param n a {@link net.sourceforge.myjorganizer.jpa.entities.syntaxtree.TaskStatus} object.
      */
     public void visit(TaskStatus n) {
         this.propertyParser = new PropertyParser() {

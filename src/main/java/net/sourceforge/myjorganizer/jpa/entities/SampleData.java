@@ -14,32 +14,37 @@
  * You should have received a copy of the GNU General Public License
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
+package net.sourceforge.myjorganizer.jpa.entities;
 
-package net.sourceforge.myjorganizer.gui.task.view.table;
+import java.util.ArrayList;
 
-import javax.swing.DefaultCellEditor;
-import javax.swing.JComboBox;
-
-import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
+import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 
 /**
- * <p>TaskStatusComboBoxEditor class.</p>
+ * <p>SampleData class.</p>
  *
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
-public class TaskStatusComboBoxEditor extends DefaultCellEditor {
-    /**
-	 * 
-	 */
-    private static final long serialVersionUID = 2650011890512281580L;
+public class SampleData {
 
     /**
-     * <p>Constructor for TaskStatusComboBoxEditor.</p>
+     * <p>loadSampleTaskData</p>
      *
-     * @param items an array of {@link net.sourceforge.myjorganizer.jpa.entities.TaskStatus} objects.
+     * @param taskSetModel a {@link net.sourceforge.myjorganizer.gui.task.model.TaskSetModel} object.
      */
-    public TaskStatusComboBoxEditor(TaskStatus[] items) {
-        super(new JComboBox(items));
+    public static void loadSampleTaskData(TaskSetModel taskSetModel) {
+        ArrayList<Task> tasks = new ArrayList<Task>();
+        tasks.add(new Task("Task 1"));
+        tasks.add(new Task("Task 2"));
+        tasks.add(new Task("Task 3"));
+        tasks.add(new Task("Task 4"));
+
+        tasks.get(1).setUrgent(true);
+        tasks.get(2).setImportant(true);
+        tasks.get(3).setUrgent(true);
+        tasks.get(3).setImportant(true);
+
+        taskSetModel.addMany(tasks);
     }
 }

@@ -20,7 +20,7 @@ package net.sourceforge.myjorganizer.gui.task.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import net.sourceforge.myjorganizer.data.Task;
+import net.sourceforge.myjorganizer.jpa.entities.Task;
 
 import com.davidebellettini.gui.utils.GenericTableModel;
 import com.davidebellettini.gui.utils.TableProperty;

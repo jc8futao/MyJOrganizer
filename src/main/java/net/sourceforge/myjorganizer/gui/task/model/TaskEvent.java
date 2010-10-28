@@ -20,7 +20,7 @@ package net.sourceforge.myjorganizer.gui.task.model;
 import java.util.Collection;
 import java.util.EventObject;
 
-import net.sourceforge.myjorganizer.data.Task;
+import net.sourceforge.myjorganizer.jpa.entities.Task;
 
 /**
  * <p>TaskEvent class.</p>

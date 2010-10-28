@@ -23,7 +23,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import net.sourceforge.myjorganizer.data.TaskStatus;
+import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
 /**
  * <p>TaskStatusComboBoxRenderer class.</p>
@@ -38,7 +38,7 @@ public class TaskStatusComboBoxRenderer extends JComboBox implements
     /**
      * <p>Constructor for TaskStatusComboBoxRenderer.</p>
      *
-     * @param items an array of {@link net.sourceforge.myjorganizer.data.TaskStatus} objects.
+     * @param items an array of {@link net.sourceforge.myjorganizer.jpa.entities.TaskStatus} objects.
      */
     public TaskStatusComboBoxRenderer(TaskStatus[] items) {
         super(items);

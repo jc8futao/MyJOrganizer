@@ -24,8 +24,8 @@ import java.util.Observable;
 
 import javax.swing.JPanel;
 
-import net.sourceforge.myjorganizer.data.Task;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
+import net.sourceforge.myjorganizer.jpa.entities.Task;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;

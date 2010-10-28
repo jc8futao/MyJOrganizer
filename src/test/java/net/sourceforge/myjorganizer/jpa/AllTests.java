@@ -32,27 +32,25 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.data;
+package net.sourceforge.myjorganizer.jpa;
 
-import java.sql.SQLException;
+import net.sourceforge.myjorganizer.jpa.entities.PriorityTest;
+import net.sourceforge.myjorganizer.jpa.entities.TaskDependencyTest;
+import net.sourceforge.myjorganizer.jpa.entities.TaskStatusTest;
+import net.sourceforge.myjorganizer.jpa.entities.TaskTest;
 
-import org.junit.*;
-import static org.junit.Assert.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
-public class JPAUtilTest {
+@RunWith(Suite.class)
+@SuiteClasses({
+	JPAUtilTest.class,
+	PriorityTest.class,
+	TaskTest.class,
+	TaskDependencyTest.class,
+	TaskStatusTest.class
+})
+public class AllTests {
 
-	@Before
-	public void setUp() throws SQLException {
-		JPAUtil.startServers();
-	}
-
-	@After
-	public void tearDown() {
-		JPAUtil.shutdownServers();
-	}
-
-	@Test
-	public void testCreateSession() {
-		assertNotNull(JPAUtil.createEntityManagerFactory());
-	}
 }

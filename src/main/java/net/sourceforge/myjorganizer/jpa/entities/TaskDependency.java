@@ -15,7 +15,7 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.data;
+package net.sourceforge.myjorganizer.jpa.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -53,9 +53,9 @@ public class TaskDependency {
     /**
      * <p>before</p>
      *
-     * @param left a {@link net.sourceforge.myjorganizer.data.Task} object.
-     * @param right a {@link net.sourceforge.myjorganizer.data.Task} object.
-     * @return a {@link net.sourceforge.myjorganizer.data.TaskDependency} object.
+     * @param left a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
+     * @param right a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
+     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.TaskDependency} object.
      */
     public static TaskDependency before(Task left, Task right) {
         return new TaskDependency("before", left, right);
@@ -64,7 +64,7 @@ public class TaskDependency {
     /**
      * <p>Getter for the field <code>left</code>.</p>
      *
-     * @return a {@link net.sourceforge.myjorganizer.data.Task} object.
+     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     @ManyToOne
     public Task getLeft() {
@@ -74,7 +74,7 @@ public class TaskDependency {
     /**
      * <p>Getter for the field <code>right</code>.</p>
      *
-     * @return a {@link net.sourceforge.myjorganizer.data.Task} object.
+     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     @ManyToOne
     public Task getRight() {
@@ -120,9 +120,9 @@ public class TaskDependency {
     /**
      * <p>after</p>
      *
-     * @param left a {@link net.sourceforge.myjorganizer.data.Task} object.
-     * @param right a {@link net.sourceforge.myjorganizer.data.Task} object.
-     * @return a {@link net.sourceforge.myjorganizer.data.TaskDependency} object.
+     * @param left a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
+     * @param right a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
+     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.TaskDependency} object.
      */
     public static TaskDependency after(Task left, Task right) {
         return before(right, left);

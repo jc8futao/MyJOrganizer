@@ -32,49 +32,55 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.data;
+package net.sourceforge.myjorganizer.jpa.entities;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
 
+import net.sourceforge.myjorganizer.jpa.entities.Task;
+import net.sourceforge.myjorganizer.jpa.entities.TaskDependency;
+
+import org.junit.Before;
 import org.junit.Test;
 
-public class PriorityTest {
+public class TaskDependencyTest {
 
-	@Test
-	public void testUrgentGetter() {
-		boolean urgent = true;
+	private Task left;
+	private Task right;
 
-		Priority priority = Priority.factory(urgent, true);
-		assertEquals(urgent, priority.isUrgent());
-
-		urgent = !urgent;
-
-		priority = Priority.factory(urgent, true);
-		assertEquals(urgent, priority.isUrgent());
+	@Before
+	public void setUp() {
+		left = new Task("Left");
+		right = new Task("Right");
 	}
 
 	@Test
-	public void testImportantGetter() {
-		boolean important = true;
+	public void testLeftAccessors() {
 
-		Priority priority = Priority.factory(true, important);
-		assertEquals(important, priority.isImportant());
+		TaskDependency td = TaskDependency.before(left, right);
 
-		important = !important;
-
-		priority = Priority.factory(true, important);
-		assertEquals(important, priority.isImportant());
+		assertEquals(left, td.getLeft());
 	}
 
 	@Test
-	public void testFlyweight() {
+	public void testRightAccessors() {
+		TaskDependency td = TaskDependency.before(left, right);
 
-		boolean[][] values = { { false, false }, { false, true },
-				{ true, false }, { true, true } };
+		assertEquals(right, td.getRight());
+	}
 
-		for (boolean[] currentValues : values)
-			assertSame(Priority.factory(currentValues[0], currentValues[1]),
-					Priority.factory(currentValues[0], currentValues[1]));
+	@Test
+	public void testTypeGetter() {
+		TaskDependency td = TaskDependency.before(left, right);
+
+		assertEquals("before", td.getDependencyType());
+	}
+
+	@Test
+	public void testAfter() {
+		TaskDependency td = TaskDependency.after(left, right);
+
+		assertEquals("before", td.getDependencyType());
+		assertEquals(right, td.getLeft());
+		assertEquals(left, td.getRight());
 	}
 }

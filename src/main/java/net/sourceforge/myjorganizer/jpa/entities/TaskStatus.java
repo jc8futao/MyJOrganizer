@@ -15,7 +15,7 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.data;
+package net.sourceforge.myjorganizer.jpa.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -114,7 +114,7 @@ public class TaskStatus {
      * <p>Setter for the field <code>id</code>.</p>
      *
      * @param id a int.
-     * @return a {@link net.sourceforge.myjorganizer.data.TaskStatus} object.
+     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.TaskStatus} object.
      */
     public TaskStatus setId(int id) {
         this.id = id;

@@ -30,12 +30,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import net.sourceforge.myjorganizer.data.Task;
 import net.sourceforge.myjorganizer.gui.MyJOrganizerApp;
 import net.sourceforge.myjorganizer.gui.task.controller.TaskController;
 import net.sourceforge.myjorganizer.gui.task.view.TaskSourceView;
 import net.sourceforge.myjorganizer.gui.view.AddTaskFrame;
 import net.sourceforge.myjorganizer.gui.view.MainView;
+import net.sourceforge.myjorganizer.jpa.entities.Task;
 import net.sourceforge.myjorganizer.parser.TaskListParser;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskList;
 import net.sourceforge.myjorganizer.parser.visitor.TaskCreatingVisitor;

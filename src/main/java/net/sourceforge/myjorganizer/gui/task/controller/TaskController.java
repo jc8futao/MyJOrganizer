@@ -24,8 +24,6 @@ import java.util.Observer;
 import javax.persistence.EntityManager;
 import javax.swing.JTabbedPane;
 
-import net.sourceforge.myjorganizer.data.SampleData;
-import net.sourceforge.myjorganizer.data.TaskStatus;
 import net.sourceforge.myjorganizer.gui.task.model.TaskEvent;
 import net.sourceforge.myjorganizer.gui.task.model.TaskEventListener;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
@@ -35,6 +33,8 @@ import net.sourceforge.myjorganizer.gui.task.view.TaskFourQuadrantsView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskSourceView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskStatView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskTableView;
+import net.sourceforge.myjorganizer.jpa.entities.SampleData;
+import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
 /**
  * <p>TaskController class.</p>

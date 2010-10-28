@@ -27,8 +27,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.swing.JOptionPane;
 
-import net.sourceforge.myjorganizer.data.JPAUtil;
 import net.sourceforge.myjorganizer.gui.controller.MyJOrganizerController;
+import net.sourceforge.myjorganizer.jpa.JPAUtil;
 
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;

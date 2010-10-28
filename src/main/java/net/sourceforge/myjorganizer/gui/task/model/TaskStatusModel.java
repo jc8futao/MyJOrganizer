@@ -22,8 +22,8 @@ import java.util.Collection;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-import net.sourceforge.myjorganizer.data.Task;
-import net.sourceforge.myjorganizer.data.TaskStatus;
+import net.sourceforge.myjorganizer.jpa.entities.Task;
+import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
 /**
  * <p>TaskStatusModel class.</p>
@@ -53,7 +53,7 @@ public class TaskStatusModel extends ObservableEntityModel {
     /**
      * <p>add</p>
      *
-     * @param taskStatus a {@link net.sourceforge.myjorganizer.data.TaskStatus} object.
+     * @param taskStatus a {@link net.sourceforge.myjorganizer.jpa.entities.TaskStatus} object.
      * @return a int.
      */
     public int add(TaskStatus taskStatus) {
@@ -70,7 +70,7 @@ public class TaskStatusModel extends ObservableEntityModel {
     /**
      * <p>update</p>
      *
-     * @param task a {@link net.sourceforge.myjorganizer.data.Task} object.
+     * @param task a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     public void update(Task task) {
         EntityTransaction tx = beginTransaction();
@@ -98,7 +98,7 @@ public class TaskStatusModel extends ObservableEntityModel {
     /**
      * <p>delete</p>
      *
-     * @param task a {@link net.sourceforge.myjorganizer.data.Task} object.
+     * @param task a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     public void delete(Task task) {
         EntityTransaction tx = beginTransaction();

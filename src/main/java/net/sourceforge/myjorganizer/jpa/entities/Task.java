@@ -15,7 +15,7 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.data;
+package net.sourceforge.myjorganizer.jpa.entities;
 
 import java.util.Date;
 
@@ -77,7 +77,7 @@ public class Task {
      * <p>Constructor for Task.</p>
      *
      * @param name a {@link java.lang.String} object.
-     * @param priority a {@link net.sourceforge.myjorganizer.data.Priority} object.
+     * @param priority a {@link net.sourceforge.myjorganizer.jpa.entities.Priority} object.
      */
     public Task(String name, Priority priority) {
         this(name);
@@ -158,8 +158,8 @@ public class Task {
     /**
      * Task status setter
      *
-     * @param status a {@link net.sourceforge.myjorganizer.data.TaskStatus} object.
-     * @return a {@link net.sourceforge.myjorganizer.data.Task} object.
+     * @param status a {@link net.sourceforge.myjorganizer.jpa.entities.TaskStatus} object.
+     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     public Task setStatus(TaskStatus status) {
         this.status = status;
@@ -182,7 +182,7 @@ public class Task {
      * <p>Setter for the field <code>id</code>.</p>
      *
      * @param id a int.
-     * @return a {@link net.sourceforge.myjorganizer.data.Task} object.
+     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     public Task setId(int id) {
         this.id = id;
@@ -206,7 +206,7 @@ public class Task {
      * <p>Setter for the field <code>completion</code>.</p>
      *
      * @param completion a int.
-     * @return a {@link net.sourceforge.myjorganizer.data.Task} object.
+     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     public Task setCompletion(int completion) {
         if (completion < 0 || completion > 100)
@@ -239,8 +239,8 @@ public class Task {
     /**
      * <p>Setter for the field <code>priority</code>.</p>
      *
-     * @param priority a {@link net.sourceforge.myjorganizer.data.Priority} object.
-     * @return a {@link net.sourceforge.myjorganizer.data.Task} object.
+     * @param priority a {@link net.sourceforge.myjorganizer.jpa.entities.Priority} object.
+     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     public Task setPriority(Priority priority) {
         this.priority = priority;
@@ -251,7 +251,7 @@ public class Task {
     /**
      * <p>Getter for the field <code>priority</code>.</p>
      *
-     * @return a {@link net.sourceforge.myjorganizer.data.Priority} object.
+     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Priority} object.
      */
     @ManyToOne
     public Priority getPriority() {
@@ -262,7 +262,7 @@ public class Task {
      * <p>Setter for the field <code>description</code>.</p>
      *
      * @param description a {@link java.lang.String} object.
-     * @return a {@link net.sourceforge.myjorganizer.data.Task} object.
+     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     public Task setDescription(String description) {
         this.description = description;
@@ -348,7 +348,7 @@ public class Task {
     /**
      * <p>Setter for the field <code>parent</code>.</p>
      *
-     * @param parent a {@link net.sourceforge.myjorganizer.data.Task} object.
+     * @param parent a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     public void setParent(Task parent) {
         this.parent = parent;
@@ -357,7 +357,7 @@ public class Task {
     /**
      * <p>Getter for the field <code>parent</code>.</p>
      *
-     * @return a {@link net.sourceforge.myjorganizer.data.Task} object.
+     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     @ManyToOne
     public Task getParent() {

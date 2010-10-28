@@ -15,7 +15,7 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.data;
+package net.sourceforge.myjorganizer.jpa.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -86,7 +86,7 @@ public final class Priority implements Serializable {
      *
      * @param urgent a boolean.
      * @param important a boolean.
-     * @return a {@link net.sourceforge.myjorganizer.data.Priority} object.
+     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Priority} object.
      */
     public static Priority factory(boolean urgent, boolean important) {
         for (Priority priority : instances) {

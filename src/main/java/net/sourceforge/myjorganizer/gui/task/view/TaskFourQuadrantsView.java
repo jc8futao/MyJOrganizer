@@ -31,9 +31,9 @@ import java.util.Map.Entry;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
-import net.sourceforge.myjorganizer.data.Priority;
-import net.sourceforge.myjorganizer.data.Task;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
+import net.sourceforge.myjorganizer.jpa.entities.Priority;
+import net.sourceforge.myjorganizer.jpa.entities.Task;
 
 /**
  * <p>TaskFourQuadrantsView class.</p>

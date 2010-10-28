@@ -14,37 +14,27 @@
  * You should have received a copy of the GNU General Public License
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.myjorganizer.data;
 
-import java.util.ArrayList;
+package net.sourceforge.myjorganizer.jpa;
 
-import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
+import java.sql.SQLException;
 
 /**
- * <p>SampleData class.</p>
+ * <p>DatabaseLauncher interface.</p>
  *
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
-public class SampleData {
+public interface DatabaseLauncher {
+    /**
+     * <p>start</p>
+     *
+     * @throws java.sql.SQLException if any.
+     */
+    public void start() throws SQLException;
 
     /**
-     * <p>loadSampleTaskData</p>
-     *
-     * @param taskSetModel a {@link net.sourceforge.myjorganizer.gui.task.model.TaskSetModel} object.
+     * <p>stop</p>
      */
-    public static void loadSampleTaskData(TaskSetModel taskSetModel) {
-        ArrayList<Task> tasks = new ArrayList<Task>();
-        tasks.add(new Task("Task 1"));
-        tasks.add(new Task("Task 2"));
-        tasks.add(new Task("Task 3"));
-        tasks.add(new Task("Task 4"));
-
-        tasks.get(1).setUrgent(true);
-        tasks.get(2).setImportant(true);
-        tasks.get(3).setUrgent(true);
-        tasks.get(3).setImportant(true);
-
-        taskSetModel.addMany(tasks);
-    }
+    public void stop();
 }

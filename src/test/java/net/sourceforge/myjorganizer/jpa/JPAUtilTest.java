@@ -32,35 +32,29 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.data;
+package net.sourceforge.myjorganizer.jpa;
 
-import static org.junit.Assert.assertEquals;
+import java.sql.SQLException;
 
-import org.junit.Test;
+import net.sourceforge.myjorganizer.jpa.JPAUtil;
 
-public class TaskStatusTest {
-	@Test
-	public void testNameAccessors() {
-		String name = "Donald Duck";
-		TaskStatus tstatus = new TaskStatus(name);
+import org.junit.*;
+import static org.junit.Assert.*;
 
-		assertEquals(name, tstatus.getName());
+public class JPAUtilTest {
+
+	@Before
+	public void setUp() throws SQLException {
+		JPAUtil.startServers();
+	}
+
+	@After
+	public void tearDown() {
+		JPAUtil.shutdownServers();
 	}
 
 	@Test
-	public void testIdAccessors() {
-		int id = 10;
-
-		TaskStatus tstatus = new TaskStatus("Hello");
-		tstatus.setId(id);
-
-		assertEquals(id, tstatus.getId());
+	public void testCreateSession() {
+		assertNotNull(JPAUtil.createEntityManagerFactory());
 	}
-
-	@Test
-	public void testToString() {
-		TaskStatus tstatus = new TaskStatus("Hello");
-		assertEquals("Hello", tstatus.toString());
-	}
-
 }

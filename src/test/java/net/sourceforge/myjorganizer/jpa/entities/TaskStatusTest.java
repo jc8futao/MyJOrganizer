@@ -32,52 +32,37 @@
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.sourceforge.myjorganizer.data;
+package net.sourceforge.myjorganizer.jpa.entities;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
+import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
+
 import org.junit.Test;
 
-public class TaskDependencyTest {
+public class TaskStatusTest {
+	@Test
+	public void testNameAccessors() {
+		String name = "Donald Duck";
+		TaskStatus tstatus = new TaskStatus(name);
 
-	private Task left;
-	private Task right;
-
-	@Before
-	public void setUp() {
-		left = new Task("Left");
-		right = new Task("Right");
+		assertEquals(name, tstatus.getName());
 	}
 
 	@Test
-	public void testLeftAccessors() {
+	public void testIdAccessors() {
+		int id = 10;
 
-		TaskDependency td = TaskDependency.before(left, right);
+		TaskStatus tstatus = new TaskStatus("Hello");
+		tstatus.setId(id);
 
-		assertEquals(left, td.getLeft());
+		assertEquals(id, tstatus.getId());
 	}
 
 	@Test
-	public void testRightAccessors() {
-		TaskDependency td = TaskDependency.before(left, right);
-
-		assertEquals(right, td.getRight());
+	public void testToString() {
+		TaskStatus tstatus = new TaskStatus("Hello");
+		assertEquals("Hello", tstatus.toString());
 	}
 
-	@Test
-	public void testTypeGetter() {
-		TaskDependency td = TaskDependency.before(left, right);
-
-		assertEquals("before", td.getDependencyType());
-	}
-
-	@Test
-	public void testAfter() {
-		TaskDependency td = TaskDependency.after(left, right);
-
-		assertEquals("before", td.getDependencyType());
-		assertEquals(right, td.getLeft());
-		assertEquals(left, td.getRight());
-	}
 }

@@ -29,14 +29,14 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableColumn;
 
-import net.sourceforge.myjorganizer.data.Task;
-import net.sourceforge.myjorganizer.data.TaskStatus;
 import net.sourceforge.myjorganizer.gui.task.model.TaskEvent;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskTableModel;
 import net.sourceforge.myjorganizer.gui.task.view.table.TaskStatusComboBoxEditor;
 import net.sourceforge.myjorganizer.gui.task.view.table.TaskStatusComboBoxRenderer;
+import net.sourceforge.myjorganizer.jpa.entities.Task;
+import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
 /**
  * <p>TaskTableView class.</p>
@@ -85,7 +85,7 @@ public class TaskTableView extends AbstractTaskView {
     /**
      * <p>Getter for the field <code>taskStatuses</code>.</p>
      *
-     * @return an array of {@link net.sourceforge.myjorganizer.data.TaskStatus} objects.
+     * @return an array of {@link net.sourceforge.myjorganizer.jpa.entities.TaskStatus} objects.
      */
     public TaskStatus[] getTaskStatuses() {
         return taskStatuses;
