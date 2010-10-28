@@ -38,6 +38,12 @@ import net.sourceforge.myjorganizer.gui.task.model.TaskTableModel;
 import net.sourceforge.myjorganizer.gui.task.view.table.TaskStatusComboBoxEditor;
 import net.sourceforge.myjorganizer.gui.task.view.table.TaskStatusComboBoxRenderer;
 
+/**
+ * <p>TaskTableView class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class TaskTableView extends AbstractTaskView {
 
     /**
@@ -49,6 +55,9 @@ public class TaskTableView extends AbstractTaskView {
     private TaskStatus[] taskStatuses = new TaskStatus[0];
     private TableModelListener tableListener;
 
+    /**
+     * <p>Constructor for TaskTableView.</p>
+     */
     public TaskTableView() {
         super(new GridLayout(1, 1));
 
@@ -73,10 +82,16 @@ public class TaskTableView extends AbstractTaskView {
         };
     }
 
+    /**
+     * <p>Getter for the field <code>taskStatuses</code>.</p>
+     *
+     * @return an array of {@link net.sourceforge.myjorganizer.data.TaskStatus} objects.
+     */
     public TaskStatus[] getTaskStatuses() {
         return taskStatuses;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Observer getTaskSetModelObserver() {
         return new Observer() {
@@ -90,6 +105,7 @@ public class TaskTableView extends AbstractTaskView {
         };
     }
 
+    /** {@inheritDoc} */
     @Override
     public Observer getTaskStatusModelObserver() {
         return new Observer() {

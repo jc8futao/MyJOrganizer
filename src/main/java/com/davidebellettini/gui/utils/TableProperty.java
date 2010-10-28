@@ -21,17 +21,28 @@ import com.davidebellettini.reflection.Property;
 
 /**
  * Class representing "reflected" Table Property
- * 
+ *
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
  */
 public class TableProperty extends Property {
 
     private int position;
 
+    /**
+     * <p>Setter for the field <code>position</code>.</p>
+     *
+     * @param position a int.
+     */
     public void setPosition(int position) {
         this.position = position;
     }
 
+    /**
+     * <p>Getter for the field <code>position</code>.</p>
+     *
+     * @return a int.
+     */
     public int getPosition() {
         return this.position;
     }

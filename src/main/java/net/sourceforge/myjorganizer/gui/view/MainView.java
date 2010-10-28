@@ -32,12 +32,24 @@ import net.sourceforge.myjorganizer.gui.MyJOrganizerApp;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.FrameView;
 
+/**
+ * <p>MainView class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class MainView extends FrameView {
 	private JTabbedPane mainPanel = new JTabbedPane();
 	private JMenuBar menuBar = new JMenuBar();
 	private JLabel statusBar = new JLabel(_("MSG_READY"));
 	private ActionMap actionMap;
 
+	/**
+	 * <p>Constructor for MainView.</p>
+	 *
+	 * @param application a {@link org.jdesktop.application.Application} object.
+	 * @param actionMap a {@link javax.swing.ActionMap} object.
+	 */
 	public MainView(Application application, ActionMap actionMap) {
 		super(application);
 		this.actionMap = actionMap;
@@ -89,6 +101,11 @@ public class MainView extends FrameView {
 		getFrame().pack();
 	}
 
+	/**
+	 * <p>Getter for the field <code>mainPanel</code>.</p>
+	 *
+	 * @return a {@link javax.swing.JTabbedPane} object.
+	 */
 	public JTabbedPane getMainPanel() {
 		return mainPanel;
 	}

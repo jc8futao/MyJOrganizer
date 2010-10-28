@@ -35,6 +35,12 @@ import net.sourceforge.myjorganizer.data.Priority;
 import net.sourceforge.myjorganizer.data.Task;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 
+/**
+ * <p>TaskFourQuadrantsView class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class TaskFourQuadrantsView extends AbstractTaskView implements Observer {
 
     /**
@@ -44,6 +50,9 @@ public class TaskFourQuadrantsView extends AbstractTaskView implements Observer 
     HashMap<Priority, JList> lists = new HashMap<Priority, JList>();
     HashMap<Priority, List<Task>> listData = new HashMap<Priority, List<Task>>();
 
+    /**
+     * <p>Constructor for TaskFourQuadrantsView.</p>
+     */
     public TaskFourQuadrantsView() {
         Collection<Priority> priorities = Priority.getAll();
 
@@ -61,6 +70,7 @@ public class TaskFourQuadrantsView extends AbstractTaskView implements Observer 
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void update(Observable o, Object arg) {
         TaskSetModel model = (TaskSetModel) o;
@@ -78,11 +88,13 @@ public class TaskFourQuadrantsView extends AbstractTaskView implements Observer 
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public Observer getTaskSetModelObserver() {
         return this;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Observer getTaskStatusModelObserver() {
         return null;

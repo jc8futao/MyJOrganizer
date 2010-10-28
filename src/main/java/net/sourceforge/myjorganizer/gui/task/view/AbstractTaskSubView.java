@@ -30,14 +30,21 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.PieDataset;
 
+/**
+ * <p>Abstract AbstractTaskSubView class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public abstract class AbstractTaskSubView extends JPanel implements Observer {
 
     /**
      * Creates a chart.
-     * 
+     *
      * @param dataset
      *            the dataset.
      * @return A chart.
+     * @param title a {@link java.lang.String} object.
      */
     protected static JFreeChart createChart(PieDataset dataset, String title) {
 
@@ -55,21 +62,40 @@ public abstract class AbstractTaskSubView extends JPanel implements Observer {
         return chart;
     }
 
+    /**
+     * <p>Constructor for AbstractTaskSubView.</p>
+     */
     public AbstractTaskSubView() {
         super();
         // TODO Auto-generated constructor stub
     }
 
+    /**
+     * <p>Constructor for AbstractTaskSubView.</p>
+     *
+     * @param isDoubleBuffered a boolean.
+     */
     public AbstractTaskSubView(boolean isDoubleBuffered) {
         super(isDoubleBuffered);
         // TODO Auto-generated constructor stub
     }
 
+    /**
+     * <p>Constructor for AbstractTaskSubView.</p>
+     *
+     * @param layout a {@link java.awt.LayoutManager} object.
+     * @param isDoubleBuffered a boolean.
+     */
     public AbstractTaskSubView(LayoutManager layout, boolean isDoubleBuffered) {
         super(layout, isDoubleBuffered);
         // TODO Auto-generated constructor stub
     }
 
+    /**
+     * <p>Constructor for AbstractTaskSubView.</p>
+     *
+     * @param layout a {@link java.awt.LayoutManager} object.
+     */
     public AbstractTaskSubView(LayoutManager layout) {
         super(layout);
         // TODO Auto-generated constructor stub

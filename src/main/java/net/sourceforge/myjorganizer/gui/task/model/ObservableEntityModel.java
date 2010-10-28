@@ -22,24 +22,50 @@ import java.util.Observable;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+/**
+ * <p>Abstract ObservableEntityModel class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public abstract class ObservableEntityModel extends Observable {
 
     private final EntityManager entityManager;
 
+    /**
+     * <p>Constructor for ObservableEntityModel.</p>
+     *
+     * @param entityManager a {@link javax.persistence.EntityManager} object.
+     */
     public ObservableEntityModel(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
+    /**
+     * <p>Getter for the field <code>entityManager</code>.</p>
+     *
+     * @return a {@link javax.persistence.EntityManager} object.
+     */
     public EntityManager getEntityManager() {
         return entityManager;
     }
 
+    /**
+     * <p>beginTransaction</p>
+     *
+     * @return a {@link javax.persistence.EntityTransaction} object.
+     */
     protected EntityTransaction beginTransaction() {
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
         return tx;
     }
 
+    /**
+     * <p>commitAndNotify</p>
+     *
+     * @param tx a {@link javax.persistence.EntityTransaction} object.
+     */
     protected void commitAndNotify(EntityTransaction tx) {
         tx.commit();
         setChanged();

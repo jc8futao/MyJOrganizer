@@ -19,8 +19,22 @@ package net.sourceforge.myjorganizer.data;
 
 import java.sql.SQLException;
 
+/**
+ * <p>DatabaseLauncher interface.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public interface DatabaseLauncher {
+    /**
+     * <p>start</p>
+     *
+     * @throws java.sql.SQLException if any.
+     */
     public void start() throws SQLException;
 
+    /**
+     * <p>stop</p>
+     */
     public void stop();
 }

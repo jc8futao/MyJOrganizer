@@ -26,6 +26,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
+/**
+ * <p>Priority class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 @Table(name = "priorities")
 public final class Priority implements Serializable {
 
@@ -57,14 +63,31 @@ public final class Priority implements Serializable {
         this.important = important;
     }
 
+    /**
+     * <p>isUrgent</p>
+     *
+     * @return a boolean.
+     */
     public boolean isUrgent() {
         return this.urgent;
     }
 
+    /**
+     * <p>isImportant</p>
+     *
+     * @return a boolean.
+     */
     public boolean isImportant() {
         return this.important;
     }
 
+    /**
+     * <p>factory</p>
+     *
+     * @param urgent a boolean.
+     * @param important a boolean.
+     * @return a {@link net.sourceforge.myjorganizer.data.Priority} object.
+     */
     public static Priority factory(boolean urgent, boolean important) {
         for (Priority priority : instances) {
             if ((priority.isImportant() == important)
@@ -76,10 +99,16 @@ public final class Priority implements Serializable {
         return null;
     }
 
+    /**
+     * <p>getAll</p>
+     *
+     * @return a {@link java.util.Collection} object.
+     */
     public static Collection<Priority> getAll() {
         return instances;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -89,6 +118,7 @@ public final class Priority implements Serializable {
         return result;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

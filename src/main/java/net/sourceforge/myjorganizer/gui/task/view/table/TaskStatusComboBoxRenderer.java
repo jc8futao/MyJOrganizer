@@ -25,14 +25,26 @@ import javax.swing.table.TableCellRenderer;
 
 import net.sourceforge.myjorganizer.data.TaskStatus;
 
+/**
+ * <p>TaskStatusComboBoxRenderer class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class TaskStatusComboBoxRenderer extends JComboBox implements
         TableCellRenderer {
     private static final long serialVersionUID = -9114625562997469320L;
 
+    /**
+     * <p>Constructor for TaskStatusComboBoxRenderer.</p>
+     *
+     * @param items an array of {@link net.sourceforge.myjorganizer.data.TaskStatus} objects.
+     */
     public TaskStatusComboBoxRenderer(TaskStatus[] items) {
         super(items);
     }
 
+    /** {@inheritDoc} */
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
         if (isSelected) {

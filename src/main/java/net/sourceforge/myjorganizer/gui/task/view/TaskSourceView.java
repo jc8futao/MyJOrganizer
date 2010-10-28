@@ -27,6 +27,12 @@ import javax.swing.JTextArea;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 import net.sourceforge.myjorganizer.parser.TaskSourceFormatter;
 
+/**
+ * <p>TaskSourceView class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class TaskSourceView extends AbstractTaskView implements Observer {
 
     /**
@@ -35,27 +41,39 @@ public class TaskSourceView extends AbstractTaskView implements Observer {
     private static final long serialVersionUID = -1394543402648078273L;
     private JTextArea textArea = new JTextArea();
 
+    /**
+     * <p>Constructor for TaskSourceView.</p>
+     */
     public TaskSourceView() {
         super(new GridLayout(1, 1));
         this.add(new JScrollPane(textArea));
         textArea.setEditable(false);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void update(Observable o, Object arg) {
         textArea.setText(formatSource((TaskSetModel) o));
     }
 
+    /** {@inheritDoc} */
     @Override
     public Observer getTaskSetModelObserver() {
         return this;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Observer getTaskStatusModelObserver() {
         return null;
     }
 
+    /**
+     * <p>formatSource</p>
+     *
+     * @param model a {@link net.sourceforge.myjorganizer.gui.task.model.TaskSetModel} object.
+     * @return a {@link java.lang.String} object.
+     */
     public static String formatSource(TaskSetModel model) {
         return TaskSourceFormatter.formatSource(model.getList());
     }

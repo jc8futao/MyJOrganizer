@@ -24,6 +24,12 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
+/**
+ * <p>TaskStatus class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 @Table(name = "task_statuses", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class TaskStatus {
     private String name;
@@ -33,20 +39,36 @@ public class TaskStatus {
     private TaskStatus() {
     }
 
+    /**
+     * <p>Constructor for TaskStatus.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     */
     public TaskStatus(String name) {
         this();
 
         setName(name);
     }
 
+    /**
+     * <p>Getter for the field <code>name</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * <p>toString</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String toString() {
         return getName();
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -55,6 +77,7 @@ public class TaskStatus {
         return result;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -76,12 +99,23 @@ public class TaskStatus {
         this.name = name;
     }
 
+    /**
+     * <p>Getter for the field <code>id</code>.</p>
+     *
+     * @return a int.
+     */
     @Id
     @GeneratedValue
     public int getId() {
         return id;
     }
 
+    /**
+     * <p>Setter for the field <code>id</code>.</p>
+     *
+     * @param id a int.
+     * @return a {@link net.sourceforge.myjorganizer.data.TaskStatus} object.
+     */
     public TaskStatus setId(int id) {
         this.id = id;
 

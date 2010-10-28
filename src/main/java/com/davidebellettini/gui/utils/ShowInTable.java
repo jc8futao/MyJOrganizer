@@ -32,7 +32,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 /**
  * Annotation for using with GenericTableModel
+ *
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
  */
 public @interface ShowInTable {
     /**

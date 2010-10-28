@@ -19,8 +19,20 @@ package net.sourceforge.myjorganizer.parser;
 
 import net.sourceforge.myjorganizer.data.Task;
 
+/**
+ * <p>TaskSourceFormatter class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class TaskSourceFormatter {
 
+	/**
+	 * <p>formatSource</p>
+	 *
+	 * @param tasks a {@link java.lang.Iterable} object.
+	 * @return a {@link java.lang.String} object.
+	 */
 	public static String formatSource(Iterable<Task> tasks) {
 		StringBuffer sb = new StringBuffer();
 

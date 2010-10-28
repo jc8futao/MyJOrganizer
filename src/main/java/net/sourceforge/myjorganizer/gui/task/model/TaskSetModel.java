@@ -24,10 +24,21 @@ import javax.persistence.EntityTransaction;
 
 import net.sourceforge.myjorganizer.data.Task;
 
+/**
+ * <p>TaskSetModel class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class TaskSetModel extends ObservableEntityModel {
 
     private Collection<Task> taskList;
 
+    /**
+     * <p>Constructor for TaskSetModel.</p>
+     *
+     * @param entityManager a {@link javax.persistence.EntityManager} object.
+     */
     public TaskSetModel(EntityManager entityManager) {
         super(entityManager);
 
@@ -38,6 +49,12 @@ public class TaskSetModel extends ObservableEntityModel {
         tx.commit();
     }
 
+    /**
+     * <p>add</p>
+     *
+     * @param task a {@link net.sourceforge.myjorganizer.data.Task} object.
+     * @return a int.
+     */
     public int add(Task task) {
         EntityTransaction tx = beginTransaction();
 
@@ -49,6 +66,11 @@ public class TaskSetModel extends ObservableEntityModel {
         return task.getId();
     }
 
+    /**
+     * <p>update</p>
+     *
+     * @param task a {@link net.sourceforge.myjorganizer.data.Task} object.
+     */
     public void update(Task task) {
         EntityTransaction tx = beginTransaction();
 
@@ -57,6 +79,11 @@ public class TaskSetModel extends ObservableEntityModel {
         commitAndNotify(tx);
     }
 
+    /**
+     * <p>updateMany</p>
+     *
+     * @param tasks a {@link java.lang.Iterable} object.
+     */
     public void updateMany(Iterable<Task> tasks) {
         EntityTransaction tx = beginTransaction();
 
@@ -67,6 +94,11 @@ public class TaskSetModel extends ObservableEntityModel {
         commitAndNotify(tx);
     }
 
+    /**
+     * <p>delete</p>
+     *
+     * @param task a {@link net.sourceforge.myjorganizer.data.Task} object.
+     */
     public void delete(Task task) {
         EntityTransaction tx = beginTransaction();
 
@@ -76,10 +108,20 @@ public class TaskSetModel extends ObservableEntityModel {
         commitAndNotify(tx);
     }
 
+    /**
+     * <p>getList</p>
+     *
+     * @return a {@link java.util.Collection} object.
+     */
     public Collection<Task> getList() {
         return taskList;
     }
 
+    /**
+     * <p>addMany</p>
+     *
+     * @param tasks a {@link java.lang.Iterable} object.
+     */
     public void addMany(Iterable<Task> tasks) {
         EntityTransaction tx = beginTransaction();
 

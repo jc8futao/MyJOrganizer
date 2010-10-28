@@ -24,6 +24,9 @@ import javax.persistence.Table;
 
 /**
  * Represents a dependency between tasks
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
  */
 @Entity
 @Table(name = "task_dependencies")
@@ -47,29 +50,61 @@ public class TaskDependency {
         this.type = type;
     }
 
+    /**
+     * <p>before</p>
+     *
+     * @param left a {@link net.sourceforge.myjorganizer.data.Task} object.
+     * @param right a {@link net.sourceforge.myjorganizer.data.Task} object.
+     * @return a {@link net.sourceforge.myjorganizer.data.TaskDependency} object.
+     */
     public static TaskDependency before(Task left, Task right) {
         return new TaskDependency("before", left, right);
     }
 
+    /**
+     * <p>Getter for the field <code>left</code>.</p>
+     *
+     * @return a {@link net.sourceforge.myjorganizer.data.Task} object.
+     */
     @ManyToOne
     public Task getLeft() {
         return this.left;
     }
 
+    /**
+     * <p>Getter for the field <code>right</code>.</p>
+     *
+     * @return a {@link net.sourceforge.myjorganizer.data.Task} object.
+     */
     @ManyToOne
     public Task getRight() {
         return this.right;
     }
 
+    /**
+     * <p>getDependencyType</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getDependencyType() {
         return this.type;
     }
 
+    /**
+     * <p>Getter for the field <code>id</code>.</p>
+     *
+     * @return a int.
+     */
     @Id
     public int getId() {
         return id;
     }
 
+    /**
+     * <p>Setter for the field <code>id</code>.</p>
+     *
+     * @param id a int.
+     */
     public void setId(int id) {
         this.id = id;
     }
@@ -82,6 +117,13 @@ public class TaskDependency {
         this.right = right;
     }
 
+    /**
+     * <p>after</p>
+     *
+     * @param left a {@link net.sourceforge.myjorganizer.data.Task} object.
+     * @param right a {@link net.sourceforge.myjorganizer.data.Task} object.
+     * @return a {@link net.sourceforge.myjorganizer.data.TaskDependency} object.
+     */
     public static TaskDependency after(Task left, Task right) {
         return before(right, left);
     }

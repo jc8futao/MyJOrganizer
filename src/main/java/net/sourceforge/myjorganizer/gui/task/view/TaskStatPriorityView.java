@@ -32,6 +32,12 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 
 // TODO refactoring
+/**
+ * <p>TaskStatPriorityView class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class TaskStatPriorityView extends AbstractTaskSubView {
 
     /**
@@ -40,12 +46,16 @@ public class TaskStatPriorityView extends AbstractTaskSubView {
     private static final long serialVersionUID = 9168880772692119068L;
     private DefaultPieDataset priorityDataSet = new DefaultPieDataset();
 
+    /**
+     * <p>Constructor for TaskStatPriorityView.</p>
+     */
     public TaskStatPriorityView() {
         super(new GridLayout(1, 1));
 
         this.add(createPriorityPanel());
     }
 
+    /** {@inheritDoc} */
     @Override
     public void update(Observable o, Object arg) {
         TaskSetModel model = (TaskSetModel) o;
@@ -81,7 +91,7 @@ public class TaskStatPriorityView extends AbstractTaskSubView {
 
     /**
      * Creates a panel for the demo (used by SuperDemo.java).
-     * 
+     *
      * @return A panel.
      */
     protected JPanel createPriorityPanel() {

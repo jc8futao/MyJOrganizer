@@ -28,6 +28,12 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+/**
+ * <p>AddTaskFrame class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class AddTaskFrame extends JFrame {
 
 	/**
@@ -54,6 +60,9 @@ public class AddTaskFrame extends JFrame {
 
 	private AddTaskPanel contentPane;
 
+	/**
+	 * <p>Constructor for AddTaskFrame.</p>
+	 */
 	public AddTaskFrame() {
 		initComponents();
 	}

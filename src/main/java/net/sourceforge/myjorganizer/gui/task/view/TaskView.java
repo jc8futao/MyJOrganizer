@@ -21,12 +21,38 @@ import java.util.Observer;
 
 import net.sourceforge.myjorganizer.gui.task.model.TaskEventListener;
 
+/**
+ * <p>TaskView interface.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public interface TaskView {
+    /**
+     * <p>addTaskEventListener</p>
+     *
+     * @param l a {@link net.sourceforge.myjorganizer.gui.task.model.TaskEventListener} object.
+     */
     public void addTaskEventListener(TaskEventListener l);
 
+    /**
+     * <p>removeTaskEventListener</p>
+     *
+     * @param l a {@link net.sourceforge.myjorganizer.gui.task.model.TaskEventListener} object.
+     */
     public void removeTaskEventListener(TaskEventListener l);
 
+    /**
+     * <p>getTaskSetModelObserver</p>
+     *
+     * @return a {@link java.util.Observer} object.
+     */
     public Observer getTaskSetModelObserver();
 
+    /**
+     * <p>getTaskStatusModelObserver</p>
+     *
+     * @return a {@link java.util.Observer} object.
+     */
     public Observer getTaskStatusModelObserver();
 }

@@ -26,30 +26,51 @@ import javax.swing.JPanel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskEvent;
 import net.sourceforge.myjorganizer.gui.task.model.TaskEventListener;
 
+/**
+ * <p>Abstract AbstractTaskView class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public abstract class AbstractTaskView extends JPanel implements TaskView {
 
     private static final long serialVersionUID = 983360402903856594L;
 
     private List<TaskEventListener> listeners = new ArrayList<TaskEventListener>();
 
+    /**
+     * <p>Constructor for AbstractTaskView.</p>
+     *
+     * @param layout a {@link java.awt.LayoutManager} object.
+     */
     protected AbstractTaskView(LayoutManager layout) {
         super(layout);
     }
 
+    /**
+     * <p>Constructor for AbstractTaskView.</p>
+     */
     protected AbstractTaskView() {
         super();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void addTaskEventListener(TaskEventListener l) {
         this.listeners.add(l);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void removeTaskEventListener(TaskEventListener l) {
         this.listeners.remove(l);
     }
 
+    /**
+     * <p>fireTaskEvent</p>
+     *
+     * @param e a {@link net.sourceforge.myjorganizer.gui.task.model.TaskEvent} object.
+     */
     protected synchronized void fireTaskEvent(TaskEvent e) {
         for (TaskEventListener l : this.listeners) {
             l.tasksChanged(e);

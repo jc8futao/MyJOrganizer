@@ -19,6 +19,12 @@ package net.sourceforge.myjorganizer.i18n;
 
 import java.util.ResourceBundle;
 
+/**
+ * <p>Translator class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class Translator {
     private static ResourceBundle bundle;
     static {
@@ -28,6 +34,12 @@ public class Translator {
         }
     }
 
+    /**
+     * <p>_</p>
+     *
+     * @param source a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     */
     public static String _(String source) {
         if (bundle != null && bundle.containsKey(source))
             return bundle.getString(source);

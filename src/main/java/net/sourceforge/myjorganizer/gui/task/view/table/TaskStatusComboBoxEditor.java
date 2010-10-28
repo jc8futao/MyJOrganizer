@@ -22,12 +22,23 @@ import javax.swing.JComboBox;
 
 import net.sourceforge.myjorganizer.data.TaskStatus;
 
+/**
+ * <p>TaskStatusComboBoxEditor class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class TaskStatusComboBoxEditor extends DefaultCellEditor {
     /**
 	 * 
 	 */
     private static final long serialVersionUID = 2650011890512281580L;
 
+    /**
+     * <p>Constructor for TaskStatusComboBoxEditor.</p>
+     *
+     * @param items an array of {@link net.sourceforge.myjorganizer.data.TaskStatus} objects.
+     */
     public TaskStatusComboBoxEditor(TaskStatus[] items) {
         super(new JComboBox(items));
     }

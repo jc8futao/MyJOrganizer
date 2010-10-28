@@ -36,6 +36,12 @@ import net.sourceforge.myjorganizer.gui.task.view.TaskSourceView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskStatView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskTableView;
 
+/**
+ * <p>TaskController class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class TaskController implements TaskEventListener {
     private TaskSetModel taskSetModel;
     private TaskTableView jTableView;
@@ -45,6 +51,12 @@ public class TaskController implements TaskEventListener {
     private JTabbedPane pane;
     private TaskStatusModel taskStatusModel;
 
+    /**
+     * <p>Constructor for TaskController.</p>
+     *
+     * @param entityManager a {@link javax.persistence.EntityManager} object.
+     * @param pane a {@link javax.swing.JTabbedPane} object.
+     */
     public TaskController(EntityManager entityManager, JTabbedPane pane) {
         this.taskSetModel = new TaskSetModel(entityManager);
         this.taskStatusModel = new TaskStatusModel(entityManager);
@@ -70,6 +82,7 @@ public class TaskController implements TaskEventListener {
         pane.setTitleAt(i++, _("TASK_STATS"));
     }
 
+    /** {@inheritDoc} */
     @Override
     public void tasksChanged(TaskEvent e) {
         taskSetModel.updateMany(e.getChangedTasks());
@@ -94,10 +107,18 @@ public class TaskController implements TaskEventListener {
         }
     }
 
+    /**
+     * <p>loadSampledata</p>
+     */
     public void loadSampledata() {
         SampleData.loadSampleTaskData(taskSetModel);
     }
 
+    /**
+     * <p>Getter for the field <code>taskSetModel</code>.</p>
+     *
+     * @return a {@link net.sourceforge.myjorganizer.gui.task.model.TaskSetModel} object.
+     */
     public TaskSetModel getTaskSetModel() {
         return taskSetModel;
     }

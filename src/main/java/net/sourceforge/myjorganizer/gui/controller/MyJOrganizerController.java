@@ -42,11 +42,22 @@ import net.sourceforge.myjorganizer.parser.visitor.TaskCreatingVisitor;
 
 import org.jdesktop.application.Action;
 
+/**
+ * <p>MyJOrganizerController class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class MyJOrganizerController {
     private MyJOrganizerApp application;
     private MainView mainView;
     private TaskController taskController;
 
+    /**
+     * <p>Constructor for MyJOrganizerController.</p>
+     *
+     * @param application a {@link net.sourceforge.myjorganizer.gui.MyJOrganizerApp} object.
+     */
     public MyJOrganizerController(MyJOrganizerApp application) {
         this.application = application;
         this.mainView = new MainView(application, application.getContext()
@@ -57,25 +68,42 @@ public class MyJOrganizerController {
         application.show(mainView);
     }
 
+    /**
+     * <p>Getter for the field <code>application</code>.</p>
+     *
+     * @return a {@link net.sourceforge.myjorganizer.gui.MyJOrganizerApp} object.
+     */
     public MyJOrganizerApp getApplication() {
         return this.application;
     }
 
+    /**
+     * <p>exit</p>
+     */
     @Action
     public void exit() {
         getApplication().exit();
     }
 
+    /**
+     * <p>newTask</p>
+     */
     @Action
     public void newTask() {
         new AddTaskFrame().setVisible(true);
     }
 
+    /**
+     * <p>loadSampleData</p>
+     */
     @Action
     public void loadSampleData() {
         taskController.loadSampledata();
     }
 
+    /**
+     * <p>importFile</p>
+     */
     @Action
     public void importFile() {
         JFileChooser chooser = new JFileChooser();
@@ -112,6 +140,9 @@ public class MyJOrganizerController {
         }
     }
 
+    /**
+     * <p>exportFile</p>
+     */
     @Action
     public void exportFile() {
         JFileChooser chooser = new JFileChooser();

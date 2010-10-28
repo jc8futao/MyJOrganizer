@@ -25,10 +25,21 @@ import javax.persistence.EntityTransaction;
 import net.sourceforge.myjorganizer.data.Task;
 import net.sourceforge.myjorganizer.data.TaskStatus;
 
+/**
+ * <p>TaskStatusModel class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class TaskStatusModel extends ObservableEntityModel {
 
     private Collection<TaskStatus> taskStatusList;
 
+    /**
+     * <p>Constructor for TaskStatusModel.</p>
+     *
+     * @param entityManager a {@link javax.persistence.EntityManager} object.
+     */
     public TaskStatusModel(EntityManager entityManager) {
         super(entityManager);
 
@@ -39,6 +50,12 @@ public class TaskStatusModel extends ObservableEntityModel {
         tx.commit();
     }
 
+    /**
+     * <p>add</p>
+     *
+     * @param taskStatus a {@link net.sourceforge.myjorganizer.data.TaskStatus} object.
+     * @return a int.
+     */
     public int add(TaskStatus taskStatus) {
         EntityTransaction tx = beginTransaction();
 
@@ -50,6 +67,11 @@ public class TaskStatusModel extends ObservableEntityModel {
         return taskStatus.getId();
     }
 
+    /**
+     * <p>update</p>
+     *
+     * @param task a {@link net.sourceforge.myjorganizer.data.Task} object.
+     */
     public void update(Task task) {
         EntityTransaction tx = beginTransaction();
 
@@ -58,6 +80,11 @@ public class TaskStatusModel extends ObservableEntityModel {
         commitAndNotify(tx);
     }
 
+    /**
+     * <p>updateMany</p>
+     *
+     * @param tasks a {@link java.lang.Iterable} object.
+     */
     public void updateMany(Iterable<Task> tasks) {
         EntityTransaction tx = beginTransaction();
 
@@ -68,6 +95,11 @@ public class TaskStatusModel extends ObservableEntityModel {
         commitAndNotify(tx);
     }
 
+    /**
+     * <p>delete</p>
+     *
+     * @param task a {@link net.sourceforge.myjorganizer.data.Task} object.
+     */
     public void delete(Task task) {
         EntityTransaction tx = beginTransaction();
 
@@ -77,10 +109,20 @@ public class TaskStatusModel extends ObservableEntityModel {
         commitAndNotify(tx);
     }
 
+    /**
+     * <p>getList</p>
+     *
+     * @return a {@link java.util.Collection} object.
+     */
     public Collection<TaskStatus> getList() {
         return taskStatusList;
     }
 
+    /**
+     * <p>addMany</p>
+     *
+     * @param tasks a {@link java.lang.Iterable} object.
+     */
     public void addMany(Iterable<TaskStatus> tasks) {
         EntityTransaction tx = beginTransaction();
 

@@ -21,6 +21,12 @@ import java.util.HashMap;
 
 import javax.swing.table.AbstractTableModel;
 
+/**
+ * <p>Abstract GenericTableModel class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public abstract class GenericTableModel<T> extends AbstractTableModel {
     /**
 	 * 
@@ -50,36 +56,62 @@ public abstract class GenericTableModel<T> extends AbstractTableModel {
 
     private TableProperty[] properties;
 
+    /**
+     * <p>Constructor for GenericTableModel.</p>
+     *
+     * @param type a {@link java.lang.Class} object.
+     */
     public GenericTableModel(Class<? extends T> type) {
         properties = TablePropertyFinder.find(type);
     }
 
+    /** {@inheritDoc} */
     @Override
     public int getColumnCount() {
         return properties.length;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getColumnName(int columnIndex) {
         return properties[columnIndex].getName();
     }
 
+    /** {@inheritDoc} */
     @Override
     public Class<?> getColumnClass(int columnIndex) {
         return convertToNonPrimitive(properties[columnIndex].getType());
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         return properties[columnIndex].isWritable();
     }
 
+    /**
+     * <p>getRowData</p>
+     *
+     * @param rowIndex a int.
+     * @return a T object.
+     */
     public abstract T getRowData(int rowIndex);
 
+    /**
+     * <p>Getter for the field <code>properties</code>.</p>
+     *
+     * @return an array of {@link com.davidebellettini.gui.utils.TableProperty} objects.
+     */
     protected TableProperty[] getProperties() {
         return properties;
     }
 
+    /**
+     * <p>getProperty</p>
+     *
+     * @param index a int.
+     * @return a {@link com.davidebellettini.gui.utils.TableProperty} object.
+     */
     protected TableProperty getProperty(int index) {
         return properties[index];
     }

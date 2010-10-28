@@ -21,8 +21,9 @@ import java.lang.reflect.Method;
 
 /**
  * Container for easily handling property reflection data
- * 
+ *
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
  */
 public class Property {
 
@@ -30,41 +31,89 @@ public class Property {
     private Method setter;
     private String name;
 
+    /**
+     * <p>Constructor for Property.</p>
+     */
     public Property() {
     }
 
+    /**
+     * <p>Getter for the field <code>getter</code>.</p>
+     *
+     * @return a {@link java.lang.reflect.Method} object.
+     */
     public Method getGetter() {
         return this.getter;
     }
 
+    /**
+     * <p>Getter for the field <code>setter</code>.</p>
+     *
+     * @return a {@link java.lang.reflect.Method} object.
+     */
     public Method getSetter() {
         return this.setter;
     }
 
+    /**
+     * <p>Setter for the field <code>getter</code>.</p>
+     *
+     * @param getter a {@link java.lang.reflect.Method} object.
+     */
     public void setGetter(Method getter) {
         this.getter = getter;
     }
 
+    /**
+     * <p>Setter for the field <code>setter</code>.</p>
+     *
+     * @param setter a {@link java.lang.reflect.Method} object.
+     */
     public void setSetter(Method setter) {
         this.setter = setter;
     }
 
+    /**
+     * <p>Setter for the field <code>name</code>.</p>
+     *
+     * @param name a {@link java.lang.String} object.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * <p>Getter for the field <code>name</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * <p>getType</p>
+     *
+     * @return a {@link java.lang.Class} object.
+     */
     public Class<?> getType() {
         return getGetter().getReturnType();
     }
 
+    /**
+     * <p>isReadable</p>
+     *
+     * @return a boolean.
+     */
     public boolean isReadable() {
         return getGetter() != null;
     }
 
+    /**
+     * <p>isWritable</p>
+     *
+     * @return a boolean.
+     */
     public boolean isWritable() {
         return getSetter() != null;
     }

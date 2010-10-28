@@ -20,8 +20,19 @@ import java.util.ArrayList;
 
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 
+/**
+ * <p>SampleData class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class SampleData {
 
+    /**
+     * <p>loadSampleTaskData</p>
+     *
+     * @param taskSetModel a {@link net.sourceforge.myjorganizer.gui.task.model.TaskSetModel} object.
+     */
     public static void loadSampleTaskData(TaskSetModel taskSetModel) {
         ArrayList<Task> tasks = new ArrayList<Task>();
         tasks.add(new Task("Task 1"));

@@ -25,6 +25,12 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * <p>AddTaskPanel class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class AddTaskPanel extends JPanel {
 
 	/**
@@ -38,6 +44,9 @@ public class AddTaskPanel extends JPanel {
 	private final SequentialGroup vGroup = layout.createSequentialGroup();
 	private final SequentialGroup hGroup = layout.createSequentialGroup();
 
+	/**
+	 * <p>Constructor for AddTaskPanel.</p>
+	 */
 	public AddTaskPanel() {
 		layout.setHorizontalGroup(hGroup);
 		layout.setVerticalGroup(vGroup);
@@ -55,6 +64,12 @@ public class AddTaskPanel extends JPanel {
 		setLayout(layout);
 	}
 
+	/**
+	 * <p>addLabeledComponent</p>
+	 *
+	 * @param label a {@link javax.swing.JLabel} object.
+	 * @param component a {@link javax.swing.JComponent} object.
+	 */
 	public void addLabeledComponent(JLabel label, JComponent component) {
 		labelGroup.addComponent(label);
 		componentGroup.addComponent(component);

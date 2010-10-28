@@ -19,12 +19,20 @@ package net.sourceforge.myjorganizer.data;
 
 import java.sql.SQLException;
 
+/**
+ * <p>DummyDatabaseLauncher class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class DummyDatabaseLauncher implements DatabaseLauncher {
 
+    /** {@inheritDoc} */
     @Override
     public void start() throws SQLException {
     }
 
+    /** {@inheritDoc} */
     @Override
     public void stop() {
     }

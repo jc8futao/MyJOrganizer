@@ -21,20 +21,35 @@ import java.sql.SQLException;
 
 import org.h2.tools.Server;
 
+/**
+ * <p>H2DatabaseLauncher class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class H2DatabaseLauncher implements DatabaseLauncher {
     private Server webServer;
     private Server h2Server;
 
     private boolean debug;
 
+    /**
+     * <p>Constructor for H2DatabaseLauncher.</p>
+     *
+     * @param debug a boolean.
+     */
     public H2DatabaseLauncher(boolean debug) {
         this.debug = debug;
     }
 
+    /**
+     * <p>Constructor for H2DatabaseLauncher.</p>
+     */
     public H2DatabaseLauncher() {
         this(false);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void start() throws SQLException {
         if (debug) {
@@ -43,6 +58,7 @@ public class H2DatabaseLauncher implements DatabaseLauncher {
         h2Server = Server.createTcpServer();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void stop() {
         if (webServer != null)

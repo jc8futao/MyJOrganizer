@@ -17,6 +17,17 @@
 
 package net.sourceforge.myjorganizer.gui.task.model;
 
+/**
+ * <p>TaskEventListener interface.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public interface TaskEventListener {
+    /**
+     * <p>tasksChanged</p>
+     *
+     * @param e a {@link net.sourceforge.myjorganizer.gui.task.model.TaskEvent} object.
+     */
     public void tasksChanged(TaskEvent e);
 }

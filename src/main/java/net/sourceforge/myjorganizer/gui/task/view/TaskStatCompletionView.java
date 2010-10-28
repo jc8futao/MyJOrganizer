@@ -32,6 +32,12 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 
 // TODO refactoring
+/**
+ * <p>TaskStatCompletionView class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class TaskStatCompletionView extends AbstractTaskSubView {
 
     /**
@@ -43,12 +49,16 @@ public class TaskStatCompletionView extends AbstractTaskSubView {
 	 */
     private DefaultPieDataset completionDataSet = new DefaultPieDataset();
 
+    /**
+     * <p>Constructor for TaskStatCompletionView.</p>
+     */
     public TaskStatCompletionView() {
         super(new GridLayout(1, 1));
 
         add(createCompletionPanel());
     }
 
+    /** {@inheritDoc} */
     @Override
     public void update(Observable o, Object arg) {
         TaskSetModel model = (TaskSetModel) o;
@@ -70,7 +80,7 @@ public class TaskStatCompletionView extends AbstractTaskSubView {
 
     /**
      * Creates a panel for the demo (used by SuperDemo.java).
-     * 
+     *
      * @return A panel.
      */
     protected JPanel createCompletionPanel() {

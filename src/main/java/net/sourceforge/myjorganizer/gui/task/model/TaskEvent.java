@@ -22,14 +22,31 @@ import java.util.EventObject;
 
 import net.sourceforge.myjorganizer.data.Task;
 
+/**
+ * <p>TaskEvent class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class TaskEvent extends EventObject {
     private static final long serialVersionUID = 4144958728704612439L;
     private final Collection<Task> changedTasks;
 
+    /**
+     * <p>Getter for the field <code>changedTasks</code>.</p>
+     *
+     * @return a {@link java.util.Collection} object.
+     */
     public Collection<Task> getChangedTasks() {
         return changedTasks;
     }
 
+    /**
+     * <p>Constructor for TaskEvent.</p>
+     *
+     * @param source a {@link java.lang.Object} object.
+     * @param changedTasks a {@link java.util.Collection} object.
+     */
     public TaskEvent(Object source, Collection<Task> changedTasks) {
         super(source);
 

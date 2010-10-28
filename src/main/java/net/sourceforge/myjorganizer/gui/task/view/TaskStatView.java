@@ -25,6 +25,12 @@ import java.util.Observer;
 
 import javax.swing.JTabbedPane;
 
+/**
+ * <p>TaskStatView class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class TaskStatView extends AbstractTaskView implements TaskView,
         Observer {
 
@@ -37,6 +43,9 @@ public class TaskStatView extends AbstractTaskView implements TaskView,
     private AbstractTaskSubView completionView = new TaskStatCompletionView();
     private TaskStatPriorityView priorityView = new TaskStatPriorityView();
 
+    /**
+     * <p>Constructor for TaskStatView.</p>
+     */
     public TaskStatView() {
         super(new GridLayout(1, 1));
 
@@ -49,17 +58,20 @@ public class TaskStatView extends AbstractTaskView implements TaskView,
         this.add(tabbedPane);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void update(Observable o, Object arg) {
         completionView.update(o, arg);
         priorityView.update(o, arg);
     }
 
+    /** {@inheritDoc} */
     @Override
     public Observer getTaskSetModelObserver() {
         return this;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Observer getTaskStatusModelObserver() {
         return null;

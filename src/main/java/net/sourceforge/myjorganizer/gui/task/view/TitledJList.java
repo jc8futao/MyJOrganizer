@@ -25,12 +25,24 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+/**
+ * <p>TitledJList class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class TitledJList extends JPanel {
     /**
 	 * 
 	 */
     private static final long serialVersionUID = 3783337175277683000L;
 
+    /**
+     * <p>Constructor for TitledJList.</p>
+     *
+     * @param title a {@link javax.swing.JLabel} object.
+     * @param list a {@link javax.swing.JList} object.
+     */
     public TitledJList(JLabel title, JList list) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);

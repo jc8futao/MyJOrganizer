@@ -24,7 +24,28 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+/**
+ * <p>
+ * TablePropertyFinder class.
+ * </p>
+ * 
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class TablePropertyFinder {
+    /**
+     * <p>
+     * find
+     * </p>
+     * 
+     * finds all properties annotated with
+     * {@link com.davidebellettini.gui.utils.ShowInTable}
+     * 
+     * 
+     * @param type a {@link java.lang.Class} object.
+     * @return an array of {@link com.davidebellettini.gui.utils.TableProperty}
+     *         objects.
+     */
     public static TableProperty[] find(Class<?> type) {
         HashMap<String, Method> getters = new HashMap<String, Method>();
         HashMap<String, Method> setters = new HashMap<String, Method>();

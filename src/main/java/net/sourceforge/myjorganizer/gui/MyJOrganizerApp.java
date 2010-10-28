@@ -33,13 +33,23 @@ import net.sourceforge.myjorganizer.gui.controller.MyJOrganizerController;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
 
+/**
+ * <p>MyJOrganizerApp class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class MyJOrganizerApp extends SingleFrameApplication {
+    /** Constant <code>DEBUG=true</code> */
     public final static boolean DEBUG = true;
 
     private String language;
     private EntityManagerFactory emFactory;
     private EntityManager entityManager;
 
+    /**
+     * <p>Constructor for MyJOrganizerApp.</p>
+     */
     public MyJOrganizerApp() {
         getContext()
                 .getResourceManager()
@@ -47,26 +57,52 @@ public class MyJOrganizerApp extends SingleFrameApplication {
                         Arrays.asList("net.sourceforge.myjorganizer.gui.resources.MyJOrganizerApp"));
     }
 
+    /**
+     * <p>main</p>
+     *
+     * @param args an array of {@link java.lang.String} objects.
+     */
     public static void main(String args[]) {
         launch(MyJOrganizerApp.class, args);
     }
 
+    /**
+     * <p>getApplication</p>
+     *
+     * @return a {@link net.sourceforge.myjorganizer.gui.MyJOrganizerApp} object.
+     */
     public static MyJOrganizerApp getApplication() {
         return Application.getInstance(MyJOrganizerApp.class);
     }
 
+    /**
+     * <p>getEntityManagerFactory</p>
+     *
+     * @return a {@link javax.persistence.EntityManagerFactory} object.
+     */
     public EntityManagerFactory getEntityManagerFactory() {
         return emFactory;
     }
 
+    /**
+     * <p>Getter for the field <code>language</code>.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String getLanguage() {
         return this.language;
     }
 
+    /**
+     * <p>Getter for the field <code>entityManager</code>.</p>
+     *
+     * @return a {@link javax.persistence.EntityManager} object.
+     */
     public EntityManager getEntityManager() {
         return entityManager;
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void startup() {
         registerExitListener();
