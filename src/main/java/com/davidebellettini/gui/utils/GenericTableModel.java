@@ -29,10 +29,14 @@ public abstract class GenericTableModel<T> extends AbstractTableModel {
     private static HashMap<Class<?>, Class<?>> conversionTypes = new HashMap<Class<?>, Class<?>>();
 
     static {
+        conversionTypes.put(Byte.TYPE, Byte.class);
+        conversionTypes.put(Short.TYPE, Short.class);
         conversionTypes.put(Integer.TYPE, Integer.class);
+        conversionTypes.put(Long.TYPE, Long.class);
+        conversionTypes.put(Float.TYPE, Float.class);
         conversionTypes.put(Double.TYPE, Double.class);
         conversionTypes.put(Boolean.TYPE, Boolean.class);
-        conversionTypes.put(Float.TYPE, Float.class);
+        conversionTypes.put(Character.TYPE, Character.class);
     }
 
     private static Class<?> convertToNonPrimitive(Class<?> type) {
