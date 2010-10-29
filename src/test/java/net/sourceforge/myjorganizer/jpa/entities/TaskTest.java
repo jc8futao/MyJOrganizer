@@ -196,7 +196,7 @@ public class TaskTest {
 	public void testGeneratedIdentifier() {
 		task.setId(10);
 
-		assertEquals("$task10", task.getIdentifier());
+		assertEquals("task10", task.getIdentifier());
 	}
 
 	@Test

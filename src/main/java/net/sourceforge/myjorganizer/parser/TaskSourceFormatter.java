@@ -17,55 +17,65 @@
 
 package net.sourceforge.myjorganizer.parser;
 
+import static net.sourceforge.myjorganizer.parser.StringUtils.escape;
 import net.sourceforge.myjorganizer.jpa.entities.Task;
 
 /**
- * <p>TaskSourceFormatter class.</p>
- *
+ * <p>
+ * TaskSourceFormatter class.
+ * </p>
+ * 
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
 public class TaskSourceFormatter {
+    private final static String INDENT = "    ";
 
-	/**
-	 * <p>formatSource</p>
-	 *
-	 * @param tasks a {@link java.lang.Iterable} object.
-	 * @return a {@link java.lang.String} object.
-	 */
-	public static String formatSource(Iterable<Task> tasks) {
-		StringBuffer sb = new StringBuffer();
+    /**
+     * <p>
+     * formatSource
+     * </p>
+     * 
+     * @param tasks
+     *            a {@link java.lang.Iterable} object.
+     * @return a {@link java.lang.String} object.
+     */
+    public static String formatSource(Iterable<Task> tasks) {
+        StringBuffer sb = new StringBuffer();
 
-		for (Task task : tasks) {
-			if (task.getId() > 0) {
-				sb.append("task " + task.getIdentifier());
+        for (Task task : tasks) {
+            if (task.getId() > 0) {
+                sb.append("create task " + task.getIdentifier());
 
-				if (task.getParent() != null) {
-					sb.append(" childof ");
-					sb.append(task.getParent().getIdentifier());
-				}
+                if (task.getParent() != null) {
+                    sb.append(" childof ");
+                    sb.append(task.getParent().getIdentifier());
+                }
 
-				sb.append(":\n");
-			} else {
-				sb.append("task:\n");
-			}
-			sb.append("    title: \"" + task.getTitle() + "\"\n");
+                sb.append(":\n");
+            } else {
+                sb.append("task:\n");
+            }
 
-			String description;
-			if ((description = task.getDescription()) != null
-					&& description.length() > 0) {
-				sb.append("    description: \"" + description + "\"\n");
-			}
+            sb.append(INDENT + "title: " + escape(task.getTitle()) + "\n");
 
-			sb.append("    completion: " + task.getCompletion() + "%\n");
-			sb.append("    urgent: " + task.getPriority().isUrgent() + "\n");
-			sb.append("    important: " + task.getPriority().isImportant()
-					+ "\n");
-			if (task.getStatus() != null)
-				sb.append("    status: \"" + task.getStatus() + "\"\n");
-			sb.append("end task\n\n");
-		}
+            String description;
+            if ((description = task.getDescription()) != null
+                    && description.length() > 0) {
+                sb.append(INDENT + "description: " + escape(description) + "\n");
+            }
 
-		return sb.toString();
-	}
+            sb.append(INDENT + "completion: " + task.getCompletion() + "%\n");
+            sb.append(INDENT + "urgent: " + task.getPriority().isUrgent()
+                    + "\n");
+            sb.append(INDENT + "important: " + task.getPriority().isImportant()
+                    + "\n");
+            if (task.getStatus() != null)
+                sb.append(INDENT + "status: "
+                        + escape(task.getStatus().toString()) + "\"\n");
+            sb.append("end task\n\n");
+        }
+
+        return sb.toString();
+    }
 }

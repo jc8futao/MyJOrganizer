@@ -23,9 +23,9 @@
 	version="2.0">
 	<persistence-unit name="myjorganizer"
 		transaction-type="RESOURCE_LOCAL">
-		<class>net.sourceforge.myjorganizer.data.Task</class>
-		<class>net.sourceforge.myjorganizer.data.TaskDependency</class>
-		<class>net.sourceforge.myjorganizer.data.TaskStatus</class>
+		<class>net.sourceforge.myjorganizer.jpa.entities.Task</class>
+		<class>net.sourceforge.myjorganizer.jpa.entities.TaskDependency</class>
+		<class>net.sourceforge.myjorganizer.jpa.entities.TaskStatus</class>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 			<property name="hibernate.hbm2ddl.auto" value="update" />

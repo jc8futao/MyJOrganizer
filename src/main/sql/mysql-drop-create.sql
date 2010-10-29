@@ -1,2 +1,2 @@
-DROP DATABASE `myjorganizer`;
-CREATE DATABASE `myjorganizer` CHARSET 'UTF-8';
+DROP DATABASE IF EXISTS `myjorganizer`;
+CREATE DATABASE `myjorganizer` CHARSET 'utf8';

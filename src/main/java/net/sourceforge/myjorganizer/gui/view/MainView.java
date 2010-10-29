@@ -65,8 +65,8 @@ public class MainView extends FrameView {
 		JMenu fileMenu = new JMenu(_("FILE_MENU"));
 
 		JMenuItem importMenuItem = new JMenuItem();
-		importMenuItem.setAction(actionMap.get("importFile"));
-		importMenuItem.setText(_("FILE_IMPORT"));
+		importMenuItem.setAction(actionMap.get("parseSource"));
+		importMenuItem.setText(_("FILE_PARSE_SOURCE"));
 		fileMenu.add(importMenuItem);
 
 		JMenuItem exportMenuItem = new JMenuItem();

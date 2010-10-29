@@ -17,6 +17,8 @@
 
 package net.sourceforge.myjorganizer.parser.visitor;
 
+import static net.sourceforge.myjorganizer.parser.StringUtils.unescape;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,8 +40,10 @@ import net.sourceforge.myjorganizer.parser.syntaxtree.TaskTitle;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskUrgency;
 
 /**
- * <p>TaskCreatingVisitor class.</p>
- *
+ * <p>
+ * TaskCreatingVisitor class.
+ * </p>
+ * 
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
@@ -57,7 +61,7 @@ public class TaskCreatingVisitor extends DepthFirstVisitor {
 
     /**
      * Grammar production:
-     *
+     * 
      * <PRE>
      * f0 -> &lt;TASK&gt;
      * f1 -> [ &lt;IDENTIFIER&gt; ]
@@ -73,8 +77,11 @@ public class TaskCreatingVisitor extends DepthFirstVisitor {
      * f11 -> &lt;END&gt;
      * f12 -> &lt;TASK&gt;
      * </PRE>
-     *
-     * @param n a {@link net.sourceforge.myjorganizer.parser.syntaxtree.TaskDefinition} object.
+     * 
+     * @param n
+     *            a
+     *            {@link net.sourceforge.myjorganizer.parser.syntaxtree.TaskDefinition}
+     *            object.
      */
     public void visit(TaskDefinition n) {
         visitedTasks.add(currentTask = new Task());
@@ -104,8 +111,11 @@ public class TaskCreatingVisitor extends DepthFirstVisitor {
 
     /**
      * f0 -> "childof" f1 -> <COLON> f2 -> <IDENTIFIER>
-     *
-     * @param n a {@link net.sourceforge.myjorganizer.parser.syntaxtree.ChildOf} object.
+     * 
+     * @param n
+     *            a
+     *            {@link net.sourceforge.myjorganizer.parser.syntaxtree.ChildOf}
+     *            object.
      */
     public void visit(ChildOf n) {
         this.propertyParser = new PropertyParser() {
@@ -122,16 +132,19 @@ public class TaskCreatingVisitor extends DepthFirstVisitor {
     }
 
     /**
-     * f0 -> "title" f1 -> <COLON> f2 -> <STRING_LITERAL>
-     *
-     * @param n a {@link net.sourceforge.myjorganizer.parser.syntaxtree.TaskTitle} object.
+     * Grammar production:
+     * <PRE>
+     * f0 -> &lt;TITLE&gt;
+     * f1 -> &lt;COLON&gt;
+     * f2 -> &lt;STRING_LITERAL&gt;
+     * </PRE>
      */
     public void visit(TaskTitle n) {
         this.propertyParser = new PropertyParser() {
 
             @Override
             public void setValue(String value) {
-                currentTask.setTitle(value);
+                currentTask.setTitle(unescape(value));
 
                 System.err.println("Title: " + value);
             }
@@ -143,17 +156,20 @@ public class TaskCreatingVisitor extends DepthFirstVisitor {
     }
 
     /**
-     * <p>visit</p>
-     *
-     * @param n a {@link net.sourceforge.myjorganizer.parser.syntaxtree.TaskDescription} object.
+     * Grammar production:
+     * <PRE>
+     * f0 -> &lt;DESCRIPTION&gt;
+     * f1 -> &lt;COLON&gt;
+     * f2 -> &lt;STRING_LITERAL&gt;
+     * </PRE>
      */
     public void visit(TaskDescription n) {
         this.propertyParser = new PropertyParser() {
 
             @Override
             public void setValue(String value) {
-                currentTask.setDescription(value);
 
+                currentTask.setDescription(unescape(value));
                 System.err.println("Description: " + value);
             }
         };
@@ -164,9 +180,14 @@ public class TaskCreatingVisitor extends DepthFirstVisitor {
     }
 
     /**
-     * f0 -> "completion" f1 -> <COLON> f2 -> <INTEGER_LITERAL> f3 -> <PERCENT>
-     *
-     * @param n a {@link net.sourceforge.myjorganizer.parser.syntaxtree.TaskCompletion} object.
+     * Grammar production:
+     * 
+     * <PRE>
+     * f0 -> &lt;COMPLETION&gt;
+     * f1 -> &lt;COLON&gt;
+     * f2 -> &lt;INTEGER_LITERAL&gt;
+     * f3 -> &lt;PERCENT&gt;
+     * </PRE>
      */
     public void visit(TaskCompletion n) {
         this.propertyParser = new PropertyParser() {
@@ -182,9 +203,13 @@ public class TaskCreatingVisitor extends DepthFirstVisitor {
     }
 
     /**
-     * f0 -> "urgent" f1 -> <COLON> f2 -> <BOOL_LITERAL>
-     *
-     * @param n a {@link net.sourceforge.myjorganizer.parser.syntaxtree.TaskUrgency} object.
+     * Grammar production:
+     * 
+     * <PRE>
+     * f0 -> &lt;URGENT&gt;
+     * f1 -> &lt;COLON&gt;
+     * f2 -> &lt;BOOL_LITERAL&gt;
+     * </PRE>
      */
     public void visit(TaskUrgency n) {
         this.propertyParser = new PropertyParser() {
@@ -200,9 +225,12 @@ public class TaskCreatingVisitor extends DepthFirstVisitor {
     }
 
     /**
-     * f0 -> "important" f1 -> <COLON> f2 -> <BOOL_LITERAL>
-     *
-     * @param n a {@link net.sourceforge.myjorganizer.parser.syntaxtree.TaskImportance} object.
+     * Grammar production:
+     * <PRE>
+     * f0 -> &lt;IMPORTANT&gt;
+     * f1 -> &lt;COLON&gt;
+     * f2 -> &lt;BOOL_LITERAL&gt;
+     * </PRE>
      */
     public void visit(TaskImportance n) {
         this.propertyParser = new PropertyParser() {
@@ -218,9 +246,13 @@ public class TaskCreatingVisitor extends DepthFirstVisitor {
     }
 
     /**
-     * f0 -> "startdate" f1 -> <COLON> f2 -> <DATE_LITERAL>
-     *
-     * @param n a {@link net.sourceforge.myjorganizer.parser.syntaxtree.TaskStartDate} object.
+     * Grammar production:
+     * 
+     * <PRE>
+     * f0 -> &lt;STARTDATE&gt;
+     * f1 -> &lt;COLON&gt;
+     * f2 -> &lt;DATE_LITERAL&gt;
+     * </PRE>
      */
     public void visit(TaskStartDate n) {
         this.propertyParser = new PropertyParser() {
@@ -236,9 +268,13 @@ public class TaskCreatingVisitor extends DepthFirstVisitor {
     }
 
     /**
-     * f0 -> "duedate" f1 -> <COLON> f2 -> <DATE_LITERAL>
-     *
-     * @param n a {@link net.sourceforge.myjorganizer.parser.syntaxtree.TaskDueDate} object.
+     * Grammar production:
+     * 
+     * <PRE>
+     * f0 -> &lt;DUEDATE&gt;
+     * f1 -> &lt;COLON&gt;
+     * f2 -> &lt;DATE_LITERAL&gt;
+     * </PRE>
      */
     public void visit(TaskDueDate n) {
         this.propertyParser = new PropertyParser() {
@@ -254,9 +290,13 @@ public class TaskCreatingVisitor extends DepthFirstVisitor {
     }
 
     /**
-     * <p>visit</p>
-     *
-     * @param n a {@link net.sourceforge.myjorganizer.jpa.entities.syntaxtree.TaskStatus} object.
+     * Grammar production:
+     * 
+     * <PRE>
+     * f0 -> &lt;STATUS&gt;
+     * f1 -> &lt;COLON&gt;
+     * f2 -> &lt;STRING_LITERAL&gt;
+     * </PRE>
      */
     public void visit(TaskStatus n) {
         this.propertyParser = new PropertyParser() {
@@ -273,10 +313,12 @@ public class TaskCreatingVisitor extends DepthFirstVisitor {
     }
 
     /**
-     * f0 -> ( "before" | "after" ) f1 -> <IDENTIFIER> f2 -> ( <COMMA>
-     * <IDENTIFIER> )*
-     *
-     * @param n a {@link net.sourceforge.myjorganizer.parser.syntaxtree.DependencyDefinition} object.
+     * Grammar production:
+     * 
+     * <PRE>
+     * f0 -> ( &lt;BEFORE&gt; | &lt;AFTER&gt; )
+     * f1 -> &lt;IDENTIFIER&gt;
+     * </PRE>
      */
     public void visit(DependencyDefinition n) {
         this.propertyParser = new PropertyParser() {
@@ -310,8 +352,10 @@ public class TaskCreatingVisitor extends DepthFirstVisitor {
     }
 
     /**
-     * <p>Getter for the field <code>visitedTasks</code>.</p>
-     *
+     * <p>
+     * Getter for the field <code>visitedTasks</code>.
+     * </p>
+     * 
      * @return a {@link java.util.ArrayList} object.
      */
     public ArrayList<Task> getVisitedTasks() {
@@ -345,9 +389,5 @@ public class TaskCreatingVisitor extends DepthFirstVisitor {
         }
 
         list.add(task);
-    }
-
-    private static String unescapeString(String escaped) {
-        return escaped;
     }
 }

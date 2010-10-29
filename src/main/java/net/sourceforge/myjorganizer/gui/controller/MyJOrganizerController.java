@@ -37,7 +37,7 @@ import net.sourceforge.myjorganizer.gui.view.AddTaskFrame;
 import net.sourceforge.myjorganizer.gui.view.MainView;
 import net.sourceforge.myjorganizer.jpa.entities.Task;
 import net.sourceforge.myjorganizer.parser.TaskListParser;
-import net.sourceforge.myjorganizer.parser.syntaxtree.TaskList;
+import net.sourceforge.myjorganizer.parser.syntaxtree.TaskCommands;
 import net.sourceforge.myjorganizer.parser.visitor.TaskCreatingVisitor;
 
 import org.jdesktop.application.Action;
@@ -105,7 +105,7 @@ public class MyJOrganizerController {
      * <p>importFile</p>
      */
     @Action
-    public void importFile() {
+    public void parseSource() {
         JFileChooser chooser = new JFileChooser();
         int option = chooser.showOpenDialog(mainView.getFrame());
         if (option == JFileChooser.APPROVE_OPTION) {
@@ -117,7 +117,7 @@ public class MyJOrganizerController {
 
             try {
                 TaskListParser parser = new TaskListParser(new FileReader(file));
-                TaskList list = parser.TaskList();
+                TaskCommands list = parser.TaskCommands();
 
                 TaskCreatingVisitor tcv = new TaskCreatingVisitor();
                 tcv.visit(list);
