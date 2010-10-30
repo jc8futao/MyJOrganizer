@@ -72,7 +72,7 @@ public class TaskSourceFormatter {
                     + "\n");
             if (task.getStatus() != null)
                 sb.append(INDENT + "status: "
-                        + escape(task.getStatus().toString()) + "\"\n");
+                        + escape(task.getStatus()) + "\n");
             sb.append("end task\n\n");
         }
 
