@@ -44,18 +44,14 @@ public class TaskSourceFormatter {
         StringBuffer sb = new StringBuffer();
 
         for (Task task : tasks) {
-            if (task.getId() > 0) {
-                sb.append("create task " + task.getIdentifier());
+            sb.append("insert task " + task.getId());
 
-                if (task.getParent() != null) {
-                    sb.append(" childof ");
-                    sb.append(task.getParent().getIdentifier());
-                }
-
-                sb.append(":\n");
-            } else {
-                sb.append("task:\n");
+            if (task.getParent() != null) {
+                sb.append(" childof ");
+                sb.append(task.getParent().getId());
             }
+
+            sb.append(":\n");
 
             sb.append(INDENT + "title: " + escape(task.getTitle()) + "\n");
 
@@ -71,8 +67,7 @@ public class TaskSourceFormatter {
             sb.append(INDENT + "important: " + task.getPriority().isImportant()
                     + "\n");
             if (task.getStatus() != null)
-                sb.append(INDENT + "status: "
-                        + escape(task.getStatus()) + "\n");
+                sb.append(INDENT + "status: " + escape(task.getStatus()) + "\n");
             sb.append("end task\n\n");
         }
 

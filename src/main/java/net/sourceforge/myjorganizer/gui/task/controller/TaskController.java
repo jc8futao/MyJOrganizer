@@ -122,4 +122,8 @@ public class TaskController implements TaskEventListener {
     public TaskSetModel getTaskSetModel() {
         return taskSetModel;
     }
+
+    public TaskStatusModel getTaskStatusModel() {
+        return taskStatusModel;
+    }
 }

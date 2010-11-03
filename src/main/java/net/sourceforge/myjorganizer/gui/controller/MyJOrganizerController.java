@@ -24,29 +24,32 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import net.sourceforge.myjorganizer.gui.ConsoleThread;
 import net.sourceforge.myjorganizer.gui.MyJOrganizerApp;
 import net.sourceforge.myjorganizer.gui.task.controller.TaskController;
 import net.sourceforge.myjorganizer.gui.task.view.TaskSourceView;
 import net.sourceforge.myjorganizer.gui.view.AddTaskFrame;
 import net.sourceforge.myjorganizer.gui.view.MainView;
-import net.sourceforge.myjorganizer.jpa.entities.Task;
-import net.sourceforge.myjorganizer.parser.TaskListParser;
+import net.sourceforge.myjorganizer.parser.TaskCommandsParser;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskCommands;
-import net.sourceforge.myjorganizer.parser.visitor.TaskCreatingVisitor;
+import net.sourceforge.myjorganizer.parser.visitor.ExecutingVisitor;
+import net.sourceforge.myjorganizer.parser.visitor.Visitor;
 
 import org.jdesktop.application.Action;
 
 /**
- * <p>MyJOrganizerController class.</p>
- *
+ * <p>
+ * MyJOrganizerController class.
+ * </p>
+ * 
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
- * @version $Id$
+ * @version $Id: MyJOrganizerController.java 115 2010-10-29 19:13:16Z
+ *          dbellettini $
  */
 public class MyJOrganizerController {
     private MyJOrganizerApp application;
@@ -54,9 +57,13 @@ public class MyJOrganizerController {
     private TaskController taskController;
 
     /**
-     * <p>Constructor for MyJOrganizerController.</p>
-     *
-     * @param application a {@link net.sourceforge.myjorganizer.gui.MyJOrganizerApp} object.
+     * <p>
+     * Constructor for MyJOrganizerController.
+     * </p>
+     * 
+     * @param application
+     *            a {@link net.sourceforge.myjorganizer.gui.MyJOrganizerApp}
+     *            object.
      */
     public MyJOrganizerController(MyJOrganizerApp application) {
         this.application = application;
@@ -66,19 +73,27 @@ public class MyJOrganizerController {
         this.taskController = new TaskController(
                 application.getEntityManager(), mainView.getMainPanel());
         application.show(mainView);
+
+        new ConsoleThread(taskController.getTaskSetModel(),
+                taskController.getTaskStatusModel()).start();
     }
 
     /**
-     * <p>Getter for the field <code>application</code>.</p>
-     *
-     * @return a {@link net.sourceforge.myjorganizer.gui.MyJOrganizerApp} object.
+     * <p>
+     * Getter for the field <code>application</code>.
+     * </p>
+     * 
+     * @return a {@link net.sourceforge.myjorganizer.gui.MyJOrganizerApp}
+     *         object.
      */
     public MyJOrganizerApp getApplication() {
         return this.application;
     }
 
     /**
-     * <p>exit</p>
+     * <p>
+     * exit
+     * </p>
      */
     @Action
     public void exit() {
@@ -86,7 +101,9 @@ public class MyJOrganizerController {
     }
 
     /**
-     * <p>newTask</p>
+     * <p>
+     * newTask
+     * </p>
      */
     @Action
     public void newTask() {
@@ -94,7 +111,9 @@ public class MyJOrganizerController {
     }
 
     /**
-     * <p>loadSampleData</p>
+     * <p>
+     * loadSampleData
+     * </p>
      */
     @Action
     public void loadSampleData() {
@@ -102,7 +121,9 @@ public class MyJOrganizerController {
     }
 
     /**
-     * <p>importFile</p>
+     * <p>
+     * importFile
+     * </p>
      */
     @Action
     public void parseSource() {
@@ -116,15 +137,12 @@ public class MyJOrganizerController {
             String errorMessage = null;
 
             try {
-                TaskListParser parser = new TaskListParser(new FileReader(file));
+                TaskCommandsParser parser = new TaskCommandsParser(
+                        new FileReader(file));
                 TaskCommands list = parser.TaskCommands();
 
-                TaskCreatingVisitor tcv = new TaskCreatingVisitor();
-                tcv.visit(list);
-                ArrayList<Task> tasks = tcv.getVisitedTasks();
-
-                taskController.getTaskSetModel().addMany(tasks);
-
+                Visitor visitor = new ExecutingVisitor(taskController.getTaskSetModel(), taskController.getTaskStatusModel());
+                visitor.visit(list);
             } catch (FileNotFoundException e) {
                 statusBar.setText(errorMessage = _("FILE_NOT_FOUND"));
                 errorMessage += "\n" + e.toString();
@@ -141,7 +159,9 @@ public class MyJOrganizerController {
     }
 
     /**
-     * <p>exportFile</p>
+     * <p>
+     * exportFile
+     * </p>
      */
     @Action
     public void exportFile() {

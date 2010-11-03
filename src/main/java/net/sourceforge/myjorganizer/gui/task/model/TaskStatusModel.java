@@ -56,15 +56,13 @@ public class TaskStatusModel extends ObservableEntityModel {
      * @param taskStatus a {@link net.sourceforge.myjorganizer.jpa.entities.TaskStatus} object.
      * @return a int.
      */
-    public int add(TaskStatus taskStatus) {
+    public void add(TaskStatus taskStatus) {
         EntityTransaction tx = beginTransaction();
 
         getEntityManager().persist(taskStatus);
         taskStatusList.add(taskStatus);
 
         commitAndNotify(tx);
-
-        return taskStatus.getId();
     }
 
     /**

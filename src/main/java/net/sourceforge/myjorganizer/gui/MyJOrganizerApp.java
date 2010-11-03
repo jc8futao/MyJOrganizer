@@ -29,6 +29,7 @@ import javax.swing.JOptionPane;
 
 import net.sourceforge.myjorganizer.gui.controller.MyJOrganizerController;
 import net.sourceforge.myjorganizer.jpa.JPAUtil;
+import net.sourceforge.myjorganizer.jpa.entities.BasicDataLoader;
 
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
@@ -115,6 +116,8 @@ public class MyJOrganizerApp extends SingleFrameApplication {
 
         this.emFactory = JPAUtil.createEntityManagerFactory();
         this.entityManager = emFactory.createEntityManager();
+        
+        BasicDataLoader.ensureBasicData(this.entityManager);
 
         new MyJOrganizerController(this);
     }

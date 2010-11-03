@@ -21,12 +21,16 @@ import java.util.Collection;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 import net.sourceforge.myjorganizer.jpa.entities.Task;
 
 /**
- * <p>TaskSetModel class.</p>
- *
+ * <p>
+ * TaskSetModel class.
+ * </p>
+ * 
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
@@ -35,9 +39,12 @@ public class TaskSetModel extends ObservableEntityModel {
     private Collection<Task> taskList;
 
     /**
-     * <p>Constructor for TaskSetModel.</p>
-     *
-     * @param entityManager a {@link javax.persistence.EntityManager} object.
+     * <p>
+     * Constructor for TaskSetModel.
+     * </p>
+     * 
+     * @param entityManager
+     *            a {@link javax.persistence.EntityManager} object.
      */
     public TaskSetModel(EntityManager entityManager) {
         super(entityManager);
@@ -50,26 +57,32 @@ public class TaskSetModel extends ObservableEntityModel {
     }
 
     /**
-     * <p>add</p>
-     *
-     * @param task a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
+     * <p>
+     * add
+     * </p>
+     * 
+     * @param task
+     *            a {@link net.sourceforge.myjorganizer.jpa.entities.Task}
+     *            object.
      * @return a int.
      */
-    public int add(Task task) {
+    public void add(Task task) {
         EntityTransaction tx = beginTransaction();
 
         getEntityManager().persist(task);
         taskList.add(task);
 
         commitAndNotify(tx);
-
-        return task.getId();
     }
 
     /**
-     * <p>update</p>
-     *
-     * @param task a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
+     * <p>
+     * update
+     * </p>
+     * 
+     * @param task
+     *            a {@link net.sourceforge.myjorganizer.jpa.entities.Task}
+     *            object.
      */
     public void update(Task task) {
         EntityTransaction tx = beginTransaction();
@@ -80,9 +93,12 @@ public class TaskSetModel extends ObservableEntityModel {
     }
 
     /**
-     * <p>updateMany</p>
-     *
-     * @param tasks a {@link java.lang.Iterable} object.
+     * <p>
+     * updateMany
+     * </p>
+     * 
+     * @param tasks
+     *            a {@link java.lang.Iterable} object.
      */
     public void updateMany(Iterable<Task> tasks) {
         EntityTransaction tx = beginTransaction();
@@ -95,22 +111,50 @@ public class TaskSetModel extends ObservableEntityModel {
     }
 
     /**
-     * <p>delete</p>
-     *
-     * @param task a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
+     * <p>
+     * delete
+     * </p>
+     * 
+     * @param task
+     *            a {@link net.sourceforge.myjorganizer.jpa.entities.Task}
+     *            object.
      */
     public void delete(Task task) {
         EntityTransaction tx = beginTransaction();
 
+        rawDelete(task);
+
+        commitAndNotify(tx);
+    }
+
+    protected void rawDelete(Task task) {
         getEntityManager().remove(task);
         taskList.remove(task);
+    }
+
+    public void delete(String id) {
+        EntityTransaction tx = beginTransaction();
+        TypedQuery<Task> query = getEntityManager().createQuery(
+                "FROM Task WHERE id=?", Task.class);
+
+        query.setParameter(1, id);
+
+        try {
+            Task task = query.getSingleResult();
+            rawDelete(task);
+        } catch (NoResultException e) {
+            tx.rollback();
+            throw e;
+        }
 
         commitAndNotify(tx);
     }
 
     /**
-     * <p>getList</p>
-     *
+     * <p>
+     * getList
+     * </p>
+     * 
      * @return a {@link java.util.Collection} object.
      */
     public Collection<Task> getList() {
@@ -118,9 +162,12 @@ public class TaskSetModel extends ObservableEntityModel {
     }
 
     /**
-     * <p>addMany</p>
-     *
-     * @param tasks a {@link java.lang.Iterable} object.
+     * <p>
+     * addMany
+     * </p>
+     * 
+     * @param tasks
+     *            a {@link java.lang.Iterable} object.
      */
     public void addMany(Iterable<Task> tasks) {
         EntityTransaction tx = beginTransaction();

@@ -18,10 +18,9 @@
 package net.sourceforge.myjorganizer.jpa.entities;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Pattern;
 
 @Entity
 /**
@@ -30,11 +29,12 @@ import javax.persistence.UniqueConstraint;
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
-@Table(name = "task_statuses", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
+@Table(name = "task_statuses")
 public class TaskStatus {
-    private String name;
-
-    private int id;
+    public final static TaskStatus OPEN = new TaskStatus("open");
+    public final static TaskStatus CLOSED = new TaskStatus("closed");
+    
+    private String id;
 
     private TaskStatus() {
     }
@@ -47,7 +47,7 @@ public class TaskStatus {
     public TaskStatus(String name) {
         this();
 
-        setName(name);
+        setId(name);
     }
 
     /**
@@ -55,29 +55,33 @@ public class TaskStatus {
      *
      * @return a {@link java.lang.String} object.
      */
-    public String getName() {
-        return name;
+    @Id
+    @Pattern(regexp="^[0-9a-z]+$")
+    public String getId() {
+        return id;
     }
-
+    
     /**
      * <p>toString</p>
      *
      * @return a {@link java.lang.String} object.
      */
     public String toString() {
-        return getName();
+        return getId();
     }
 
-    /** {@inheritDoc} */
+    private void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -87,38 +91,11 @@ public class TaskStatus {
         if (getClass() != obj.getClass())
             return false;
         TaskStatus other = (TaskStatus) obj;
-        if (name == null) {
-            if (other.name != null)
+        if (id == null) {
+            if (other.id != null)
                 return false;
-        } else if (!name.equals(other.name))
+        } else if (!id.equals(other.id))
             return false;
         return true;
-    }
-
-    private void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * <p>Getter for the field <code>id</code>.</p>
-     *
-     * @return a int.
-     */
-    @Id
-    @GeneratedValue
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * <p>Setter for the field <code>id</code>.</p>
-     *
-     * @param id a int.
-     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.TaskStatus} object.
-     */
-    public TaskStatus setId(int id) {
-        this.id = id;
-
-        return this;
     }
 }
