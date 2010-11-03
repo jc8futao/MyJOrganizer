@@ -10,5 +10,8 @@ public class TaskDependencyModel extends ObservableEntityModel<TaskDependency> {
     public TaskDependencyModel(EntityManager entityManager) {
         super(entityManager, new JPATaskDependencyDAO(entityManager,
                 TaskDependency.class));
+
+        this.setList(entityManager.createQuery("FROM TaskDependency",
+                TaskDependency.class).getResultList());
     }
 }

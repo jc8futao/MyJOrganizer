@@ -47,8 +47,8 @@ public class TaskStatusModel extends ObservableEntityModel<TaskStatus> {
 
         EntityTransaction tx = beginTransaction();
 
-        this.list = entityManager.createQuery("FROM TaskStatus",
-                TaskStatus.class).getResultList();
+        this.setList(entityManager.createQuery("FROM TaskStatus",
+                TaskStatus.class).getResultList());
         tx.commit();
     }
 
@@ -66,7 +66,7 @@ public class TaskStatusModel extends ObservableEntityModel<TaskStatus> {
             status = new TaskStatus(id);
             getEntityManager().persist(status);
 
-            list.add(status);
+            getList().add(status);
             commitAndNotify(tx);
         } else {
             tx.commit();

@@ -6,6 +6,7 @@ import net.sourceforge.myjorganizer.gui.task.model.TaskModels;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
 import net.sourceforge.myjorganizer.jpa.entities.Task;
+import net.sourceforge.myjorganizer.jpa.entities.TaskDependency;
 import net.sourceforge.myjorganizer.parser.syntaxtree.ChildOf;
 import net.sourceforge.myjorganizer.parser.syntaxtree.DependencyDefinition;
 import net.sourceforge.myjorganizer.parser.syntaxtree.DependencyList;
@@ -31,6 +32,8 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
     private TaskStatusModel statusModel;
     private Task currentTask;
     private TaskDependencyModel depModel;
+    private NodeParser nodeParser;
+    private boolean before;
 
     public ExecutingVisitor(TaskModels models) {
         this.taskModel = models.getTaskModel();
@@ -182,9 +185,27 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
      * f1 -> <IDENTIFIER>
      */
     public void visit(DependencyDefinition n) {
+        this.nodeParser = new NodeParser() {
+            @Override
+            public void parseToken(String node) {
+                before = "before".equals(node);
+            }
+        };
+
+        n.f0.accept(this);
+
+        this.nodeParser = null;
+
         Task otherTask = taskModel.find(n.f1.tokenImage);
+        TaskDependency dependency;
+
+        if (before) {
+            dependency = TaskDependency.before(currentTask, otherTask);
+        } else {
+            dependency = TaskDependency.after(currentTask, otherTask);
+        }
         
-                
+        depModel.add(dependency);
     }
 
     @Override
@@ -198,5 +219,9 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
      */
     public void visit(DependencyList n) {
         n.f2.accept(this);
+    }
+
+    private interface NodeParser {
+        public void parseToken(String node);
     }
 }

@@ -17,6 +17,7 @@
 
 package net.sourceforge.myjorganizer.gui.task.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
@@ -38,7 +39,7 @@ import net.sourceforge.myjorganizer.jpa.dao.JPAEntityDAO;
 public abstract class ObservableEntityModel<T> extends Observable {
 
     private final EntityManager entityManager;
-    protected Collection<T> list;
+    private Collection<T> list;
     private final JPAEntityDAO<T> dao;
 
     /**
