@@ -60,8 +60,10 @@ public class TaskSetModel extends ObservableEntityModel<Task> {
             throw new PersistenceException("Task " + id + " not found");
         }
 
-        getList().remove(task);
-        getEntityManager().remove(task);
+        if (!getList().remove(task))
+            throw new IllegalStateException("Task not present in list");
+        
+        getDao().remove(task);
 
         commitAndNotify(tx);
     }

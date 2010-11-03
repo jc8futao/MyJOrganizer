@@ -214,4 +214,14 @@ public class TaskTest {
         son.setParent(parent);
         assertEquals(parent, son.getParent());
     }
+
+    @Test
+    public void testEquals() {
+        assertEquals(new Task("Hello"), new Task("Hello"));
+    }
+
+    @Test
+    public void testHashCode() {
+        assertEquals(new Task("Hello").hashCode(), new Task("Hello").hashCode());
+    }
 }

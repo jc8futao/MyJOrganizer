@@ -33,8 +33,7 @@ import net.sourceforge.myjorganizer.jpa.dao.JPAEntityDAO;
  * </p>
  * 
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
- * @version $Id: ObservableEntityModel.java 106 2010-10-28 08:34:07Z dbellettini
- *          $
+ * @version $Id: ObservableEntityModel.java 106 2010-10-28 08:34:07Z dbellettini$
  */
 public abstract class ObservableEntityModel<T> extends Observable {
 
@@ -180,8 +179,8 @@ public abstract class ObservableEntityModel<T> extends Observable {
         getList().remove(entity);
     }
 
-    protected void setList(List<T> resultList) {
-        this.list = resultList;
+    protected void setList(List<T> list) {
+        this.list = list;
     }
 
     public JPAEntityDAO<T> getDao() {
