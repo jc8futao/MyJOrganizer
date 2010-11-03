@@ -17,13 +17,11 @@
 
 package net.sourceforge.myjorganizer.gui.task.model;
 
-import java.util.Collection;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
+import javax.persistence.PersistenceException;
 
+import net.sourceforge.myjorganizer.jpa.dao.JPATaskDAO;
 import net.sourceforge.myjorganizer.jpa.entities.Task;
 
 /**
@@ -34,10 +32,7 @@ import net.sourceforge.myjorganizer.jpa.entities.Task;
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
-public class TaskSetModel extends ObservableEntityModel {
-
-    private Collection<Task> taskList;
-
+public class TaskSetModel extends ObservableEntityModel<Task> {
     /**
      * <p>
      * Constructor for TaskSetModel.
@@ -47,136 +42,40 @@ public class TaskSetModel extends ObservableEntityModel {
      *            a {@link javax.persistence.EntityManager} object.
      */
     public TaskSetModel(EntityManager entityManager) {
-        super(entityManager);
+        super(entityManager, new JPATaskDAO(entityManager));
 
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
-        this.taskList = entityManager.createQuery("FROM Task", Task.class)
-                .getResultList();
+        this.setList(entityManager.createQuery("FROM Task", Task.class)
+                .getResultList());
         tx.commit();
-    }
-
-    /**
-     * <p>
-     * add
-     * </p>
-     * 
-     * @param task
-     *            a {@link net.sourceforge.myjorganizer.jpa.entities.Task}
-     *            object.
-     * @return a int.
-     */
-    public void add(Task task) {
-        EntityTransaction tx = beginTransaction();
-
-        getEntityManager().persist(task);
-        taskList.add(task);
-
-        commitAndNotify(tx);
-    }
-
-    /**
-     * <p>
-     * update
-     * </p>
-     * 
-     * @param task
-     *            a {@link net.sourceforge.myjorganizer.jpa.entities.Task}
-     *            object.
-     */
-    public void update(Task task) {
-        EntityTransaction tx = beginTransaction();
-
-        getEntityManager().merge(task);
-
-        commitAndNotify(tx);
-    }
-
-    /**
-     * <p>
-     * updateMany
-     * </p>
-     * 
-     * @param tasks
-     *            a {@link java.lang.Iterable} object.
-     */
-    public void updateMany(Iterable<Task> tasks) {
-        EntityTransaction tx = beginTransaction();
-
-        for (Task task : tasks) {
-            getEntityManager().merge(task);
-        }
-
-        commitAndNotify(tx);
-    }
-
-    /**
-     * <p>
-     * delete
-     * </p>
-     * 
-     * @param task
-     *            a {@link net.sourceforge.myjorganizer.jpa.entities.Task}
-     *            object.
-     */
-    public void delete(Task task) {
-        EntityTransaction tx = beginTransaction();
-
-        rawDelete(task);
-
-        commitAndNotify(tx);
-    }
-
-    protected void rawDelete(Task task) {
-        getEntityManager().remove(task);
-        taskList.remove(task);
     }
 
     public void delete(String id) {
         EntityTransaction tx = beginTransaction();
-        TypedQuery<Task> query = getEntityManager().createQuery(
-                "FROM Task WHERE id=?", Task.class);
+        Task task = getDao().find(id);
 
-        query.setParameter(1, id);
-
-        try {
-            Task task = query.getSingleResult();
-            rawDelete(task);
-        } catch (NoResultException e) {
+        if (task == null) {
             tx.rollback();
-            throw e;
+            throw new PersistenceException("Task " + id + " not found");
         }
+
+        getList().remove(task);
+        getEntityManager().remove(task);
 
         commitAndNotify(tx);
     }
 
-    /**
-     * <p>
-     * getList
-     * </p>
-     * 
-     * @return a {@link java.util.Collection} object.
-     */
-    public Collection<Task> getList() {
-        return taskList;
-    }
-
-    /**
-     * <p>
-     * addMany
-     * </p>
-     * 
-     * @param tasks
-     *            a {@link java.lang.Iterable} object.
-     */
-    public void addMany(Iterable<Task> tasks) {
+    public void markAsDone(String id) {
         EntityTransaction tx = beginTransaction();
 
-        for (Task task : tasks) {
-            getEntityManager().persist(task);
-            taskList.add(task);
-        }
+        Task task = getDao().find(id);
+        if (task != null) {
+            task.setCompletion(100);
 
-        commitAndNotify(tx);
+            commitAndNotify(tx);
+        } else {
+            tx.rollback();
+        }
     }
 }

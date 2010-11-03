@@ -24,7 +24,9 @@ import java.util.Observer;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import net.sourceforge.myjorganizer.gui.task.model.ObservableEntityModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
+import net.sourceforge.myjorganizer.jpa.entities.Task;
 import net.sourceforge.myjorganizer.parser.TaskSourceFormatter;
 
 /**
@@ -74,7 +76,7 @@ public class TaskSourceView extends AbstractTaskView implements Observer {
      * @param model a {@link net.sourceforge.myjorganizer.gui.task.model.TaskSetModel} object.
      * @return a {@link java.lang.String} object.
      */
-    public static String formatSource(TaskSetModel model) {
+    public static String formatSource(ObservableEntityModel<Task> model) {
         return TaskSourceFormatter.formatSource(model.getList());
     }
 }

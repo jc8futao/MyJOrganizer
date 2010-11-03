@@ -17,42 +17,74 @@
 
 package net.sourceforge.myjorganizer.gui.task.model;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Observable;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceException;
+
+import net.sourceforge.myjorganizer.jpa.dao.JPAEntityDAO;
 
 /**
- * <p>Abstract ObservableEntityModel class.</p>
- *
+ * <p>
+ * Abstract ObservableEntityModel class.
+ * </p>
+ * 
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
- * @version $Id$
+ * @version $Id: ObservableEntityModel.java 106 2010-10-28 08:34:07Z dbellettini
+ *          $
  */
-public abstract class ObservableEntityModel extends Observable {
+public abstract class ObservableEntityModel<T> extends Observable {
 
     private final EntityManager entityManager;
+    protected Collection<T> list;
+    private final JPAEntityDAO<T> dao;
 
     /**
-     * <p>Constructor for ObservableEntityModel.</p>
-     *
-     * @param entityManager a {@link javax.persistence.EntityManager} object.
+     * <p>
+     * Constructor for ObservableEntityModel.
+     * </p>
+     * 
+     * @param entityManager
+     *            a {@link javax.persistence.EntityManager} object.
      */
-    public ObservableEntityModel(EntityManager entityManager) {
+    protected ObservableEntityModel(EntityManager entityManager,
+            JPAEntityDAO<T> dao) {
         this.entityManager = entityManager;
+        this.dao = dao;
     }
 
     /**
-     * <p>Getter for the field <code>entityManager</code>.</p>
-     *
+     * <p>
+     * Getter for the field <code>entityManager</code>.
+     * </p>
+     * 
      * @return a {@link javax.persistence.EntityManager} object.
      */
     public EntityManager getEntityManager() {
         return entityManager;
     }
 
+    public void update(T entity) {
+        EntityTransaction tx = beginTransaction();
+
+        try {
+            getDao().merge(entity);
+        } catch (PersistenceException e) {
+            tx.rollback();
+            throw e;
+        }
+
+        commitAndNotify(tx);
+    }
+
     /**
-     * <p>beginTransaction</p>
-     *
+     * <p>
+     * beginTransaction
+     * </p>
+     * 
      * @return a {@link javax.persistence.EntityTransaction} object.
      */
     protected EntityTransaction beginTransaction() {
@@ -62,13 +94,97 @@ public abstract class ObservableEntityModel extends Observable {
     }
 
     /**
-     * <p>commitAndNotify</p>
-     *
-     * @param tx a {@link javax.persistence.EntityTransaction} object.
+     * <p>
+     * commitAndNotify
+     * </p>
+     * 
+     * @param tx
+     *            a {@link javax.persistence.EntityTransaction} object.
      */
     protected void commitAndNotify(EntityTransaction tx) {
         tx.commit();
+
         setChanged();
         notifyObservers();
+    }
+
+    /**
+     * <p>
+     * getList
+     * </p>
+     * 
+     * @return a {@link java.util.Collection} object.
+     */
+    public Collection<T> getList() {
+        return list;
+    }
+
+    public void delete(T entity) {
+        EntityTransaction tx = beginTransaction();
+
+        try {
+            getDao().remove(entity);
+            list.remove(entity);
+        } catch (PersistenceException e) {
+            tx.rollback();
+            throw e;
+        }
+
+        commitAndNotify(tx);
+    }
+
+    public void add(T entity) {
+        EntityTransaction tx = beginTransaction();
+
+        try {
+            getEntityManager().persist(entity);
+            list.add(entity);
+        } catch (PersistenceException e) {
+            tx.rollback();
+            throw e;
+        }
+
+        commitAndNotify(tx);
+    }
+
+    public void updateMany(Iterable<T> entities) {
+        EntityTransaction tx = beginTransaction();
+        try {
+            getDao().mergeMany(entities);
+        } catch (PersistenceException e) {
+            tx.rollback();
+            throw e;
+        }
+        commitAndNotify(tx);
+    }
+
+    public void addMany(Iterable<T> entities) {
+        EntityTransaction tx = beginTransaction();
+
+        try {
+            getDao().persistMany(entities);
+        } catch (PersistenceException e) {
+            tx.rollback();
+            throw e;
+        }
+
+        for (T entity : entities) {
+            getList().add(entity);
+        }
+
+        commitAndNotify(tx);
+    }
+
+    protected void rawDelete(T entity) {
+        getDao().remove(entity);
+        getList().remove(entity);
+    }
+
+    protected void setList(List<T> resultList) {
+        this.list = resultList;
+    }
+
+    public JPAEntityDAO<T> getDao() {
+        return dao;
     }
 }

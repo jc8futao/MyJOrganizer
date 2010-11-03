@@ -29,6 +29,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableColumn;
 
+import net.sourceforge.myjorganizer.gui.task.model.ObservableEntityModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskEvent;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
@@ -96,7 +97,7 @@ public class TaskTableView extends AbstractTaskView {
     public Observer getTaskSetModelObserver() {
         return new Observer() {
             public void update(Observable o, Object arg) {
-                TaskSetModel taskSetModel = (TaskSetModel) o;
+                ObservableEntityModel<Task> taskSetModel = (TaskSetModel) o;
 
                 tableModel.removeTableModelListener(tableListener);
                 tableModel.setList(taskSetModel.getList());
@@ -112,7 +113,7 @@ public class TaskTableView extends AbstractTaskView {
 
             @Override
             public void update(Observable o, Object arg) {
-                TaskStatusModel model = (TaskStatusModel) o;
+                ObservableEntityModel<TaskStatus> model = (TaskStatusModel) o;
                 taskStatuses = model.getList().toArray(taskStatuses);
 
                 TableColumn statusColumn = jTable.getColumn("Status");

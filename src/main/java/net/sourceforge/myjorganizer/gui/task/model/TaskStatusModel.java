@@ -17,118 +17,61 @@
 
 package net.sourceforge.myjorganizer.gui.task.model;
 
-import java.util.Collection;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+import net.sourceforge.myjorganizer.jpa.dao.TaskStatusDAO;
 import net.sourceforge.myjorganizer.jpa.entities.Task;
 import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
 /**
- * <p>TaskStatusModel class.</p>
- *
+ * <p>
+ * TaskStatusModel class.
+ * </p>
+ * 
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
-public class TaskStatusModel extends ObservableEntityModel {
-
-    private Collection<TaskStatus> taskStatusList;
+public class TaskStatusModel extends ObservableEntityModel<TaskStatus> {
 
     /**
-     * <p>Constructor for TaskStatusModel.</p>
-     *
-     * @param entityManager a {@link javax.persistence.EntityManager} object.
+     * <p>
+     * Constructor for TaskStatusModel.
+     * </p>
+     * 
+     * @param entityManager
+     *            a {@link javax.persistence.EntityManager} object.
      */
     public TaskStatusModel(EntityManager entityManager) {
-        super(entityManager);
+        super(entityManager, new TaskStatusDAO(entityManager));
 
         EntityTransaction tx = beginTransaction();
 
-        this.taskStatusList = entityManager.createQuery("FROM TaskStatus",
+        this.list = entityManager.createQuery("FROM TaskStatus",
                 TaskStatus.class).getResultList();
         tx.commit();
     }
 
     /**
-     * <p>add</p>
-     *
-     * @param taskStatus a {@link net.sourceforge.myjorganizer.jpa.entities.TaskStatus} object.
-     * @return a int.
+     * Gets a Task Status by id
+     * 
+     * @param id
+     * @return
      */
-    public void add(TaskStatus taskStatus) {
+    public TaskStatus getById(String id) {
         EntityTransaction tx = beginTransaction();
+        TaskStatus status = getEntityManager().find(TaskStatus.class, id);
 
-        getEntityManager().persist(taskStatus);
-        taskStatusList.add(taskStatus);
+        if (status == null) {
+            status = new TaskStatus(id);
+            getEntityManager().persist(status);
 
-        commitAndNotify(tx);
-    }
-
-    /**
-     * <p>update</p>
-     *
-     * @param task a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
-     */
-    public void update(Task task) {
-        EntityTransaction tx = beginTransaction();
-
-        getEntityManager().merge(task);
-
-        commitAndNotify(tx);
-    }
-
-    /**
-     * <p>updateMany</p>
-     *
-     * @param tasks a {@link java.lang.Iterable} object.
-     */
-    public void updateMany(Iterable<Task> tasks) {
-        EntityTransaction tx = beginTransaction();
-
-        for (Task task : tasks) {
-            getEntityManager().merge(task);
+            list.add(status);
+            commitAndNotify(tx);
+        } else {
+            tx.commit();
         }
 
-        commitAndNotify(tx);
-    }
-
-    /**
-     * <p>delete</p>
-     *
-     * @param task a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
-     */
-    public void delete(Task task) {
-        EntityTransaction tx = beginTransaction();
-
-        getEntityManager().remove(task);
-        taskStatusList.remove(task);
-
-        commitAndNotify(tx);
-    }
-
-    /**
-     * <p>getList</p>
-     *
-     * @return a {@link java.util.Collection} object.
-     */
-    public Collection<TaskStatus> getList() {
-        return taskStatusList;
-    }
-
-    /**
-     * <p>addMany</p>
-     *
-     * @param tasks a {@link java.lang.Iterable} object.
-     */
-    public void addMany(Iterable<TaskStatus> tasks) {
-        EntityTransaction tx = beginTransaction();
-
-        for (TaskStatus task : tasks) {
-            getEntityManager().persist(task);
-            taskStatusList.add(task);
-        }
-
-        commitAndNotify(tx);
+        return status;
     }
 }

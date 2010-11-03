@@ -214,11 +214,4 @@ public class TaskTest {
         son.setParent(parent);
         assertEquals(parent, son.getParent());
     }
-
-    @Test
-    public void testNewTaskIsOpen() {
-        Task open = new Task("OpenedTask");
-
-        assertEquals(TaskStatus.OPEN, open.getStatus());
-    }
 }

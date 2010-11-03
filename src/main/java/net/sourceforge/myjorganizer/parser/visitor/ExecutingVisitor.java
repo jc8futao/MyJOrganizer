@@ -75,7 +75,7 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
 
     @Override
     public void visit(TaskDoneCommand n) {
-        n.f2.accept(this);
+        taskModel.markAsDone(n.f2.tokenImage);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
      * f12 -> <TASK>
      */
     public void visit(TaskDefinition n) {
-        currentTask.setId(n.f1.tokenImage);        
+        currentTask.setId(n.f1.tokenImage);
 
         n.f2.accept(this);
         n.f4.accept(this);
@@ -164,8 +164,11 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
 
     @Override
     public void visit(TaskStatus n) {
-        // TODO Auto-generated method stub
-
+        net.sourceforge.myjorganizer.jpa.entities.TaskStatus status = statusModel.getById(unescape(n.f2.tokenImage));
+        
+        currentTask.setStatus(status);
+        
+        
     }
 
     @Override

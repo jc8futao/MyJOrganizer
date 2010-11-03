@@ -29,14 +29,14 @@ public class InteractiveVisitor extends ExecutingVisitor {
     @Override
     public void visit(TaskInsertCommand n) {
         super.visit(n);
-        out.println("Task successfully inserted");
+        out.println("Task " + n.f1.f1.tokenImage + "successfully inserted");
     }
 
     @Override
     public void visit(TaskDeleteCommand n) {
         try {
             super.visit(n);
-            out.println("Task successfully deleted");
+            out.println("Task " + n.f2.tokenImage + " successfully deleted");
         } catch (NoResultException e) {
             out.println("Task not found");
         }
@@ -45,6 +45,6 @@ public class InteractiveVisitor extends ExecutingVisitor {
     @Override
     public void visit(TaskDoneCommand n) {
         super.visit(n);
-        out.println("Task successfully marked as done");
+        out.println("Task " + n.f2.tokenImage + " successfully marked as done");
     }
 }

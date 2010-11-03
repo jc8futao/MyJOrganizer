@@ -19,6 +19,7 @@ package net.sourceforge.myjorganizer.jpa.entities;
 import java.util.ArrayList;
 
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
+import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
 
 /**
  * <p>
@@ -40,7 +41,9 @@ public class SampleData {
      *            {@link net.sourceforge.myjorganizer.gui.task.model.TaskSetModel}
      *            object.
      */
-    public static void loadSampleTaskData(TaskSetModel taskSetModel) {
+    public static void loadSampleTaskData(TaskSetModel taskSetModel, TaskStatusModel statusModel) {
+        TaskStatus open = statusModel.getById("open");
+        
         ArrayList<Task> tasks = new ArrayList<Task>();
         tasks.add(new Task("Task 1"));
         tasks.add(new Task("Task 2"));
@@ -55,6 +58,7 @@ public class SampleData {
         int i = 0;
         for (Task t : tasks) {
             t.setId("demotask" + ++i);
+            t.setStatus(open);
         }
 
         taskSetModel.addMany(tasks);

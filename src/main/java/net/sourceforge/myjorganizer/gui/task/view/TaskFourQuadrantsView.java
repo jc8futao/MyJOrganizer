@@ -24,9 +24,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Map.Entry;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -36,10 +36,13 @@ import net.sourceforge.myjorganizer.jpa.entities.Priority;
 import net.sourceforge.myjorganizer.jpa.entities.Task;
 
 /**
- * <p>TaskFourQuadrantsView class.</p>
- *
+ * <p>
+ * TaskFourQuadrantsView class.
+ * </p>
+ * 
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
- * @version $Id$
+ * @version $Id: TaskFourQuadrantsView.java 111 2010-10-28 12:24:09Z dbellettini
+ *          $
  */
 public class TaskFourQuadrantsView extends AbstractTaskView implements Observer {
 
@@ -51,7 +54,9 @@ public class TaskFourQuadrantsView extends AbstractTaskView implements Observer 
     HashMap<Priority, List<Task>> listData = new HashMap<Priority, List<Task>>();
 
     /**
-     * <p>Constructor for TaskFourQuadrantsView.</p>
+     * <p>
+     * Constructor for TaskFourQuadrantsView.
+     * </p>
      */
     public TaskFourQuadrantsView() {
         Collection<Priority> priorities = Priority.getAll();

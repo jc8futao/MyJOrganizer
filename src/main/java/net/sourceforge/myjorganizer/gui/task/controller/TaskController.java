@@ -24,6 +24,7 @@ import java.util.Observer;
 import javax.persistence.EntityManager;
 import javax.swing.JTabbedPane;
 
+import net.sourceforge.myjorganizer.gui.task.model.ObservableEntityModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskEvent;
 import net.sourceforge.myjorganizer.gui.task.model.TaskEventListener;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
@@ -34,6 +35,7 @@ import net.sourceforge.myjorganizer.gui.task.view.TaskSourceView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskStatView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskTableView;
 import net.sourceforge.myjorganizer.jpa.entities.SampleData;
+import net.sourceforge.myjorganizer.jpa.entities.Task;
 import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
 /**
@@ -111,7 +113,7 @@ public class TaskController implements TaskEventListener {
      * <p>loadSampledata</p>
      */
     public void loadSampledata() {
-        SampleData.loadSampleTaskData(taskSetModel);
+        SampleData.loadSampleTaskData(taskSetModel, taskStatusModel);
     }
 
     /**

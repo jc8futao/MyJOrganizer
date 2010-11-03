@@ -29,7 +29,12 @@ public class ConsoleThread extends Thread {
                 TaskCommand command = parser.TaskCommand();
                 visitor.visit(command);
             } catch (Throwable t) {
-                err.println(t);
+                if (MyJOrganizerApp.DEBUG) {
+                    t.printStackTrace(err);
+                } else {
+                    err.println(t);
+                }
+
                 parser.ReInit(in);
             }
         }
@@ -44,7 +49,7 @@ public class ConsoleThread extends Thread {
         this.in = in;
         this.parser = new TaskCommandsParser(in);
         this.err = err;
-        
+
         this.visitor = new InteractiveVisitor(out, taskModel, statusModel);
     }
 }

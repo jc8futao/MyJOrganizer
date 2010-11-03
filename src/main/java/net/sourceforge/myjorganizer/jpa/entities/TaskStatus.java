@@ -56,7 +56,7 @@ public class TaskStatus {
      * @return a {@link java.lang.String} object.
      */
     @Id
-    @Pattern(regexp="^[0-9a-z]+$")
+    //@Pattern(regexp="^[0-9a-z]+$")
     public String getId() {
         return id;
     }

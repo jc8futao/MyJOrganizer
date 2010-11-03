@@ -75,16 +75,6 @@ public class Task {
     }
 
     /**
-     * Creates a task with name and priority
-     * 
-     * @param name
-     * @param priority
-     */
-    public Task(String name, Priority priority) {
-        this(name, priority, TaskStatus.OPEN);
-    }
-
-    /**
      * <p>
      * Constructor for Task.
      * </p>
@@ -95,10 +85,9 @@ public class Task {
      *            a {@link net.sourceforge.myjorganizer.jpa.entities.Priority}
      *            object.
      */
-    public Task(String name, Priority priority, TaskStatus status) {
+    public Task(String name, Priority priority) {
         setTitle(name);
         setPriority(priority);
-        setStatus(status);
     }
 
     /**
