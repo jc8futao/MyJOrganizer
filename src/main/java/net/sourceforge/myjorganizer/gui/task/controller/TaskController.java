@@ -24,9 +24,10 @@ import java.util.Observer;
 import javax.persistence.EntityManager;
 import javax.swing.JTabbedPane;
 
-import net.sourceforge.myjorganizer.gui.task.model.ObservableEntityModel;
+import net.sourceforge.myjorganizer.gui.task.model.TaskDependencyModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskEvent;
 import net.sourceforge.myjorganizer.gui.task.model.TaskEventListener;
+import net.sourceforge.myjorganizer.gui.task.model.TaskModels;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
 import net.sourceforge.myjorganizer.gui.task.view.AbstractTaskView;
@@ -35,7 +36,6 @@ import net.sourceforge.myjorganizer.gui.task.view.TaskSourceView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskStatView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskTableView;
 import net.sourceforge.myjorganizer.jpa.entities.SampleData;
-import net.sourceforge.myjorganizer.jpa.entities.Task;
 import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
 /**
@@ -45,13 +45,24 @@ import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
  * @version $Id$
  */
 public class TaskController implements TaskEventListener {
-    private TaskSetModel taskSetModel;
     private TaskTableView jTableView;
     private TaskSourceView sourceView;
     private TaskFourQuadrantsView fourQuadrantsView;
     private TaskStatView statView;
     private JTabbedPane pane;
-    private TaskStatusModel taskStatusModel;
+    private final TaskModels taskModels;
+
+    public TaskDependencyModel getDependencyModel() {
+        return taskModels.getDependencyModel();
+    }
+
+    public TaskStatusModel getStatusModel() {
+        return taskModels.getStatusModel();
+    }
+
+    public TaskSetModel getTaskModel() {
+        return taskModels.getTaskModel();
+    }
 
     /**
      * <p>Constructor for TaskController.</p>
@@ -60,8 +71,8 @@ public class TaskController implements TaskEventListener {
      * @param pane a {@link javax.swing.JTabbedPane} object.
      */
     public TaskController(EntityManager entityManager, JTabbedPane pane) {
-        this.taskSetModel = new TaskSetModel(entityManager);
-        this.taskStatusModel = new TaskStatusModel(entityManager);
+        this.taskModels = new TaskModels(entityManager);
+        
         this.pane = pane;
 
         jTableView = new TaskTableView();
@@ -70,7 +81,7 @@ public class TaskController implements TaskEventListener {
         statView = new TaskStatView();
 
         TaskStatus[] taskStatuses = new TaskStatus[0];
-        taskStatuses = taskStatusModel.getList().toArray(taskStatuses);
+        taskStatuses = getStatusModel().getList().toArray(taskStatuses);
 
         addView(sourceView);
         addView(jTableView);
@@ -87,7 +98,7 @@ public class TaskController implements TaskEventListener {
     /** {@inheritDoc} */
     @Override
     public void tasksChanged(TaskEvent e) {
-        taskSetModel.updateMany(e.getChangedTasks());
+        getTaskModel().updateMany(e.getChangedTasks());
     }
 
     private void addView(AbstractTaskView view) {
@@ -99,13 +110,13 @@ public class TaskController implements TaskEventListener {
         Observer taskStatusModelObserver = view.getTaskStatusModelObserver();
 
         if (taskSetModelObserver != null) {
-            taskSetModelObserver.update(taskSetModel, null);
-            taskSetModel.addObserver(taskSetModelObserver);
+            taskSetModelObserver.update(getTaskModel(), null);
+            getTaskModel().addObserver(taskSetModelObserver);
         }
 
         if (taskStatusModelObserver != null) {
-            taskStatusModelObserver.update(taskStatusModel, null);
-            taskStatusModel.addObserver(taskStatusModelObserver);
+            taskStatusModelObserver.update(getStatusModel(), null);
+            getStatusModel().addObserver(taskStatusModelObserver);
         }
     }
 
@@ -113,19 +124,10 @@ public class TaskController implements TaskEventListener {
      * <p>loadSampledata</p>
      */
     public void loadSampledata() {
-        SampleData.loadSampleTaskData(taskSetModel, taskStatusModel);
+        SampleData.loadSampleTaskData(getTaskModel(), getStatusModel());
     }
 
-    /**
-     * <p>Getter for the field <code>taskSetModel</code>.</p>
-     *
-     * @return a {@link net.sourceforge.myjorganizer.gui.task.model.TaskSetModel} object.
-     */
-    public TaskSetModel getTaskSetModel() {
-        return taskSetModel;
-    }
-
-    public TaskStatusModel getTaskStatusModel() {
-        return taskStatusModel;
+    public TaskModels getModels() {
+        return this.taskModels;
     }
 }

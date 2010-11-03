@@ -3,6 +3,8 @@ package net.sourceforge.myjorganizer.gui;
 import java.io.InputStream;
 import java.io.PrintStream;
 
+import net.sourceforge.myjorganizer.gui.task.model.TaskDependencyModel;
+import net.sourceforge.myjorganizer.gui.task.model.TaskModels;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
 import net.sourceforge.myjorganizer.parser.TaskCommandsParser;
@@ -40,16 +42,16 @@ public class ConsoleThread extends Thread {
         }
     }
 
-    public ConsoleThread(TaskSetModel taskModel, TaskStatusModel statusModel) {
-        this(System.in, System.out, System.err, taskModel, statusModel);
+    public ConsoleThread(TaskModels models) {
+        this(System.in, System.out, System.err, models);
     }
 
     public ConsoleThread(InputStream in, PrintStream out, PrintStream err,
-            TaskSetModel taskModel, TaskStatusModel statusModel) {
+            TaskModels models) {
         this.in = in;
         this.parser = new TaskCommandsParser(in);
         this.err = err;
 
-        this.visitor = new InteractiveVisitor(out, taskModel, statusModel);
+        this.visitor = new InteractiveVisitor(out, models);
     }
 }

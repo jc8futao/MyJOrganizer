@@ -74,8 +74,7 @@ public class MyJOrganizerController {
                 application.getEntityManager(), mainView.getMainPanel());
         application.show(mainView);
 
-        new ConsoleThread(taskController.getTaskSetModel(),
-                taskController.getTaskStatusModel()).start();
+        new ConsoleThread(taskController.getModels()).start();
     }
 
     /**
@@ -141,7 +140,7 @@ public class MyJOrganizerController {
                         new FileReader(file));
                 TaskCommands list = parser.TaskCommands();
 
-                Visitor visitor = new ExecutingVisitor(taskController.getTaskSetModel(), taskController.getTaskStatusModel());
+                Visitor visitor = new ExecutingVisitor(taskController.getModels());
                 visitor.visit(list);
             } catch (FileNotFoundException e) {
                 statusBar.setText(errorMessage = _("FILE_NOT_FOUND"));
@@ -175,7 +174,7 @@ public class MyJOrganizerController {
             try {
                 FileWriter fw = new FileWriter(file);
                 fw.write(TaskSourceView.formatSource(taskController
-                        .getTaskSetModel()));
+                        .getTaskModel()));
                 fw.close();
             } catch (IOException e) {
                 String errorMessage = _("IO_EXCEPTION");

@@ -19,7 +19,7 @@ package net.sourceforge.myjorganizer.gui.task.model;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceException;
+import javax.persistence.NoResultException;
 
 import net.sourceforge.myjorganizer.jpa.dao.JPATaskDAO;
 import net.sourceforge.myjorganizer.jpa.entities.Task;
@@ -57,12 +57,12 @@ public class TaskSetModel extends ObservableEntityModel<Task> {
 
         if (task == null) {
             tx.rollback();
-            throw new PersistenceException("Task " + id + " not found");
+            throw new NoResultException("Task " + id + " not found");
         }
 
         if (!getList().remove(task))
             throw new IllegalStateException("Task not present in list");
-        
+
         getDao().remove(task);
 
         commitAndNotify(tx);
@@ -79,5 +79,15 @@ public class TaskSetModel extends ObservableEntityModel<Task> {
         } else {
             tx.rollback();
         }
+    }
+
+    public Task find(String id) {
+        EntityTransaction tx = beginTransaction();
+
+        Task task = getDao().find(id);
+
+        tx.commit();
+
+        return task;
     }
 }

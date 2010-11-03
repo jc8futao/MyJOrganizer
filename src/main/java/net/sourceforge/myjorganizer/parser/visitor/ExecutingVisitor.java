@@ -1,6 +1,8 @@
 package net.sourceforge.myjorganizer.parser.visitor;
 
 import static net.sourceforge.myjorganizer.parser.StringUtils.unescape;
+import net.sourceforge.myjorganizer.gui.task.model.TaskDependencyModel;
+import net.sourceforge.myjorganizer.gui.task.model.TaskModels;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
 import net.sourceforge.myjorganizer.jpa.entities.Task;
@@ -28,10 +30,12 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
     private TaskSetModel taskModel;
     private TaskStatusModel statusModel;
     private Task currentTask;
+    private TaskDependencyModel depModel;
 
-    public ExecutingVisitor(TaskSetModel taskModel, TaskStatusModel statusModel) {
-        this.taskModel = taskModel;
-        this.statusModel = statusModel;
+    public ExecutingVisitor(TaskModels models) {
+        this.taskModel = models.getTaskModel();
+        this.statusModel = models.getStatusModel();
+        this.depModel = models.getDependencyModel();
     }
 
     @Override
@@ -112,11 +116,11 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
     /**
      * Grammar production:
      * f0 -> <CHILDOF>
-     * f1 -> <COLON>
-     * f2 -> <IDENTIFIER>
+     * f1 -> <IDENTIFIER>
      */
     public void visit(ChildOf n) {
-        n.f2.accept(this);
+        Task parent = taskModel.find(n.f1.tokenImage);
+        currentTask.setParent(parent);
     }
 
     @Override
@@ -164,17 +168,23 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
 
     @Override
     public void visit(TaskStatus n) {
-        net.sourceforge.myjorganizer.jpa.entities.TaskStatus status = statusModel.getById(unescape(n.f2.tokenImage));
-        
+        net.sourceforge.myjorganizer.jpa.entities.TaskStatus status = statusModel
+                .getById(unescape(n.f2.tokenImage));
+
         currentTask.setStatus(status);
-        
-        
+
     }
 
     @Override
+    /**
+     * Grammar production:
+     * f0 -> ( <BEFORE> | <AFTER> )
+     * f1 -> <IDENTIFIER>
+     */
     public void visit(DependencyDefinition n) {
-        // TODO Auto-generated method stub
-
+        Task otherTask = taskModel.find(n.f1.tokenImage);
+        
+                
     }
 
     @Override

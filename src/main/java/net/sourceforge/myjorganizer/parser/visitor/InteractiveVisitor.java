@@ -4,6 +4,8 @@ import java.io.PrintStream;
 
 import javax.persistence.NoResultException;
 
+import net.sourceforge.myjorganizer.gui.task.model.TaskDependencyModel;
+import net.sourceforge.myjorganizer.gui.task.model.TaskModels;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskDeleteCommand;
@@ -19,9 +21,8 @@ public class InteractiveVisitor extends ExecutingVisitor {
 
     private PrintStream out;
 
-    public InteractiveVisitor(PrintStream out, TaskSetModel taskModel,
-            TaskStatusModel statusModel) {
-        super(taskModel, statusModel);
+    public InteractiveVisitor(PrintStream out, TaskModels models) {
+        super(models);
 
         this.out = out;
     }
