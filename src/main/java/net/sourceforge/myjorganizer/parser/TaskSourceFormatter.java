@@ -18,7 +18,11 @@
 package net.sourceforge.myjorganizer.parser;
 
 import static net.sourceforge.myjorganizer.parser.StringUtils.escape;
+
+import java.util.Set;
+
 import net.sourceforge.myjorganizer.jpa.entities.Task;
+import net.sourceforge.myjorganizer.jpa.entities.TaskDependency;
 
 /**
  * <p>
@@ -68,6 +72,22 @@ public class TaskSourceFormatter {
                     + "\n");
             if (task.getStatus() != null)
                 sb.append(INDENT + "status: " + escape(task.getStatus()) + "\n");
+
+            Set<TaskDependency> dependencies = task.getDependencies();
+            if (dependencies != null && dependencies.size() > 0) {
+                sb.append(INDENT + "dependencies: \n");
+
+                for (TaskDependency dep : dependencies) {
+                    sb.append(INDENT+INDENT);
+                    sb.append(dep.getDependencyType());
+                    sb.append(" ");
+                    sb.append(dep.getRight().getId());
+                    sb.append("\n");
+                }
+
+                sb.append(INDENT + "end dependencies \n");
+            }
+
             sb.append("end task\n\n");
         }
 

@@ -18,12 +18,14 @@
 package net.sourceforge.myjorganizer.jpa.entities;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Max;
@@ -53,6 +55,8 @@ public class Task {
     private String description;
     private String id;
     private Task parent;
+    private Set<TaskDependency> dependencies;
+    private Set<Task> children;
 
     /**
      * <p>
@@ -384,11 +388,35 @@ public class Task {
         return this.parent;
     }
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
+    public Set<Task> getChildren() {
+        return this.children;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "left")
+    public Set<TaskDependency> getDependencies() {
+        return this.dependencies;
+    }
+
+    @SuppressWarnings("unused")
+    private void setChildren(Set<Task> children) {
+        this.children = children;
+    }
+
+    @SuppressWarnings("unused")
+    private void setDependencies(Set<TaskDependency> dependencies) {
+        this.dependencies = dependencies;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result
+                + ((children == null) ? 0 : children.hashCode());
         result = prime * result + completion;
+        result = prime * result
+                + ((dependencies == null) ? 0 : dependencies.hashCode());
         result = prime * result
                 + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((dueDate == null) ? 0 : dueDate.hashCode());
@@ -412,7 +440,17 @@ public class Task {
         if (getClass() != obj.getClass())
             return false;
         Task other = (Task) obj;
+        if (children == null) {
+            if (other.children != null)
+                return false;
+        } else if (!children.equals(other.children))
+            return false;
         if (completion != other.completion)
+            return false;
+        if (dependencies == null) {
+            if (other.dependencies != null)
+                return false;
+        } else if (!dependencies.equals(other.dependencies))
             return false;
         if (description == null) {
             if (other.description != null)

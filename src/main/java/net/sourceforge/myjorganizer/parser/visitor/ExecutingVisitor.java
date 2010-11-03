@@ -1,6 +1,9 @@
 package net.sourceforge.myjorganizer.parser.visitor;
 
 import static net.sourceforge.myjorganizer.parser.StringUtils.unescape;
+
+import java.util.ArrayList;
+
 import net.sourceforge.myjorganizer.gui.task.model.TaskDependencyModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskModels;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
@@ -32,8 +35,9 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
     private TaskStatusModel statusModel;
     private Task currentTask;
     private TaskDependencyModel depModel;
-    private NodeParser nodeParser;
+    private NodeParser tokenParser;
     private boolean before;
+    private ArrayList<TaskDependency> dependencies = new ArrayList<TaskDependency>();
 
     public ExecutingVisitor(TaskModels models) {
         this.taskModel = models.getTaskModel();
@@ -43,6 +47,9 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
 
     @Override
     public void visit(NodeToken n) {
+        if (this.tokenParser != null) {
+            this.tokenParser.parseToken(n.tokenImage);
+        }
     }
 
     @Override
@@ -66,6 +73,8 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
     public void visit(TaskInsertCommand n) {
         this.currentTask = new Task();
         n.f1.accept(this);
+        
+        depModel.addMany(dependencies);
         taskModel.add(currentTask);
     }
 
@@ -185,16 +194,17 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
      * f1 -> <IDENTIFIER>
      */
     public void visit(DependencyDefinition n) {
-        this.nodeParser = new NodeParser() {
+        this.tokenParser = new NodeParser() {
             @Override
             public void parseToken(String node) {
                 before = "before".equals(node);
+                System.err.println(node);
             }
         };
 
         n.f0.accept(this);
 
-        this.nodeParser = null;
+        this.tokenParser = null;
 
         Task otherTask = taskModel.find(n.f1.tokenImage);
         TaskDependency dependency;
@@ -204,8 +214,8 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
         } else {
             dependency = TaskDependency.after(currentTask, otherTask);
         }
-        
-        depModel.add(dependency);
+
+        dependencies.add(dependency);
     }
 
     @Override

@@ -18,6 +18,8 @@
 package net.sourceforge.myjorganizer.jpa.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -96,6 +98,7 @@ public class TaskDependency {
      * @return a int.
      */
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     public int getId() {
         return id;
     }
