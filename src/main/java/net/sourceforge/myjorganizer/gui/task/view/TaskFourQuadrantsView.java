@@ -39,7 +39,7 @@ import net.sourceforge.myjorganizer.jpa.entities.Task;
  * <p>
  * TaskFourQuadrantsView class.
  * </p>
- * 
+ *
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id: TaskFourQuadrantsView.java 111 2010-10-28 12:24:09Z dbellettini
  *          $

@@ -1,9 +1,12 @@
 package net.sourceforge.myjorganizer.parser;
 
 /**
+ * <p>StringUtils class.</p>
+ *
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
- * 
+ *
  *         String manipulation tools
+ * @version $Id$
  */
 public class StringUtils {
 
@@ -12,8 +15,8 @@ public class StringUtils {
 
     /**
      * Escapes a string
-     * 
-     * @param unescaped
+     *
+     * @param unescaped a {@link java.lang.String} object.
      * @return escaped string
      */
     public static String escape(String unescaped) {
@@ -28,7 +31,7 @@ public class StringUtils {
 
     /**
      * Escapes an object's toString
-     * 
+     *
      * @param unescaped object
      * @return escaped string
      */
@@ -38,8 +41,8 @@ public class StringUtils {
 
     /**
      * Unescapes a string
-     * 
-     * @param escaped
+     *
+     * @param escaped a {@link java.lang.String} object.
      * @return unescaped string
      */
     public static String unescape(String escaped) {

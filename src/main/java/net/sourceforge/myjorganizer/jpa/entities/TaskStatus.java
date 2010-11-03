@@ -31,7 +31,9 @@ import javax.validation.constraints.Pattern;
  */
 @Table(name = "task_statuses")
 public class TaskStatus {
+    /** Constant <code>OPEN</code> */
     public final static TaskStatus OPEN = new TaskStatus("open");
+    /** Constant <code>CLOSED</code> */
     public final static TaskStatus CLOSED = new TaskStatus("closed");
     
     private String id;
@@ -56,7 +58,7 @@ public class TaskStatus {
      * @return a {@link java.lang.String} object.
      */
     @Id
-    //@Pattern(regexp="^[0-9a-z]+$")
+    @Pattern(regexp="^[0-9a-z]+$")
     public String getId() {
         return id;
     }
@@ -74,6 +76,7 @@ public class TaskStatus {
         this.id = id;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -82,6 +85,7 @@ public class TaskStatus {
         return result;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

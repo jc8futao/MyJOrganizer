@@ -52,14 +52,29 @@ public class TaskController implements TaskEventListener {
     private JTabbedPane pane;
     private final TaskModels taskModels;
 
+    /**
+     * <p>getDependencyModel</p>
+     *
+     * @return a {@link net.sourceforge.myjorganizer.gui.task.model.TaskDependencyModel} object.
+     */
     public TaskDependencyModel getDependencyModel() {
         return taskModels.getDependencyModel();
     }
 
+    /**
+     * <p>getStatusModel</p>
+     *
+     * @return a {@link net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel} object.
+     */
     public TaskStatusModel getStatusModel() {
         return taskModels.getStatusModel();
     }
 
+    /**
+     * <p>getTaskModel</p>
+     *
+     * @return a {@link net.sourceforge.myjorganizer.gui.task.model.TaskSetModel} object.
+     */
     public TaskSetModel getTaskModel() {
         return taskModels.getTaskModel();
     }
@@ -127,6 +142,11 @@ public class TaskController implements TaskEventListener {
         SampleData.loadSampleTaskData(getTaskModel(), getStatusModel());
     }
 
+    /**
+     * <p>getModels</p>
+     *
+     * @return a {@link net.sourceforge.myjorganizer.gui.task.model.TaskModels} object.
+     */
     public TaskModels getModels() {
         return this.taskModels;
     }

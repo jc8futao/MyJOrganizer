@@ -36,7 +36,7 @@ import com.davidebellettini.gui.utils.ShowInTable;
 
 /**
  * Class representing a Task
- * 
+ *
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
@@ -70,7 +70,7 @@ public class Task {
      * <p>
      * Constructor for Task.
      * </p>
-     * 
+     *
      * @param name
      *            a {@link java.lang.String} object.
      */
@@ -82,7 +82,7 @@ public class Task {
      * <p>
      * Constructor for Task.
      * </p>
-     * 
+     *
      * @param name
      *            a {@link java.lang.String} object.
      * @param priority
@@ -96,7 +96,7 @@ public class Task {
 
     /**
      * Sets the name of the task
-     * 
+     *
      * @param name
      *            of the task
      * @return Task (fluent interface)
@@ -109,7 +109,7 @@ public class Task {
 
     /**
      * Gets the name of the task
-     * 
+     *
      * @return name of the task
      */
     @Column(nullable = false)
@@ -120,7 +120,7 @@ public class Task {
 
     /**
      * Sets the task's due date
-     * 
+     *
      * @param dueDate
      *            a {@link java.util.Date} object.
      * @return Task (fluent interface)
@@ -133,7 +133,7 @@ public class Task {
 
     /**
      * Due date getter
-     * 
+     *
      * @return the task's due date
      */
     @Column(name = "due_date")
@@ -144,7 +144,7 @@ public class Task {
 
     /**
      * Sets the task's start date
-     * 
+     *
      * @param startDate
      *            a {@link java.util.Date} object.
      * @return the task (fluent interface)
@@ -157,7 +157,7 @@ public class Task {
 
     /**
      * Gets the start date
-     * 
+     *
      * @return the start date
      */
     @Column(name = "start_date")
@@ -168,7 +168,7 @@ public class Task {
 
     /**
      * Task status setter
-     * 
+     *
      * @param status
      *            a {@link net.sourceforge.myjorganizer.jpa.entities.TaskStatus}
      *            object.
@@ -182,7 +182,7 @@ public class Task {
 
     /**
      * Status getter
-     * 
+     *
      * @return the task status
      */
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
@@ -195,7 +195,7 @@ public class Task {
      * <p>
      * Setter for the field <code>completion</code>.
      * </p>
-     * 
+     *
      * @param completion
      *            a int.
      * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
@@ -212,7 +212,7 @@ public class Task {
 
     /**
      * Completion getter
-     * 
+     *
      * @return int (0 to 100)
      */
     @Min(value = 0)
@@ -232,7 +232,7 @@ public class Task {
      * <p>
      * Setter for the field <code>priority</code>.
      * </p>
-     * 
+     *
      * @param priority
      *            a {@link net.sourceforge.myjorganizer.jpa.entities.Priority}
      *            object.
@@ -248,7 +248,7 @@ public class Task {
      * <p>
      * Getter for the field <code>priority</code>.
      * </p>
-     * 
+     *
      * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Priority}
      *         object.
      */
@@ -261,7 +261,7 @@ public class Task {
      * <p>
      * Setter for the field <code>description</code>.
      * </p>
-     * 
+     *
      * @param description
      *            a {@link java.lang.String} object.
      * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
@@ -276,7 +276,7 @@ public class Task {
      * <p>
      * Getter for the field <code>description</code>.
      * </p>
-     * 
+     *
      * @return a {@link java.lang.String} object.
      */
     @ShowInTable(position = 3)
@@ -288,7 +288,7 @@ public class Task {
      * <p>
      * Getter for the field <code>identifier</code>.
      * </p>
-     * 
+     *
      * @return a {@link java.lang.String} object.
      */
     @Id
@@ -302,10 +302,10 @@ public class Task {
      * <p>
      * Setter for the field <code>identifier</code>.
      * </p>
-     * 
+     *
      * @param identifier
      *            a {@link java.lang.String} object.
-     * @return
+     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     public Task setId(String identifier) {
         this.id = identifier;
@@ -316,7 +316,7 @@ public class Task {
      * <p>
      * isUrgent
      * </p>
-     * 
+     *
      * @return a boolean.
      */
     @Transient
@@ -329,7 +329,7 @@ public class Task {
      * <p>
      * setUrgent
      * </p>
-     * 
+     *
      * @param urgent
      *            a boolean.
      */
@@ -342,7 +342,7 @@ public class Task {
      * <p>
      * isImportant
      * </p>
-     * 
+     *
      * @return a boolean.
      */
     @Transient
@@ -355,7 +355,7 @@ public class Task {
      * <p>
      * setImportant
      * </p>
-     * 
+     *
      * @param important
      *            a boolean.
      */
@@ -367,7 +367,7 @@ public class Task {
      * <p>
      * Setter for the field <code>parent</code>.
      * </p>
-     * 
+     *
      * @param parent
      *            a {@link net.sourceforge.myjorganizer.jpa.entities.Task}
      *            object.
@@ -380,7 +380,7 @@ public class Task {
      * <p>
      * Getter for the field <code>parent</code>.
      * </p>
-     * 
+     *
      * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     @ManyToOne
@@ -388,11 +388,21 @@ public class Task {
         return this.parent;
     }
 
+    /**
+     * <p>Getter for the field <code>children</code>.</p>
+     *
+     * @return a {@link java.util.Set} object.
+     */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
     public Set<Task> getChildren() {
         return this.children;
     }
 
+    /**
+     * <p>Getter for the field <code>dependencies</code>.</p>
+     *
+     * @return a {@link java.util.Set} object.
+     */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "left")
     public Set<TaskDependency> getDependencies() {
         return this.dependencies;
@@ -408,6 +418,7 @@ public class Task {
         this.dependencies = dependencies;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -431,6 +442,7 @@ public class Task {
         return result;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

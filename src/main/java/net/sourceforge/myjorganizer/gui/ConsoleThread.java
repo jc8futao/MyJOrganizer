@@ -13,9 +13,9 @@ import net.sourceforge.myjorganizer.parser.visitor.InteractiveVisitor;
 
 /**
  * This thread reads input from the console parsing given commands
- * 
+ *
  * @author davide
- * 
+ * @version $Id$
  */
 public class ConsoleThread extends Thread {
 
@@ -24,6 +24,7 @@ public class ConsoleThread extends Thread {
     private InteractiveVisitor visitor;
     private InputStream in;
 
+    /** {@inheritDoc} */
     @Override
     public void run() {
         while (true) {
@@ -42,10 +43,23 @@ public class ConsoleThread extends Thread {
         }
     }
 
+    /**
+     * <p>Constructor for ConsoleThread.</p>
+     *
+     * @param models a {@link net.sourceforge.myjorganizer.gui.task.model.TaskModels} object.
+     */
     public ConsoleThread(TaskModels models) {
         this(System.in, System.out, System.err, models);
     }
 
+    /**
+     * <p>Constructor for ConsoleThread.</p>
+     *
+     * @param in a {@link java.io.InputStream} object.
+     * @param out a {@link java.io.PrintStream} object.
+     * @param err a {@link java.io.PrintStream} object.
+     * @param models a {@link net.sourceforge.myjorganizer.gui.task.model.TaskModels} object.
+     */
     public ConsoleThread(InputStream in, PrintStream out, PrintStream err,
             TaskModels models) {
         this.in = in;

@@ -28,7 +28,7 @@ import net.sourceforge.myjorganizer.jpa.entities.Task;
  * <p>
  * TaskSetModel class.
  * </p>
- * 
+ *
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
@@ -37,7 +37,7 @@ public class TaskSetModel extends ObservableEntityModel<Task> {
      * <p>
      * Constructor for TaskSetModel.
      * </p>
-     * 
+     *
      * @param entityManager
      *            a {@link javax.persistence.EntityManager} object.
      */
@@ -51,6 +51,11 @@ public class TaskSetModel extends ObservableEntityModel<Task> {
         tx.commit();
     }
 
+    /**
+     * <p>delete</p>
+     *
+     * @param id a {@link java.lang.String} object.
+     */
     public void delete(String id) {
         EntityTransaction tx = beginTransaction();
         Task task = getDao().find(id);
@@ -68,6 +73,11 @@ public class TaskSetModel extends ObservableEntityModel<Task> {
         commitAndNotify(tx);
     }
 
+    /**
+     * <p>markAsDone</p>
+     *
+     * @param id a {@link java.lang.String} object.
+     */
     public void markAsDone(String id) {
         EntityTransaction tx = beginTransaction();
 
@@ -81,6 +91,12 @@ public class TaskSetModel extends ObservableEntityModel<Task> {
         }
     }
 
+    /**
+     * <p>find</p>
+     *
+     * @param id a {@link java.lang.String} object.
+     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
+     */
     public Task find(String id) {
         EntityTransaction tx = beginTransaction();
 

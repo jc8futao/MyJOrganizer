@@ -2,7 +2,18 @@ package net.sourceforge.myjorganizer.jpa.entities;
 
 import javax.persistence.EntityManager;
 
+/**
+ * <p>BasicDataLoader class.</p>
+ *
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ * @version $Id$
+ */
 public class BasicDataLoader {
+    /**
+     * <p>ensurePriorities</p>
+     *
+     * @param em a {@link javax.persistence.EntityManager} object.
+     */
     public static void ensurePriorities(EntityManager em) {
         for (Priority p : Priority.getAll()) {
             if (null == em.find(Priority.class, p)) {
@@ -11,6 +22,11 @@ public class BasicDataLoader {
         }
     }
 
+    /**
+     * <p>ensureStatuses</p>
+     *
+     * @param em a {@link javax.persistence.EntityManager} object.
+     */
     public static void ensureStatuses(EntityManager em) {
         TaskStatus[] statuses = { TaskStatus.OPEN, TaskStatus.CLOSED };
 
@@ -23,6 +39,11 @@ public class BasicDataLoader {
         }
     }
 
+    /**
+     * <p>ensureBasicData</p>
+     *
+     * @param em a {@link javax.persistence.EntityManager} object.
+     */
     public static void ensureBasicData(EntityManager em) {
         ensurePriorities(em);
         ensureStatuses(em);

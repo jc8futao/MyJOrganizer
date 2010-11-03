@@ -4,35 +4,41 @@ import java.io.PrintStream;
 
 import javax.persistence.NoResultException;
 
-import net.sourceforge.myjorganizer.gui.task.model.TaskDependencyModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskModels;
-import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
-import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskDeleteCommand;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskDoneCommand;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskInsertCommand;
 
 /**
  * Adds console feedback to ExecutingVisitor
- * 
+ *
  * @author Davide Bellettini
+ * @version $Id$
  */
 public class InteractiveVisitor extends ExecutingVisitor {
 
     private PrintStream out;
 
+    /**
+     * <p>Constructor for InteractiveVisitor.</p>
+     *
+     * @param out a {@link java.io.PrintStream} object.
+     * @param models a {@link net.sourceforge.myjorganizer.gui.task.model.TaskModels} object.
+     */
     public InteractiveVisitor(PrintStream out, TaskModels models) {
         super(models);
 
         this.out = out;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void visit(TaskInsertCommand n) {
         super.visit(n);
         out.println("Task " + n.f1.f1.tokenImage + "successfully inserted");
     }
 
+    /** {@inheritDoc} */
     @Override
     public void visit(TaskDeleteCommand n) {
         try {
@@ -43,6 +49,7 @@ public class InteractiveVisitor extends ExecutingVisitor {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void visit(TaskDoneCommand n) {
         super.visit(n);

@@ -29,6 +29,11 @@ import net.sourceforge.myjorganizer.parser.syntaxtree.TaskStatus;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskTitle;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskUrgency;
 
+/**
+ * 
+ * @author Davide Bellettini <dbellettini@users.sourceforge.net>
+ *
+ */
 public class ExecutingVisitor extends AbstractDepthFirstVisitor {
 
     private TaskSetModel taskModel;

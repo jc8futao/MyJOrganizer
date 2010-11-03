@@ -46,7 +46,7 @@ import org.jdesktop.application.Action;
  * <p>
  * MyJOrganizerController class.
  * </p>
- * 
+ *
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id: MyJOrganizerController.java 115 2010-10-29 19:13:16Z
  *          dbellettini $
@@ -60,7 +60,7 @@ public class MyJOrganizerController {
      * <p>
      * Constructor for MyJOrganizerController.
      * </p>
-     * 
+     *
      * @param application
      *            a {@link net.sourceforge.myjorganizer.gui.MyJOrganizerApp}
      *            object.
@@ -81,7 +81,7 @@ public class MyJOrganizerController {
      * <p>
      * Getter for the field <code>application</code>.
      * </p>
-     * 
+     *
      * @return a {@link net.sourceforge.myjorganizer.gui.MyJOrganizerApp}
      *         object.
      */

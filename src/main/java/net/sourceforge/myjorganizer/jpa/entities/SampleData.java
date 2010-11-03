@@ -25,7 +25,7 @@ import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
  * <p>
  * SampleData class.
  * </p>
- * 
+ *
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
@@ -35,11 +35,12 @@ public class SampleData {
      * <p>
      * loadSampleTaskData
      * </p>
-     * 
+     *
      * @param taskSetModel
      *            a
      *            {@link net.sourceforge.myjorganizer.gui.task.model.TaskSetModel}
      *            object.
+     * @param statusModel a {@link net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel} object.
      */
     public static void loadSampleTaskData(TaskSetModel taskSetModel, TaskStatusModel statusModel) {
         TaskStatus open = statusModel.getById("open");

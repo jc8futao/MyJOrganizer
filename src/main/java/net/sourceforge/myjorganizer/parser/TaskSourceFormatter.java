@@ -28,7 +28,7 @@ import net.sourceforge.myjorganizer.jpa.entities.TaskDependency;
  * <p>
  * TaskSourceFormatter class.
  * </p>
- * 
+ *
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
@@ -39,7 +39,7 @@ public class TaskSourceFormatter {
      * <p>
      * formatSource
      * </p>
-     * 
+     *
      * @param tasks
      *            a {@link java.lang.Iterable} object.
      * @return a {@link java.lang.String} object.

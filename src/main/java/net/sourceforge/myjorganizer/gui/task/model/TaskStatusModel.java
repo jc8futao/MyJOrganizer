@@ -28,7 +28,7 @@ import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
  * <p>
  * TaskStatusModel class.
  * </p>
- * 
+ *
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
@@ -38,7 +38,7 @@ public class TaskStatusModel extends ObservableEntityModel<TaskStatus> {
      * <p>
      * Constructor for TaskStatusModel.
      * </p>
-     * 
+     *
      * @param entityManager
      *            a {@link javax.persistence.EntityManager} object.
      */
@@ -54,9 +54,9 @@ public class TaskStatusModel extends ObservableEntityModel<TaskStatus> {
 
     /**
      * Gets a Task Status by id
-     * 
-     * @param id
-     * @return
+     *
+     * @param id a {@link java.lang.String} object.
+     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.TaskStatus} object.
      */
     public TaskStatus getById(String id) {
         EntityTransaction tx = beginTransaction();
