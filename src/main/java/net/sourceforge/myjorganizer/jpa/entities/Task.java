@@ -17,7 +17,10 @@
 
 package net.sourceforge.myjorganizer.jpa.entities;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -56,7 +59,6 @@ public class Task {
     private String id;
     private Task parent;
     private Set<TaskDependency> dependencies;
-    private Set<Task> children;
 
     /**
      * <p>
@@ -389,16 +391,6 @@ public class Task {
     }
 
     /**
-     * <p>Getter for the field <code>children</code>.</p>
-     *
-     * @return a {@link java.util.Set} object.
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
-    public Set<Task> getChildren() {
-        return this.children;
-    }
-
-    /**
      * <p>Getter for the field <code>dependencies</code>.</p>
      *
      * @return a {@link java.util.Set} object.
@@ -409,22 +401,14 @@ public class Task {
     }
 
     @SuppressWarnings("unused")
-    private void setChildren(Set<Task> children) {
-        this.children = children;
-    }
-
-    @SuppressWarnings("unused")
     private void setDependencies(Set<TaskDependency> dependencies) {
         this.dependencies = dependencies;
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result
-                + ((children == null) ? 0 : children.hashCode());
         result = prime * result + completion;
         result = prime * result
                 + ((dependencies == null) ? 0 : dependencies.hashCode());
@@ -442,7 +426,6 @@ public class Task {
         return result;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -452,11 +435,6 @@ public class Task {
         if (getClass() != obj.getClass())
             return false;
         Task other = (Task) obj;
-        if (children == null) {
-            if (other.children != null)
-                return false;
-        } else if (!children.equals(other.children))
-            return false;
         if (completion != other.completion)
             return false;
         if (dependencies == null) {

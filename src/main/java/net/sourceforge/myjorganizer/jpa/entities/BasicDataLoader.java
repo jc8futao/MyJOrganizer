@@ -28,7 +28,7 @@ public class BasicDataLoader {
      * @param em a {@link javax.persistence.EntityManager} object.
      */
     public static void ensureStatuses(EntityManager em) {
-        TaskStatus[] statuses = { TaskStatus.OPEN, TaskStatus.CLOSED };
+        TaskStatus[] statuses = { new TaskStatus("open"), new TaskStatus("closed") };
 
         for (TaskStatus status : statuses) {
             if (null == em.find(TaskStatus.class, status.getId())) {

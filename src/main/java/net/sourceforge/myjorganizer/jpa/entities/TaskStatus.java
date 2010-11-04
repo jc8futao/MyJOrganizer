@@ -31,11 +31,6 @@ import javax.validation.constraints.Pattern;
  */
 @Table(name = "task_statuses")
 public class TaskStatus {
-    /** Constant <code>OPEN</code> */
-    public final static TaskStatus OPEN = new TaskStatus("open");
-    /** Constant <code>CLOSED</code> */
-    public final static TaskStatus CLOSED = new TaskStatus("closed");
-    
     private String id;
 
     private TaskStatus() {
