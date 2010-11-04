@@ -15,6 +15,7 @@ import net.sourceforge.myjorganizer.parser.syntaxtree.ChildOf;
 import net.sourceforge.myjorganizer.parser.syntaxtree.DependencyDefinition;
 import net.sourceforge.myjorganizer.parser.syntaxtree.DependencyList;
 import net.sourceforge.myjorganizer.parser.syntaxtree.NodeToken;
+import net.sourceforge.myjorganizer.parser.syntaxtree.OptionalField;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskCommand;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskCommands;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskCompletion;
@@ -236,5 +237,10 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
 
     private interface NodeParser {
         public void parseToken(String node);
+    }
+
+    @Override
+    public void visit(OptionalField n) {
+        n.f0.accept(this);
     }
 }
