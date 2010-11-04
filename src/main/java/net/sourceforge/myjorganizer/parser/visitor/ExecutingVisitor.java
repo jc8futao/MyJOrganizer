@@ -2,6 +2,7 @@ package net.sourceforge.myjorganizer.parser.visitor;
 
 import static net.sourceforge.myjorganizer.parser.StringUtils.unescape;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import net.sourceforge.myjorganizer.gui.task.model.TaskDependencyModel;
@@ -107,14 +108,9 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
      * f2 -> [ ChildOf() ]
      * f3 -> <COLON>
      * f4 -> TaskTitle()
-     * f5 -> [ TaskDescription() ]
-     * f6 -> [ TaskCompletion() ]
-     * f7 -> [ TaskUrgency() ]
-     * f8 -> [ TaskImportance() ]
-     * f9 -> [ TaskStatus() ]
-     * f10 -> [ DependencyList() ]
-     * f11 -> <END>
-     * f12 -> <TASK>
+     * f5 -> ( TaskDescription() | TaskCompletion() | TaskUrgency() | TaskImportance() | TaskStatus() | TaskStartDate() | TaskDueDate() | DependencyList() )*
+     * f6 -> <END>
+     * f7 -> <TASK>
      */
     public void visit(TaskDefinition n) {
         currentTask.setId(n.f1.tokenImage);
@@ -122,11 +118,6 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
         n.f2.accept(this);
         n.f4.accept(this);
         n.f5.accept(this);
-        n.f6.accept(this);
-        n.f7.accept(this);
-        n.f8.accept(this);
-        n.f9.accept(this);
-        n.f10.accept(this);
     }
 
     @Override
@@ -173,13 +164,20 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
 
     @Override
     public void visit(TaskStartDate n) {
-        // TODO Auto-generated method stub
-
+        try {
+            currentTask.setStartDate(formatter.parse(n.f2.tokenImage));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void visit(TaskDueDate n) {
-        // TODO Auto-generated method stub
+        try {
+            currentTask.setDueDate(formatter.parse(n.f2.tokenImage));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 

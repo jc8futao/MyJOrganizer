@@ -3,16 +3,21 @@ package net.sourceforge.myjorganizer.jpa.entities;
 import javax.persistence.EntityManager;
 
 /**
- * <p>BasicDataLoader class.</p>
- *
+ * <p>
+ * BasicDataLoader class.
+ * </p>
+ * 
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
 public class BasicDataLoader {
     /**
-     * <p>ensurePriorities</p>
-     *
-     * @param em a {@link javax.persistence.EntityManager} object.
+     * <p>
+     * ensurePriorities
+     * </p>
+     * 
+     * @param em
+     *            a {@link javax.persistence.EntityManager} object.
      */
     public static void ensurePriorities(EntityManager em) {
         for (Priority p : Priority.getAll()) {
@@ -23,12 +28,16 @@ public class BasicDataLoader {
     }
 
     /**
-     * <p>ensureStatuses</p>
-     *
-     * @param em a {@link javax.persistence.EntityManager} object.
+     * <p>
+     * ensureStatuses
+     * </p>
+     * 
+     * @param em
+     *            a {@link javax.persistence.EntityManager} object.
      */
     public static void ensureStatuses(EntityManager em) {
-        TaskStatus[] statuses = { new TaskStatus("open"), new TaskStatus("closed") };
+        TaskStatus[] statuses = { new TaskStatus("open"),
+                new TaskStatus("closed"), new TaskStatus("postponed") };
 
         for (TaskStatus status : statuses) {
             if (null == em.find(TaskStatus.class, status.getId())) {
@@ -40,9 +49,12 @@ public class BasicDataLoader {
     }
 
     /**
-     * <p>ensureBasicData</p>
-     *
-     * @param em a {@link javax.persistence.EntityManager} object.
+     * <p>
+     * ensureBasicData
+     * </p>
+     * 
+     * @param em
+     *            a {@link javax.persistence.EntityManager} object.
      */
     public static void ensureBasicData(EntityManager em) {
         ensurePriorities(em);
