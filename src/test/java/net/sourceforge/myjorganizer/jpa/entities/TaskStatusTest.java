@@ -41,18 +41,28 @@ import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 import org.junit.Test;
 
 public class TaskStatusTest {
-	@Test
-	public void testNameAccessors() {
-		String name = "Donald Duck";
-		TaskStatus tstatus = new TaskStatus(name);
+    @Test
+    public void testNameAccessors() {
+        String name = "Donald Duck";
+        TaskStatus tstatus = new TaskStatus(name);
 
-		assertEquals(name, tstatus.getId());
-	}
+        assertEquals(name, tstatus.getId());
+    }
 
-	@Test
-	public void testToString() {
-		TaskStatus tstatus = new TaskStatus("Hello");
-		assertEquals("Hello", tstatus.toString());
-	}
+    @Test
+    public void testToString() {
+        TaskStatus tstatus = new TaskStatus("Hello");
+        assertEquals("Hello", tstatus.toString());
+    }
+
+    @Test
+    public void testEquals() {
+        assertEquals(new TaskStatus("open"), new TaskStatus("open"));
+    }
+
+    @Test
+    public void testHashCode() {
+        assertEquals(new TaskStatus("open").hashCode(), new TaskStatus("open").hashCode());
+    }
 
 }

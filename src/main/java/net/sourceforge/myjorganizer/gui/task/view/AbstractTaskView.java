@@ -56,13 +56,13 @@ public abstract class AbstractTaskView extends JPanel implements TaskView {
 
     /** {@inheritDoc} */
     @Override
-    public void addTaskEventListener(TaskEventListener l) {
+    public synchronized void addTaskEventListener(TaskEventListener l) {
         this.listeners.add(l);
     }
 
     /** {@inheritDoc} */
     @Override
-    public void removeTaskEventListener(TaskEventListener l) {
+    public synchronized void removeTaskEventListener(TaskEventListener l) {
         this.listeners.remove(l);
     }
 

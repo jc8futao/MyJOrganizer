@@ -334,10 +334,12 @@ public class Task {
      *
      * @param urgent
      *            a boolean.
+     * @return 
      */
-    public void setUrgent(boolean urgent) {
+    public Task setUrgent(boolean urgent) {
         setPriority(Priority.factory(urgent, isImportant()));
 
+        return this;
     }
 
     /**
@@ -360,9 +362,12 @@ public class Task {
      *
      * @param important
      *            a boolean.
+     * @return 
      */
-    public void setImportant(boolean important) {
+    public Task setImportant(boolean important) {
         setPriority(Priority.factory(isUrgent(), important));
+        
+        return this;
     }
 
     /**

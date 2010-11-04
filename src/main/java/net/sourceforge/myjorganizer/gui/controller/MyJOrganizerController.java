@@ -33,8 +33,7 @@ import net.sourceforge.myjorganizer.gui.ConsoleThread;
 import net.sourceforge.myjorganizer.gui.MyJOrganizerApp;
 import net.sourceforge.myjorganizer.gui.task.controller.TaskController;
 import net.sourceforge.myjorganizer.gui.task.view.TaskSourceView;
-import net.sourceforge.myjorganizer.gui.view.AddTaskFrame;
-import net.sourceforge.myjorganizer.gui.view.MainView;
+import net.sourceforge.myjorganizer.gui.view.MainFrameView;
 import net.sourceforge.myjorganizer.parser.TaskCommandsParser;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskCommands;
 import net.sourceforge.myjorganizer.parser.visitor.ExecutingVisitor;
@@ -53,7 +52,7 @@ import org.jdesktop.application.Action;
  */
 public class MyJOrganizerController {
     private MyJOrganizerApp application;
-    private MainView mainView;
+    private MainFrameView mainView;
     private TaskController taskController;
 
     /**
@@ -67,7 +66,7 @@ public class MyJOrganizerController {
      */
     public MyJOrganizerController(MyJOrganizerApp application) {
         this.application = application;
-        this.mainView = new MainView(application, application.getContext()
+        this.mainView = new MainFrameView(application, application.getContext()
                 .getActionMap(this));
 
         this.taskController = new TaskController(
@@ -106,8 +105,7 @@ public class MyJOrganizerController {
      */
     @Action
     public void newTask() {
-        this.taskController.showAddTaskFrame();
-        new AddTaskFrame().setVisible(true);
+        taskController.showNewTask();
     }
 
     /**

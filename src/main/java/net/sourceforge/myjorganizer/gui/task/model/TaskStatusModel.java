@@ -21,7 +21,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import net.sourceforge.myjorganizer.jpa.dao.TaskStatusDAO;
-import net.sourceforge.myjorganizer.jpa.entities.Task;
 import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
 /**

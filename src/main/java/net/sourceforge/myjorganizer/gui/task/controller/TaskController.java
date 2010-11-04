@@ -19,6 +19,8 @@ package net.sourceforge.myjorganizer.gui.task.controller;
 
 import static net.sourceforge.myjorganizer.i18n.Translator._;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Observer;
 
 import javax.persistence.EntityManager;
@@ -31,17 +33,20 @@ import net.sourceforge.myjorganizer.gui.task.model.TaskModels;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
 import net.sourceforge.myjorganizer.gui.task.view.AbstractTaskView;
+import net.sourceforge.myjorganizer.gui.task.view.TaskSingleView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskFourQuadrantsView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskSourceView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskStatView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskTableView;
-import net.sourceforge.myjorganizer.gui.view.AddTaskFrame;
 import net.sourceforge.myjorganizer.jpa.entities.SampleData;
+import net.sourceforge.myjorganizer.jpa.entities.Task;
 import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
 /**
- * <p>TaskController class.</p>
- *
+ * <p>
+ * TaskController class.
+ * </p>
+ * 
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
@@ -52,43 +57,60 @@ public class TaskController implements TaskEventListener {
     private TaskStatView statView;
     private JTabbedPane pane;
     private final TaskModels taskModels;
+    private TaskSingleView taskAddView = new TaskSingleView();
 
     /**
-     * <p>getDependencyModel</p>
-     *
-     * @return a {@link net.sourceforge.myjorganizer.gui.task.model.TaskDependencyModel} object.
+     * <p>
+     * getDependencyModel
+     * </p>
+     * 
+     * @return a
+     *         {@link net.sourceforge.myjorganizer.gui.task.model.TaskDependencyModel}
+     *         object.
      */
     public TaskDependencyModel getDependencyModel() {
         return taskModels.getDependencyModel();
     }
 
     /**
-     * <p>getStatusModel</p>
-     *
-     * @return a {@link net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel} object.
+     * <p>
+     * getStatusModel
+     * </p>
+     * 
+     * @return a
+     *         {@link net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel}
+     *         object.
      */
     public TaskStatusModel getStatusModel() {
         return taskModels.getStatusModel();
     }
 
     /**
-     * <p>getTaskModel</p>
-     *
-     * @return a {@link net.sourceforge.myjorganizer.gui.task.model.TaskSetModel} object.
+     * <p>
+     * getTaskModel
+     * </p>
+     * 
+     * @return a
+     *         {@link net.sourceforge.myjorganizer.gui.task.model.TaskSetModel}
+     *         object.
      */
     public TaskSetModel getTaskModel() {
         return taskModels.getTaskModel();
     }
 
     /**
-     * <p>Constructor for TaskController.</p>
-     *
-     * @param entityManager a {@link javax.persistence.EntityManager} object.
-     * @param pane a {@link javax.swing.JTabbedPane} object.
+     * <p>
+     * Constructor for TaskController.
+     * </p>
+     * 
+     * @param entityManager
+     *            a {@link javax.persistence.EntityManager} object.
+     * @param pane
+     *            a {@link javax.swing.JTabbedPane} object.
      */
     public TaskController(EntityManager entityManager, JTabbedPane pane) {
         this.taskModels = new TaskModels(entityManager);
-        
+
         this.pane = pane;
 
         jTableView = new TaskTableView();
@@ -103,6 +125,8 @@ public class TaskController implements TaskEventListener {
         addView(jTableView);
         addView(fourQuadrantsView);
         addView(statView);
+
+        initTaskAddView();
 
         int i = 0;
         pane.setTitleAt(i++, _("TASK_SOURCE"));
@@ -137,22 +161,58 @@ public class TaskController implements TaskEventListener {
     }
 
     /**
-     * <p>loadSampledata</p>
+     * <p>
+     * loadSampledata
+     * </p>
      */
     public void loadSampledata() {
         SampleData.loadSampleTaskData(getTaskModel(), getStatusModel());
     }
 
     /**
-     * <p>getModels</p>
-     *
-     * @return a {@link net.sourceforge.myjorganizer.gui.task.model.TaskModels} object.
+     * <p>
+     * getModels
+     * </p>
+     * 
+     * @return a {@link net.sourceforge.myjorganizer.gui.task.model.TaskModels}
+     *         object.
      */
     public TaskModels getModels() {
         return this.taskModels;
     }
 
-    public void showAddTaskFrame() {
-        new AddTaskFrame(this);
+    public void showNewTask() {
+        this.taskAddView.reset();
+        
+        pane.add(this.taskAddView);
+        pane.setSelectedComponent(this.taskAddView);
+        pane.setTitleAt(pane.getSelectedIndex(), _("NEW_TASK"));
+    }
+
+    private void initTaskAddView()
+    {
+        addView(taskAddView);
+        pane.remove(taskAddView);
+        
+        taskAddView.addSaveActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Task task = taskAddView.getTask();
+                taskModels.getTaskModel().add(task);
+                pane.remove(taskAddView);
+                pane.setSelectedIndex(1);
+                taskAddView.reset();
+            }
+        });
+        
+        taskAddView.addCancelActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pane.remove(taskAddView);
+                taskAddView.reset();
+            }
+        });
     }
 }

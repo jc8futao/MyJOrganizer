@@ -198,12 +198,22 @@ public class TaskTest {
         task.setUrgent(true);
         assertTrue(task.isUrgent());
     }
+    
+    @Test
+    public void testSetUrgentReturnsTask() {
+        assertEquals(task, task.setUrgent(true));
+    }
 
     @Test
     public void testImportantAccessors() {
         assertFalse(task.isImportant());
         task.setImportant(true);
         assertTrue(task.isImportant());
+    }
+
+    @Test
+    public void testSetImportantReturnsTask() {
+        assertEquals(task, task.setImportant(true));
     }
 
     @Test

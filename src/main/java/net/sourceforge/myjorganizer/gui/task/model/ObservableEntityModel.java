@@ -17,7 +17,6 @@
 
 package net.sourceforge.myjorganizer.gui.task.model;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Observable;

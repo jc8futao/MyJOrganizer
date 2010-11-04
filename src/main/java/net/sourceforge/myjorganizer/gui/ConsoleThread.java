@@ -3,10 +3,7 @@ package net.sourceforge.myjorganizer.gui;
 import java.io.InputStream;
 import java.io.PrintStream;
 
-import net.sourceforge.myjorganizer.gui.task.model.TaskDependencyModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskModels;
-import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
-import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
 import net.sourceforge.myjorganizer.parser.TaskCommandsParser;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskCommand;
 import net.sourceforge.myjorganizer.parser.visitor.InteractiveVisitor;

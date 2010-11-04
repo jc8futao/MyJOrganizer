@@ -38,7 +38,7 @@ import org.jdesktop.application.FrameView;
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
-public class MainView extends FrameView {
+public class MainFrameView extends FrameView {
 	private JTabbedPane mainPanel = new JTabbedPane();
 	private JMenuBar menuBar = new JMenuBar();
 	private JLabel statusBar = new JLabel(_("MSG_READY"));
@@ -50,7 +50,7 @@ public class MainView extends FrameView {
 	 * @param application a {@link org.jdesktop.application.Application} object.
 	 * @param actionMap a {@link javax.swing.ActionMap} object.
 	 */
-	public MainView(Application application, ActionMap actionMap) {
+	public MainFrameView(Application application, ActionMap actionMap) {
 		super(application);
 		this.actionMap = actionMap;
 
