@@ -106,6 +106,7 @@ public class MyJOrganizerController {
      */
     @Action
     public void newTask() {
+        this.taskController.showAddTaskFrame();
         new AddTaskFrame().setVisible(true);
     }
 

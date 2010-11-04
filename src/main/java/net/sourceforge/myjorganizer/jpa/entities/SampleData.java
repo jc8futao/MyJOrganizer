@@ -46,10 +46,10 @@ public class SampleData {
         TaskStatus open = statusModel.getById("open");
         
         ArrayList<Task> tasks = new ArrayList<Task>();
-        tasks.add(new Task("Task 1"));
-        tasks.add(new Task("Task 2"));
-        tasks.add(new Task("Task 3"));
-        tasks.add(new Task("Task 4"));
+        tasks.add(new Task("Asta eBay"));
+        tasks.add(new Task("Pulire il pavimento"));
+        tasks.add(new Task("Fare la spesa"));
+        tasks.add(new Task("Nuovo badge"));
 
         tasks.get(1).setUrgent(true);
         tasks.get(2).setImportant(true);

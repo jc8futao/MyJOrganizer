@@ -21,79 +21,93 @@ import static net.sourceforge.myjorganizer.i18n.Translator._;
 
 import java.awt.Font;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.ListDataListener;
+
+import net.sourceforge.myjorganizer.gui.task.controller.TaskController;
 
 /**
- * <p>AddTaskFrame class.</p>
- *
+ * <p>
+ * AddTaskFrame class.
+ * </p>
+ * 
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
 public class AddTaskFrame extends JFrame {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -8074892116502385747L;
+    private static final long serialVersionUID = -8074892116502385747L;
 
-	private JLabel newTaskLabel;
-	private JLabel taskTitleLabel;
-	private JLabel taskDescriptionLabel;
-	private JLabel taskUrgentLabel;
-	private JLabel taskImportantLabel;
-	private JLabel taskStartDateLabel;
-	private JLabel taskDueDateLabel;
-	private JLabel taskStatusLabel;
+    private JLabel newTaskLabel;
+    private JLabel taskTitleLabel;
+    private JLabel taskDescriptionLabel;
+    private JLabel taskUrgentLabel;
+    private JLabel taskImportantLabel;
+    private JLabel taskStartDateLabel;
+    private JLabel taskDueDateLabel;
+    private JLabel taskStatusLabel;
 
-	private final JTextField taskTitleText = new JTextField();
-	private final JTextArea taskDescriptionText = new JTextArea();
-	private final JCheckBox taskUrgentCheck = new JCheckBox(_("YES"));
-	private final JCheckBox taskImportantCheck = new JCheckBox(_("YES"));
-	private final JTextField taskStartDateText = new JTextField();
-	private final JTextField taskDueDateText = new JTextField();
-	private final JComboBox taskStatusCombo = new JComboBox();
+    private final JTextField taskTitleText = new JTextField();
+    private final JTextArea taskDescriptionText = new JTextArea();
+    private final JCheckBox taskUrgentCheck = new JCheckBox(_("YES"));
+    private final JCheckBox taskImportantCheck = new JCheckBox(_("YES"));
+    private final JTextField taskStartDateText = new JTextField();
+    private final JTextField taskDueDateText = new JTextField();
+    private final JComboBox taskStatusCombo = new JComboBox();
 
-	private AddTaskPanel contentPane;
+    private AddTaskPanel contentPane;
+    private TaskController taskController;
 
-	/**
-	 * <p>Constructor for AddTaskFrame.</p>
-	 */
-	public AddTaskFrame() {
-		initComponents();
-	}
+    /**
+     * <p>
+     * Constructor for AddTaskFrame.
+     * </p>
+     */
+    public AddTaskFrame() {
+        initComponents();
+    }
 
-	private void initComponents() {
-		this.setTitle(_("NEW_TASK"));
+    public AddTaskFrame(TaskController taskController) {
+        this.taskController = taskController;
+    }
 
-		// instantiating title label
-		newTaskLabel = new JLabel(_("NEW_TASK"));
-		Font newFont = newTaskLabel.getFont().deriveFont(20.0F);
-		newTaskLabel.setFont(newFont);
+    private void initComponents() {
+        this.setTitle(_("NEW_TASK"));
 
-		// instantiating other labels
-		taskTitleLabel = new JLabel(_("TASK_TITLE"));
-		taskDescriptionLabel = new JLabel(_("TASK_DESCRIPTION"));
-		taskUrgentLabel = new JLabel(_("TASK_URGENT"));
-		taskImportantLabel = new JLabel(_("TASK_IMPORTANT"));
-		taskStartDateLabel = new JLabel(_("TASK_START_DATE"));
-		taskDueDateLabel = new JLabel(_("TASK_DUE_DATE"));
-		taskStatusLabel = new JLabel(_("TASK_STATUS"));
+        // instantiating title label
+        newTaskLabel = new JLabel(_("NEW_TASK"));
+        Font newFont = newTaskLabel.getFont().deriveFont(20.0F);
+        newTaskLabel.setFont(newFont);
 
-		setContentPane(contentPane = new AddTaskPanel());
-		
-		contentPane.addLabeledComponent(taskTitleLabel, taskTitleText);
-		contentPane.addLabeledComponent(taskDescriptionLabel, taskDescriptionText);
-		contentPane.addLabeledComponent(taskUrgentLabel, taskUrgentCheck);
-		contentPane.addLabeledComponent(taskImportantLabel, taskImportantCheck);
-		contentPane.addLabeledComponent(taskStartDateLabel, taskStartDateText);
-		contentPane.addLabeledComponent(taskDueDateLabel, taskDueDateText);
-		contentPane.addLabeledComponent(taskStatusLabel, taskStatusCombo);
+        // instantiating other labels
+        taskTitleLabel = new JLabel(_("TASK_TITLE"));
+        taskDescriptionLabel = new JLabel(_("TASK_DESCRIPTION"));
+        taskUrgentLabel = new JLabel(_("TASK_URGENT"));
+        taskImportantLabel = new JLabel(_("TASK_IMPORTANT"));
+        taskStartDateLabel = new JLabel(_("TASK_START_DATE"));
+        taskDueDateLabel = new JLabel(_("TASK_DUE_DATE"));
+        taskStatusLabel = new JLabel(_("TASK_STATUS"));
 
-		setSize(400, 350);
-	}
+        setContentPane(contentPane = new AddTaskPanel());
+
+        contentPane.addLabeledComponent(taskTitleLabel, taskTitleText);
+        contentPane.addLabeledComponent(taskDescriptionLabel,
+                taskDescriptionText);
+        contentPane.addLabeledComponent(taskUrgentLabel, taskUrgentCheck);
+        contentPane.addLabeledComponent(taskImportantLabel, taskImportantCheck);
+        contentPane.addLabeledComponent(taskStartDateLabel, taskStartDateText);
+        contentPane.addLabeledComponent(taskDueDateLabel, taskDueDateText);
+        contentPane.addLabeledComponent(taskStatusLabel, taskStatusCombo);
+
+        setSize(400, 350);
+    }
 }

@@ -35,6 +35,7 @@ import net.sourceforge.myjorganizer.gui.task.view.TaskFourQuadrantsView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskSourceView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskStatView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskTableView;
+import net.sourceforge.myjorganizer.gui.view.AddTaskFrame;
 import net.sourceforge.myjorganizer.jpa.entities.SampleData;
 import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
@@ -149,5 +150,9 @@ public class TaskController implements TaskEventListener {
      */
     public TaskModels getModels() {
         return this.taskModels;
+    }
+
+    public void showAddTaskFrame() {
+        new AddTaskFrame(this);
     }
 }

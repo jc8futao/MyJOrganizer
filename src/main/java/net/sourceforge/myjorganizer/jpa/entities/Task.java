@@ -385,7 +385,7 @@ public class Task {
      *
      * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     public Task getParent() {
         return this.parent;
     }
@@ -398,11 +398,6 @@ public class Task {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "left")
     public Set<TaskDependency> getDependencies() {
         return this.dependencies;
-    }
-
-    @SuppressWarnings("unused")
-    private void setDependencies(Set<TaskDependency> dependencies) {
-        this.dependencies = dependencies;
     }
 
     @Override
@@ -483,5 +478,10 @@ public class Task {
         } else if (!status.equals(other.status))
             return false;
         return true;
+    }
+
+    @SuppressWarnings("unused")
+    private void setDependencies(Set<TaskDependency> dependencies) {
+        this.dependencies = dependencies;
     }
 }
