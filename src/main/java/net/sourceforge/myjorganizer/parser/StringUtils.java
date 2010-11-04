@@ -11,7 +11,7 @@ package net.sourceforge.myjorganizer.parser;
 public class StringUtils {
 
     private final static String[][] replacements = { { "\\", "\\\\" },
-            { "\n", "\\n" }, { "\"", "\\\"" } };
+            { "\n", "\\n" }, { "\"", "\\\"" }, {"\t", "\\t" }};
 
     /**
      * Escapes a string

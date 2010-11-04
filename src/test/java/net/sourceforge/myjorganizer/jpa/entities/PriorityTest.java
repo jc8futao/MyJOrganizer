@@ -43,40 +43,40 @@ import org.junit.Test;
 
 public class PriorityTest {
 
-	@Test
-	public void testUrgentGetter() {
-		boolean urgent = true;
+    @Test
+    public void testUrgentGetter() {
+        boolean urgent = true;
 
-		Priority priority = Priority.factory(urgent, true);
-		assertEquals(urgent, priority.isUrgent());
+        Priority priority = Priority.factory(urgent, true);
+        assertEquals(urgent, priority.isUrgent());
 
-		urgent = !urgent;
+        urgent = !urgent;
 
-		priority = Priority.factory(urgent, true);
-		assertEquals(urgent, priority.isUrgent());
-	}
+        priority = Priority.factory(urgent, true);
+        assertEquals(urgent, priority.isUrgent());
+    }
 
-	@Test
-	public void testImportantGetter() {
-		boolean important = true;
+    @Test
+    public void testImportantGetter() {
+        boolean important = true;
 
-		Priority priority = Priority.factory(true, important);
-		assertEquals(important, priority.isImportant());
+        Priority priority = Priority.factory(true, important);
+        assertEquals(important, priority.isImportant());
 
-		important = !important;
+        important = !important;
 
-		priority = Priority.factory(true, important);
-		assertEquals(important, priority.isImportant());
-	}
+        priority = Priority.factory(true, important);
+        assertEquals(important, priority.isImportant());
+    }
 
-	@Test
-	public void testFlyweight() {
+    @Test
+    public void testFlyweight() {
 
-		boolean[][] values = { { false, false }, { false, true },
-				{ true, false }, { true, true } };
+        boolean[][] values = { { false, false }, { false, true },
+                { true, false }, { true, true } };
 
-		for (boolean[] currentValues : values)
-			assertSame(Priority.factory(currentValues[0], currentValues[1]),
-					Priority.factory(currentValues[0], currentValues[1]));
-	}
+        for (boolean[] currentValues : values)
+            assertSame(Priority.factory(currentValues[0], currentValues[1]),
+                    Priority.factory(currentValues[0], currentValues[1]));
+    }
 }

@@ -8,7 +8,7 @@ public class StringUtilsTest {
 
     @Test
     public void testEscapeNewline() {
-        assertEquals("\"\\n\"", StringUtils.escape("\n"));
+        assertEquals("\"\\n\"", StringUtils.escape((Object)"\n"));
     }
 
     @Test

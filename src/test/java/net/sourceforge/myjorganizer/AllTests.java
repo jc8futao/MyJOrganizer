@@ -41,7 +41,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
 	net.sourceforge.myjorganizer.jpa.AllTests.class,
-	net.sourceforge.myjorganizer.i18n.AllTests.class
+	net.sourceforge.myjorganizer.i18n.AllTests.class,
+	net.sourceforge.myjorganizer.parser.StringUtilsTest.class
 })
 public class AllTests {
 

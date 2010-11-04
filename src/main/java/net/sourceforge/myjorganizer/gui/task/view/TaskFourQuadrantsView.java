@@ -30,6 +30,7 @@ import java.util.Observer;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.ListSelectionModel;
 
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 import net.sourceforge.myjorganizer.jpa.entities.Priority;
@@ -39,12 +40,12 @@ import net.sourceforge.myjorganizer.jpa.entities.Task;
  * <p>
  * TaskFourQuadrantsView class.
  * </p>
- *
+ * 
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
- * @version $Id: TaskFourQuadrantsView.java 111 2010-10-28 12:24:09Z dbellettini
- *          $
+ * @version $Id: TaskFourQuadrantsView.java 111 2010-10-28 12:24:09Z dbellettini$
  */
-public class TaskFourQuadrantsView extends AbstractTaskView implements Observer {
+public class TaskFourQuadrantsView extends AbstractTaskView implements
+        Observer{
 
     /**
 	 * 
@@ -66,6 +67,7 @@ public class TaskFourQuadrantsView extends AbstractTaskView implements Observer 
 
         for (Priority priority : priorities) {
             JList currentList = new JList();
+            currentList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             lists.put(priority, currentList);
             listData.put(priority, new ArrayList<Task>());
 
@@ -104,4 +106,5 @@ public class TaskFourQuadrantsView extends AbstractTaskView implements Observer 
     public Observer getTaskStatusModelObserver() {
         return null;
     }
+
 }

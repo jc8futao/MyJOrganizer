@@ -169,8 +169,9 @@ public class TaskTest {
     @Test
     public void testToString() {
 
+        task.setId("donald");
         task.setTitle("DonaldDuck");
-        assertEquals(task.getTitle(), task.toString());
+        assertEquals("donald: DonaldDuck", task.toString());
     }
 
     @Test
