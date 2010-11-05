@@ -1,0 +1,9 @@
+insert task test1:
+    title       : "Test task #1"
+    description : "This is just a test task"
+    urgent      : true
+    important   : false
+    startdate   : 2010-11-11
+    duedate     : 2010-12-11
+    status      : "open"
+end task
