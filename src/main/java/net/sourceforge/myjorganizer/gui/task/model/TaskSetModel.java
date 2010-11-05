@@ -90,6 +90,10 @@ public class TaskSetModel extends ObservableEntityModel<Task> {
         Task task = getDao().find(id);
         if (task != null) {
             task.setCompletion(100);
+            
+            for (Task child : task.getChildren()) {
+                child.setCompletion(100);
+            }
 
             commitAndNotify(tx);
         } else {

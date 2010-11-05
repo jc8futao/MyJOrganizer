@@ -23,6 +23,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
+import net.sourceforge.myjorganizer.gui.NullableFormattedTextField;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
 import net.sourceforge.myjorganizer.jpa.entities.Priority;
@@ -79,7 +80,7 @@ public class TaskSingleView extends AbstractTaskView {
 
                 parentComboModel.removeAllElements();
                 parentComboModel.addElement(null);
-                
+
                 for (Task task : model.getList()) {
                     parentComboModel.addElement(task);
                 }
@@ -132,7 +133,7 @@ public class TaskSingleView extends AbstractTaskView {
         idText = new JTextField();
 
         addLeftRight(idLabel, idText);
-        
+
         parentLabel = new JLabel(_("TASK_PARENT"));
         parentCombo = new JComboBox(parentComboModel);
 
@@ -152,11 +153,11 @@ public class TaskSingleView extends AbstractTaskView {
         addLeftRight(urgentCheck, importantCheck);
 
         startDateLabel = new JLabel(_("TASK_START_DATE"));
-        startDateText = new JFormattedTextField(new Date());
+        startDateText = new NullableFormattedTextField(new Date());
         addLeftRight(startDateLabel, startDateText);
 
         dueDateLabel = new JLabel(_("TASK_DUE_DATE"));
-        dueDateText = new JFormattedTextField(new Date());
+        dueDateText = new NullableFormattedTextField(new Date());
         addLeftRight(dueDateLabel, dueDateText);
 
         completionLabel = new JLabel(_("TASK_COMPLETION_PERCENT"));
@@ -174,11 +175,13 @@ public class TaskSingleView extends AbstractTaskView {
 
     public void reset() {
         JTextComponent[] toReset = { idText, titleText, description,
-                completionText, startDateText, dueDateText };
+                startDateText, dueDateText };
 
         for (JTextComponent c : toReset) {
             c.setText(null);
         }
+        
+        completionText.setText("0");
 
         JCheckBox[] checks = { urgentCheck, importantCheck };
         for (JCheckBox check : checks) {
@@ -221,7 +224,7 @@ public class TaskSingleView extends AbstractTaskView {
         if (selected != null) {
             task.setStatus((TaskStatus) selected);
         }
-        
+
         selected = parentCombo.getSelectedItem();
         if (selected != null) {
             task.setParent((Task) selected);
