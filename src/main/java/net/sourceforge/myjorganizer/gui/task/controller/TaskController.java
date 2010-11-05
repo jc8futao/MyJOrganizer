@@ -38,6 +38,7 @@ import net.sourceforge.myjorganizer.gui.task.view.TaskFourQuadrantsView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskSourceView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskStatView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskTableView;
+import net.sourceforge.myjorganizer.gui.task.view.TaskTreeView;
 import net.sourceforge.myjorganizer.jpa.entities.SampleData;
 import net.sourceforge.myjorganizer.jpa.entities.Task;
 import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
@@ -58,6 +59,7 @@ public class TaskController implements TaskEventListener {
     private JTabbedPane pane;
     private final TaskModels taskModels;
     private TaskSingleView taskAddView = new TaskSingleView();
+    private TaskTreeView treeView;
 
     /**
      * <p>
@@ -117,21 +119,24 @@ public class TaskController implements TaskEventListener {
         sourceView = new TaskSourceView();
         fourQuadrantsView = new TaskFourQuadrantsView();
         statView = new TaskStatView();
+        treeView = new TaskTreeView();
 
         TaskStatus[] taskStatuses = new TaskStatus[0];
         taskStatuses = getStatusModel().getList().toArray(taskStatuses);
 
         addView(sourceView);
         addView(jTableView);
+        addView(treeView);
         addView(fourQuadrantsView);
         addView(statView);
-
+        
         initTaskAddView();
 
         int i = 0;
         pane.setTitleAt(i++, _("TASK_SOURCE"));
         pane.setTitleAt(i++, _("TASK_LIST"));
-        pane.setTitleAt(i++, _("TASK_QUADRANTS"));
+        pane.setTitleAt(i++, _("TASK_TREE"));
+        pane.setTitleAt(i++, _("TASK_PRIORITY"));
         pane.setTitleAt(i++, _("TASK_STATS"));
     }
 
@@ -183,19 +188,18 @@ public class TaskController implements TaskEventListener {
 
     public void showNewTask() {
         this.taskAddView.reset();
-        
+
         pane.add(this.taskAddView);
         pane.setSelectedComponent(this.taskAddView);
         pane.setTitleAt(pane.getSelectedIndex(), _("NEW_TASK"));
     }
 
-    private void initTaskAddView()
-    {
+    private void initTaskAddView() {
         addView(taskAddView);
         pane.remove(taskAddView);
-        
+
         taskAddView.addSaveActionListener(new ActionListener() {
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 Task task = taskAddView.getTask();
@@ -205,9 +209,9 @@ public class TaskController implements TaskEventListener {
                 taskAddView.reset();
             }
         });
-        
+
         taskAddView.addCancelActionListener(new ActionListener() {
-            
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 pane.remove(taskAddView);

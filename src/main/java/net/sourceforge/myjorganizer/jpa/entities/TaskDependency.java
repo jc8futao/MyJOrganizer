@@ -26,7 +26,7 @@ import javax.persistence.Table;
 
 /**
  * Represents a dependency between tasks
- *
+ * 
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
@@ -53,19 +53,29 @@ public class TaskDependency {
     }
 
     /**
-     * <p>before</p>
-     *
-     * @param left a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
-     * @param right a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
-     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.TaskDependency} object.
+     * <p>
+     * before
+     * </p>
+     * 
+     * @param left
+     *            a {@link net.sourceforge.myjorganizer.jpa.entities.Task}
+     *            object.
+     * @param right
+     *            a {@link net.sourceforge.myjorganizer.jpa.entities.Task}
+     *            object.
+     * @return a
+     *         {@link net.sourceforge.myjorganizer.jpa.entities.TaskDependency}
+     *         object.
      */
     public static TaskDependency before(Task left, Task right) {
         return new TaskDependency("before", left, right);
     }
 
     /**
-     * <p>Getter for the field <code>left</code>.</p>
-     *
+     * <p>
+     * Getter for the field <code>left</code>.
+     * </p>
+     * 
      * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     @ManyToOne
@@ -74,8 +84,10 @@ public class TaskDependency {
     }
 
     /**
-     * <p>Getter for the field <code>right</code>.</p>
-     *
+     * <p>
+     * Getter for the field <code>right</code>.
+     * </p>
+     * 
      * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     @ManyToOne
@@ -84,8 +96,10 @@ public class TaskDependency {
     }
 
     /**
-     * <p>getDependencyType</p>
-     *
+     * <p>
+     * getDependencyType
+     * </p>
+     * 
      * @return a {@link java.lang.String} object.
      */
     public String getDependencyType() {
@@ -93,20 +107,25 @@ public class TaskDependency {
     }
 
     /**
-     * <p>Getter for the field <code>id</code>.</p>
-     *
+     * <p>
+     * Getter for the field <code>id</code>.
+     * </p>
+     * 
      * @return a int.
      */
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;
     }
 
     /**
-     * <p>Setter for the field <code>id</code>.</p>
-     *
-     * @param id a int.
+     * <p>
+     * Setter for the field <code>id</code>.
+     * </p>
+     * 
+     * @param id
+     *            a int.
      */
     public void setId(int id) {
         this.id = id;
@@ -121,13 +140,25 @@ public class TaskDependency {
     }
 
     /**
-     * <p>after</p>
-     *
-     * @param left a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
-     * @param right a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
-     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.TaskDependency} object.
+     * <p>
+     * after
+     * </p>
+     * 
+     * @param left
+     *            a {@link net.sourceforge.myjorganizer.jpa.entities.Task}
+     *            object.
+     * @param right
+     *            a {@link net.sourceforge.myjorganizer.jpa.entities.Task}
+     *            object.
+     * @return a
+     *         {@link net.sourceforge.myjorganizer.jpa.entities.TaskDependency}
+     *         object.
      */
     public static TaskDependency after(Task left, Task right) {
         return before(right, left);
+    }
+
+    public String toString() {
+        return left.getId() + " " + type + " " + right.getId();
     }
 }

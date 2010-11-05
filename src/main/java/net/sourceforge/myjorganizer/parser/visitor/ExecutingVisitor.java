@@ -81,8 +81,8 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
         this.currentTask = new Task();
         n.f1.accept(this);
         
-        depModel.addMany(dependencies);
         taskModel.add(currentTask);
+        depModel.addMany(dependencies);
     }
 
     @Override

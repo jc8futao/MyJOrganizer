@@ -82,4 +82,8 @@ public class JPAEntityDAO<T> implements EntityDAO<T> {
     public T find(Object primaryKey) {
         return getEntityManager().find(class1, primaryKey);
     }
+
+    public void refresh(T entity) {
+        getEntityManager().refresh(entity);
+    }
 }

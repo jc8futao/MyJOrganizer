@@ -44,43 +44,52 @@ import org.junit.Test;
 
 public class TaskDependencyTest {
 
-	private Task left;
-	private Task right;
+    private Task left;
+    private Task right;
 
-	@Before
-	public void setUp() {
-		left = new Task("Left");
-		right = new Task("Right");
-	}
+    @Before
+    public void setUp() {
+        left = new Task("Left");
+        left.setId("left");
+        right = new Task("Right");
+        right.setId("right");
+    }
 
-	@Test
-	public void testLeftAccessors() {
+    @Test
+    public void testLeftAccessors() {
 
-		TaskDependency td = TaskDependency.before(left, right);
+        TaskDependency td = TaskDependency.before(left, right);
 
-		assertEquals(left, td.getLeft());
-	}
+        assertEquals(left, td.getLeft());
+    }
 
-	@Test
-	public void testRightAccessors() {
-		TaskDependency td = TaskDependency.before(left, right);
+    @Test
+    public void testRightAccessors() {
+        TaskDependency td = TaskDependency.before(left, right);
 
-		assertEquals(right, td.getRight());
-	}
+        assertEquals(right, td.getRight());
+    }
 
-	@Test
-	public void testTypeGetter() {
-		TaskDependency td = TaskDependency.before(left, right);
+    @Test
+    public void testTypeGetter() {
+        TaskDependency td = TaskDependency.before(left, right);
 
-		assertEquals("before", td.getDependencyType());
-	}
+        assertEquals("before", td.getDependencyType());
+    }
 
-	@Test
-	public void testAfter() {
-		TaskDependency td = TaskDependency.after(left, right);
+    @Test
+    public void testAfter() {
+        TaskDependency td = TaskDependency.after(left, right);
 
-		assertEquals("before", td.getDependencyType());
-		assertEquals(right, td.getLeft());
-		assertEquals(left, td.getRight());
-	}
+        assertEquals("before", td.getDependencyType());
+        assertEquals(right, td.getLeft());
+        assertEquals(left, td.getRight());
+    }
+
+    @Test
+    public void testToString() {
+        TaskDependency td = TaskDependency.before(left, right);
+        
+        assertEquals("left before right", td.toString());
+    }
 }

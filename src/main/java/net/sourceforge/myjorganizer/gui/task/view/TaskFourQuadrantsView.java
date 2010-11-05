@@ -106,5 +106,4 @@ public class TaskFourQuadrantsView extends AbstractTaskView implements
     public Observer getTaskStatusModelObserver() {
         return null;
     }
-
 }

@@ -18,12 +18,15 @@
 package net.sourceforge.myjorganizer.jpa.entities;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -56,7 +59,13 @@ public class Task {
     private String description;
     private String id;
     private Task parent;
-    private Set<TaskDependency> dependencies;
+    private Set<TaskDependency> dependencies = new HashSet<TaskDependency>();
+    private Set<Task> children = new HashSet<Task>();
+
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    public Set<Task> getChildren() {
+        return children;
+    }
 
     /**
      * <p>
@@ -293,7 +302,7 @@ public class Task {
      */
     @Id
     @Pattern(regexp = "^[a-z][a-z0-9]*$")
-    @Size(min=1)
+    @Size(min = 1)
     @ShowInTable(position = 1, editable = false)
     public String getId() {
         return this.id;
@@ -379,6 +388,15 @@ public class Task {
      *            object.
      */
     public void setParent(Task parent) {
+        if (parent == this.parent) {
+            return;
+        }
+
+        if (this.parent != null) {
+            this.parent.getChildren().remove(this);
+        }
+
+        parent.getChildren().add(this);
         this.parent = parent;
     }
 
@@ -390,6 +408,7 @@ public class Task {
      * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "parent")
     public Task getParent() {
         return this.parent;
     }
@@ -484,6 +503,11 @@ public class Task {
         } else if (!status.equals(other.status))
             return false;
         return true;
+    }
+
+    @SuppressWarnings("unused")
+    private void setChildren(Set<Task> children) {
+        this.children = children;
     }
 
     @SuppressWarnings("unused")

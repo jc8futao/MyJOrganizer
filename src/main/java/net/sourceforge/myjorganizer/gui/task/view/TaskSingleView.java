@@ -229,5 +229,4 @@ public class TaskSingleView extends AbstractTaskView {
 
         return task;
     }
-
 }
