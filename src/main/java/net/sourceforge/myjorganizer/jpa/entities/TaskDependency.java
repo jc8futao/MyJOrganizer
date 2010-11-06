@@ -36,20 +36,14 @@ public class TaskDependency {
 
     private Task left;
     private Task right;
-    private String type;
     private int id;
 
     private TaskDependency() {
     }
 
-    private TaskDependency(String type, Task left, Task right) {
-        this.setDependencyType(type);
+    private TaskDependency(Task left, Task right) {
         this.setLeft(left);
         this.setRight(right);
-    }
-
-    private void setDependencyType(String type) {
-        this.type = type;
     }
 
     /**
@@ -68,7 +62,7 @@ public class TaskDependency {
      *         object.
      */
     public static TaskDependency before(Task left, Task right) {
-        return new TaskDependency("before", left, right);
+        return new TaskDependency(left, right);
     }
 
     /**
@@ -93,17 +87,6 @@ public class TaskDependency {
     @ManyToOne
     public Task getRight() {
         return this.right;
-    }
-
-    /**
-     * <p>
-     * getDependencyType
-     * </p>
-     * 
-     * @return a {@link java.lang.String} object.
-     */
-    public String getDependencyType() {
-        return this.type;
     }
 
     /**
@@ -159,6 +142,6 @@ public class TaskDependency {
     }
 
     public String toString() {
-        return left.getId() + " " + type + " " + right.getId();
+        return left.getId() + " before " + right.getId();
     }
 }

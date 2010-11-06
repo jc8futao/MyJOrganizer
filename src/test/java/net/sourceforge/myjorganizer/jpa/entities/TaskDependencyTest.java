@@ -57,7 +57,6 @@ public class TaskDependencyTest {
 
     @Test
     public void testLeftAccessors() {
-
         TaskDependency td = TaskDependency.before(left, right);
 
         assertEquals(left, td.getLeft());
@@ -71,17 +70,9 @@ public class TaskDependencyTest {
     }
 
     @Test
-    public void testTypeGetter() {
-        TaskDependency td = TaskDependency.before(left, right);
-
-        assertEquals("before", td.getDependencyType());
-    }
-
-    @Test
     public void testAfter() {
         TaskDependency td = TaskDependency.after(left, right);
 
-        assertEquals("before", td.getDependencyType());
         assertEquals(right, td.getLeft());
         assertEquals(left, td.getRight());
     }

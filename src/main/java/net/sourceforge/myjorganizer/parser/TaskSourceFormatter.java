@@ -87,8 +87,7 @@ public class TaskSourceFormatter {
 
                 for (TaskDependency dep : dependencies) {
                     sb.append(INDENT + INDENT);
-                    sb.append(dep.getDependencyType());
-                    sb.append(" ");
+                    sb.append("before ");
                     sb.append(dep.getRight().getId());
                     sb.append("\n");
                 }
