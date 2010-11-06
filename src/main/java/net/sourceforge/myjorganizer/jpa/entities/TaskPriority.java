@@ -33,7 +33,7 @@ import javax.persistence.Table;
  * @version $Id$
  */
 @Table(name = "priorities")
-public final class Priority implements Serializable {
+public final class TaskPriority implements Serializable {
 
     /**
 	 * 
@@ -45,20 +45,20 @@ public final class Priority implements Serializable {
     @Id
     private final boolean important;
 
-    private static ArrayList<Priority> instances = new ArrayList<Priority>();
+    private static ArrayList<TaskPriority> instances = new ArrayList<TaskPriority>();
 
     static {
-        instances.add(new Priority(true, true));
-        instances.add(new Priority(false, true));
-        instances.add(new Priority(true, false));
-        instances.add(new Priority(false, false));
+        instances.add(new TaskPriority(true, true));
+        instances.add(new TaskPriority(false, true));
+        instances.add(new TaskPriority(true, false));
+        instances.add(new TaskPriority(false, false));
     }
 
-    private Priority() {
+    private TaskPriority() {
         this(false, false);
     }
 
-    private Priority(boolean urgent, boolean important) {
+    private TaskPriority(boolean urgent, boolean important) {
         this.urgent = urgent;
         this.important = important;
     }
@@ -86,10 +86,10 @@ public final class Priority implements Serializable {
      *
      * @param urgent a boolean.
      * @param important a boolean.
-     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Priority} object.
+     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.TaskPriority} object.
      */
-    public static Priority factory(boolean urgent, boolean important) {
-        for (Priority priority : instances) {
+    public static TaskPriority factory(boolean urgent, boolean important) {
+        for (TaskPriority priority : instances) {
             if ((priority.isImportant() == important)
                     && (priority.isUrgent() == urgent)) {
                 return priority;
@@ -104,7 +104,7 @@ public final class Priority implements Serializable {
      *
      * @return a {@link java.util.Collection} object.
      */
-    public static Collection<Priority> getAll() {
+    public static Collection<TaskPriority> getAll() {
         return instances;
     }
 
@@ -127,7 +127,7 @@ public final class Priority implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Priority other = (Priority) obj;
+        TaskPriority other = (TaskPriority) obj;
         if (important != other.important)
             return false;
         if (urgent != other.urgent)

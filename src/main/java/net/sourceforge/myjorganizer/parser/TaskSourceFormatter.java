@@ -50,11 +50,6 @@ public class TaskSourceFormatter {
         for (Task task : tasks) {
             sb.append("insert task " + task.getId());
 
-            if (task.getParent() != null) {
-                sb.append(" childof ");
-                sb.append(task.getParent().getId());
-            }
-
             sb.append(":\n");
 
             sb.append(INDENT + "title: " + escape(task.getTitle()) + "\n");

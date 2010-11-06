@@ -33,7 +33,7 @@ import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
-import net.sourceforge.myjorganizer.jpa.entities.Priority;
+import net.sourceforge.myjorganizer.jpa.entities.TaskPriority;
 import net.sourceforge.myjorganizer.jpa.entities.Task;
 
 /**
@@ -51,8 +51,8 @@ public class TaskFourQuadrantsView extends AbstractTaskView implements
 	 * 
 	 */
     private static final long serialVersionUID = 1944351748661553463L;
-    HashMap<Priority, JList> lists = new HashMap<Priority, JList>();
-    HashMap<Priority, List<Task>> listData = new HashMap<Priority, List<Task>>();
+    HashMap<TaskPriority, JList> lists = new HashMap<TaskPriority, JList>();
+    HashMap<TaskPriority, List<Task>> listData = new HashMap<TaskPriority, List<Task>>();
 
     /**
      * <p>
@@ -60,12 +60,12 @@ public class TaskFourQuadrantsView extends AbstractTaskView implements
      * </p>
      */
     public TaskFourQuadrantsView() {
-        Collection<Priority> priorities = Priority.getAll();
+        Collection<TaskPriority> priorities = TaskPriority.getAll();
 
         int cols = priorities.size() / 2 + priorities.size() % 2;
         setLayout(new GridLayout(cols, 2));
 
-        for (Priority priority : priorities) {
+        for (TaskPriority priority : priorities) {
             JList currentList = new JList();
             currentList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             lists.put(priority, currentList);
@@ -90,7 +90,7 @@ public class TaskFourQuadrantsView extends AbstractTaskView implements
             listData.get(task.getPriority()).add(task);
         }
 
-        for (Entry<Priority, List<Task>> entry : listData.entrySet()) {
+        for (Entry<TaskPriority, List<Task>> entry : listData.entrySet()) {
             lists.get(entry.getKey()).setListData(entry.getValue().toArray());
         }
     }

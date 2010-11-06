@@ -26,7 +26,7 @@ import javax.swing.text.JTextComponent;
 import net.sourceforge.myjorganizer.gui.NullableFormattedTextField;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
-import net.sourceforge.myjorganizer.jpa.entities.Priority;
+import net.sourceforge.myjorganizer.jpa.entities.TaskPriority;
 import net.sourceforge.myjorganizer.jpa.entities.Task;
 import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
@@ -59,7 +59,6 @@ public class TaskSingleView extends AbstractTaskView {
     private final SequentialGroup vGroup = layout.createSequentialGroup();
     private final SequentialGroup hGroup = layout.createSequentialGroup();
     private JLabel parentLabel;
-    private JComboBox parentCombo;
 
     /**
      * 
@@ -134,11 +133,6 @@ public class TaskSingleView extends AbstractTaskView {
 
         addLeftRight(idLabel, idText);
 
-        parentLabel = new JLabel(_("TASK_PARENT"));
-        parentCombo = new JComboBox(parentComboModel);
-
-        addLeftRight(parentLabel, parentCombo);
-
         titleLabel = new JLabel(_("TASK_TITLE"));
         titleText = new JTextField();
 
@@ -189,7 +183,6 @@ public class TaskSingleView extends AbstractTaskView {
         }
 
         statusCombo.setSelectedIndex(-1);
-        parentCombo.setSelectedIndex(-1);
     }
 
     /**
@@ -216,18 +209,13 @@ public class TaskSingleView extends AbstractTaskView {
                 .setTitle(titleText.getText())
                 .setDescription(description.getText())
                 .setPriority(
-                        Priority.factory(urgentCheck.isSelected(),
+                        TaskPriority.factory(urgentCheck.isSelected(),
                                 importantCheck.isSelected()))
                 .setCompletion(Integer.parseInt(completionText.getText()));
 
         Object selected = statusCombo.getSelectedItem();
         if (selected != null) {
             task.setStatus((TaskStatus) selected);
-        }
-
-        selected = parentCombo.getSelectedItem();
-        if (selected != null) {
-            task.setParent((Task) selected);
         }
 
         return task;

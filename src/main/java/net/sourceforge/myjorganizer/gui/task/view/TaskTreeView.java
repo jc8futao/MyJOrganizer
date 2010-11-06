@@ -47,27 +47,14 @@ public class TaskTreeView extends AbstractTaskView implements Observer {
         root.removeAllChildren();
 
         for (Task t : model.getList()) {
-            if (t.getParent() == null) {
-                addWithChildren(root, t);
-            }
+            addWithDependencies(root, t);
         }
-        
+
         treeModel.reload();
     }
 
-    private void addWithChildren(DefaultMutableTreeNode node, Task t) {
+    private void addWithDependencies(DefaultMutableTreeNode node, Task t) {
         DefaultMutableTreeNode currentNode = new DefaultMutableTreeNode(t);
-
-        if (t.getChildren().size() > 0) {
-            DefaultMutableTreeNode childrenNode = new DefaultMutableTreeNode(
-                    _("TASK_CHILDREN"));
-
-            for (Task child : t.getChildren()) {
-                addWithChildren(childrenNode, child);
-            }
-
-            currentNode.add(childrenNode);
-        }
 
         if (t.getDependencies().size() > 0) {
             DefaultMutableTreeNode depNode = new DefaultMutableTreeNode(
@@ -76,7 +63,7 @@ public class TaskTreeView extends AbstractTaskView implements Observer {
             for (TaskDependency dep : t.getDependencies()) {
                 depNode.add(new DefaultMutableTreeNode(dep));
             }
-            
+
             currentNode.add(depNode);
         }
 

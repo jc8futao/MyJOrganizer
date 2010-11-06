@@ -20,6 +20,6 @@ public class TaskCommandsParserTest {
         assertEquals("insert", command.f0.tokenImage);
         assertEquals("task", command.f1.f0.tokenImage);
         assertEquals("test1", command.f1.f1.tokenImage);
-        assertEquals("\"Test task #1\"", command.f1.f4.f2.tokenImage);
+        assertEquals("\"Test task #1\"", command.f1.f3.f2.tokenImage);
     }
 }

@@ -37,7 +37,7 @@ package net.sourceforge.myjorganizer.jpa.entities;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
-import net.sourceforge.myjorganizer.jpa.entities.Priority;
+import net.sourceforge.myjorganizer.jpa.entities.TaskPriority;
 
 import org.junit.Test;
 
@@ -47,12 +47,12 @@ public class PriorityTest {
     public void testUrgentGetter() {
         boolean urgent = true;
 
-        Priority priority = Priority.factory(urgent, true);
+        TaskPriority priority = TaskPriority.factory(urgent, true);
         assertEquals(urgent, priority.isUrgent());
 
         urgent = !urgent;
 
-        priority = Priority.factory(urgent, true);
+        priority = TaskPriority.factory(urgent, true);
         assertEquals(urgent, priority.isUrgent());
     }
 
@@ -60,12 +60,12 @@ public class PriorityTest {
     public void testImportantGetter() {
         boolean important = true;
 
-        Priority priority = Priority.factory(true, important);
+        TaskPriority priority = TaskPriority.factory(true, important);
         assertEquals(important, priority.isImportant());
 
         important = !important;
 
-        priority = Priority.factory(true, important);
+        priority = TaskPriority.factory(true, important);
         assertEquals(important, priority.isImportant());
     }
 
@@ -76,7 +76,7 @@ public class PriorityTest {
                 { true, false }, { true, true } };
 
         for (boolean[] currentValues : values)
-            assertSame(Priority.factory(currentValues[0], currentValues[1]),
-                    Priority.factory(currentValues[0], currentValues[1]));
+            assertSame(TaskPriority.factory(currentValues[0], currentValues[1]),
+                    TaskPriority.factory(currentValues[0], currentValues[1]));
     }
 }

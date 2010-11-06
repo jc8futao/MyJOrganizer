@@ -55,18 +55,10 @@ public class Task {
     private TaskStatus status;
     private int completion;
 
-    private Priority priority = Priority.factory(false, false);
+    private TaskPriority priority = TaskPriority.factory(false, false);
     private String description;
     private String id;
-    private Task parent;
     private Set<TaskDependency> dependencies = new HashSet<TaskDependency>();
-    private Set<Task> children = new HashSet<Task>();
-
-    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
-    public Set<Task> getChildren() {
-        return children;
-    }
-
     /**
      * <p>
      * Constructor for Task.
@@ -84,7 +76,7 @@ public class Task {
      *            a {@link java.lang.String} object.
      */
     public Task(String name) {
-        this(name, Priority.factory(false, false));
+        this(name, TaskPriority.factory(false, false));
     }
 
     /**
@@ -95,10 +87,10 @@ public class Task {
      * @param name
      *            a {@link java.lang.String} object.
      * @param priority
-     *            a {@link net.sourceforge.myjorganizer.jpa.entities.Priority}
+     *            a {@link net.sourceforge.myjorganizer.jpa.entities.TaskPriority}
      *            object.
      */
-    public Task(String name, Priority priority) {
+    public Task(String name, TaskPriority priority) {
         setTitle(name);
         setPriority(priority);
     }
@@ -243,11 +235,11 @@ public class Task {
      * </p>
      * 
      * @param priority
-     *            a {@link net.sourceforge.myjorganizer.jpa.entities.Priority}
+     *            a {@link net.sourceforge.myjorganizer.jpa.entities.TaskPriority}
      *            object.
      * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
-    public Task setPriority(Priority priority) {
+    public Task setPriority(TaskPriority priority) {
         this.priority = priority;
 
         return this;
@@ -258,11 +250,11 @@ public class Task {
      * Getter for the field <code>priority</code>.
      * </p>
      * 
-     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Priority}
+     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.TaskPriority}
      *         object.
      */
     @ManyToOne
-    public Priority getPriority() {
+    public TaskPriority getPriority() {
         return this.priority;
     }
 
@@ -345,7 +337,7 @@ public class Task {
      * @return
      */
     public Task setUrgent(boolean urgent) {
-        setPriority(Priority.factory(urgent, isImportant()));
+        setPriority(TaskPriority.factory(urgent, isImportant()));
 
         return this;
     }
@@ -373,44 +365,9 @@ public class Task {
      * @return
      */
     public Task setImportant(boolean important) {
-        setPriority(Priority.factory(isUrgent(), important));
+        setPriority(TaskPriority.factory(isUrgent(), important));
 
         return this;
-    }
-
-    /**
-     * <p>
-     * Setter for the field <code>parent</code>.
-     * </p>
-     * 
-     * @param parent
-     *            a {@link net.sourceforge.myjorganizer.jpa.entities.Task}
-     *            object.
-     */
-    public void setParent(Task parent) {
-        if (parent == this.parent) {
-            return;
-        }
-
-        if (this.parent != null) {
-            this.parent.getChildren().remove(this);
-        }
-
-        parent.getChildren().add(this);
-        this.parent = parent;
-    }
-
-    /**
-     * <p>
-     * Getter for the field <code>parent</code>.
-     * </p>
-     * 
-     * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
-     */
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "parent")
-    public Task getParent() {
-        return this.parent;
     }
 
     /**
@@ -425,6 +382,11 @@ public class Task {
         return this.dependencies;
     }
 
+    @SuppressWarnings("unused")
+    private void setDependencies(Set<TaskDependency> dependencies) {
+        this.dependencies = dependencies;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -437,7 +399,6 @@ public class Task {
         result = prime * result + ((dueDate == null) ? 0 : dueDate.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((parent == null) ? 0 : parent.hashCode());
         result = prime * result
                 + ((priority == null) ? 0 : priority.hashCode());
         result = prime * result
@@ -482,11 +443,6 @@ public class Task {
                 return false;
         } else if (!name.equals(other.name))
             return false;
-        if (parent == null) {
-            if (other.parent != null)
-                return false;
-        } else if (!parent.equals(other.parent))
-            return false;
         if (priority == null) {
             if (other.priority != null)
                 return false;
@@ -503,15 +459,5 @@ public class Task {
         } else if (!status.equals(other.status))
             return false;
         return true;
-    }
-
-    @SuppressWarnings("unused")
-    private void setChildren(Set<Task> children) {
-        this.children = children;
-    }
-
-    @SuppressWarnings("unused")
-    private void setDependencies(Set<TaskDependency> dependencies) {
-        this.dependencies = dependencies;
     }
 }

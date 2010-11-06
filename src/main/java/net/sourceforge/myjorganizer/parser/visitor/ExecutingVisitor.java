@@ -11,7 +11,6 @@ import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
 import net.sourceforge.myjorganizer.jpa.entities.Task;
 import net.sourceforge.myjorganizer.jpa.entities.TaskDependency;
-import net.sourceforge.myjorganizer.parser.syntaxtree.ChildOf;
 import net.sourceforge.myjorganizer.parser.syntaxtree.DependencyDefinition;
 import net.sourceforge.myjorganizer.parser.syntaxtree.DependencyList;
 import net.sourceforge.myjorganizer.parser.syntaxtree.NodeToken;
@@ -97,6 +96,12 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
     }
 
     @Override
+    /**
+     * Grammar production:
+     * f0 -> <DONE>
+     * f1 -> <TASK>
+     * f2 -> <IDENTIFIER>
+     */
     public void visit(TaskDoneCommand n) {
         taskModel.markAsDone(n.f2.tokenImage);
     }
@@ -106,30 +111,17 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
      * Grammar production:
      * f0 -> <TASK>
      * f1 -> <IDENTIFIER>
-     * f2 -> [ ChildOf() ]
-     * f3 -> <COLON>
-     * f4 -> TaskTitle()
-     * f5 -> ( TaskDescription() | TaskCompletion() | TaskUrgency() | TaskImportance() | TaskStatus() | TaskStartDate() | TaskDueDate() | DependencyList() )*
-     * f6 -> <END>
-     * f7 -> <TASK>
+     * f2 -> <COLON>
+     * f3 -> TaskTitle()
+     * f4 -> ( OptionalField() )*
+     * f5 -> <END>
+     * f6 -> <TASK>
      */
     public void visit(TaskDefinition n) {
         currentTask.setId(n.f1.tokenImage);
 
-        n.f2.accept(this);
+        n.f3.accept(this);
         n.f4.accept(this);
-        n.f5.accept(this);
-    }
-
-    @Override
-    /**
-     * Grammar production:
-     * f0 -> <CHILDOF>
-     * f1 -> <IDENTIFIER>
-     */
-    public void visit(ChildOf n) {
-        Task parent = taskModel.find(n.f1.tokenImage);
-        currentTask.setParent(parent);
     }
 
     @Override

@@ -20,8 +20,8 @@ public class BasicDataLoader {
      *            a {@link javax.persistence.EntityManager} object.
      */
     public static void ensurePriorities(EntityManager em) {
-        for (Priority p : Priority.getAll()) {
-            if (null == em.find(Priority.class, p)) {
+        for (TaskPriority p : TaskPriority.getAll()) {
+            if (null == em.find(TaskPriority.class, p)) {
                 em.persist(p);
             }
         }

@@ -41,7 +41,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 
-import net.sourceforge.myjorganizer.jpa.entities.Priority;
+import net.sourceforge.myjorganizer.jpa.entities.TaskPriority;
 import net.sourceforge.myjorganizer.jpa.entities.Task;
 import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
@@ -81,7 +81,7 @@ public class TaskTest {
     @Test
     public void testConstructorNameAndPriority() {
         String name = "hello";
-        Priority priority = Priority.factory(true, true);
+        TaskPriority priority = TaskPriority.factory(true, true);
 
         task = new Task(name, priority);
 
@@ -176,9 +176,9 @@ public class TaskTest {
 
     @Test
     public void testPriorityAccessors() {
-        task.setPriority(Priority.factory(true, true));
+        task.setPriority(TaskPriority.factory(true, true));
 
-        assertEquals(Priority.factory(true, true), task.getPriority());
+        assertEquals(TaskPriority.factory(true, true), task.getPriority());
     }
 
     @Test
@@ -215,15 +215,6 @@ public class TaskTest {
     @Test
     public void testSetImportantReturnsTask() {
         assertEquals(task, task.setImportant(true));
-    }
-
-    @Test
-    public void testParentAccessors() {
-        Task parent = new Task("Dad");
-        Task son = new Task("John");
-
-        son.setParent(parent);
-        assertEquals(parent, son.getParent());
     }
 
     @Test
