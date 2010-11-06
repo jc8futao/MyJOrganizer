@@ -19,6 +19,8 @@ package net.sourceforge.myjorganizer.parser;
 
 import static net.sourceforge.myjorganizer.parser.StringUtils.escape;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Set;
 
 import net.sourceforge.myjorganizer.jpa.entities.Task;
@@ -28,18 +30,19 @@ import net.sourceforge.myjorganizer.jpa.entities.TaskDependency;
  * <p>
  * TaskSourceFormatter class.
  * </p>
- *
+ * 
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
 public class TaskSourceFormatter {
     private final static String INDENT = "    ";
+    private final static DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * <p>
      * formatSource
      * </p>
-     *
+     * 
      * @param tasks
      *            a {@link java.lang.Iterable} object.
      * @return a {@link java.lang.String} object.
@@ -68,12 +71,22 @@ public class TaskSourceFormatter {
             if (task.getStatus() != null)
                 sb.append(INDENT + "status: " + escape(task.getStatus()) + "\n");
 
+            if (task.getStartDate() != null) {
+                sb.append(INDENT + "startdate: "
+                        + format.format(task.getStartDate()) + "\n");
+            }
+
+            if (task.getDueDate() != null) {
+                sb.append(INDENT + "duedate: "
+                        + format.format(task.getDueDate()) + "\n");
+            }
+
             Set<TaskDependency> dependencies = task.getDependencies();
             if (dependencies != null && dependencies.size() > 0) {
                 sb.append(INDENT + "dependencies: \n");
 
                 for (TaskDependency dep : dependencies) {
-                    sb.append(INDENT+INDENT);
+                    sb.append(INDENT + INDENT);
                     sb.append(dep.getDependencyType());
                     sb.append(" ");
                     sb.append(dep.getRight().getId());

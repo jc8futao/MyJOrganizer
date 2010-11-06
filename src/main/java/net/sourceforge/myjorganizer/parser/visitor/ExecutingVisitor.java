@@ -210,7 +210,8 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
         } else {
             dependency = TaskDependency.after(currentTask, otherTask);
         }
-
+        
+        dependency.getLeft().getDependencies().add(dependency);
         dependencies.add(dependency);
     }
 

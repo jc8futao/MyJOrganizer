@@ -24,9 +24,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -293,7 +291,7 @@ public class Task {
      * @return a {@link java.lang.String} object.
      */
     @Id
-    @Pattern(regexp = "^[a-z][a-z0-9]*$")
+    @Pattern(regexp = "^[a-zA-Z][A-Za-z0-9]*$")
     @Size(min = 1)
     @ShowInTable(position = 1, editable = false)
     public String getId() {

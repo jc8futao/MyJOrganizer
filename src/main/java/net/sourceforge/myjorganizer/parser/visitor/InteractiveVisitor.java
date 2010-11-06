@@ -35,7 +35,7 @@ public class InteractiveVisitor extends ExecutingVisitor {
     @Override
     public void visit(TaskInsertCommand n) {
         super.visit(n);
-        out.println("Task " + n.f1.f1.tokenImage + "successfully inserted");
+        out.println("Task " + n.f1.f1.tokenImage + " successfully inserted");
     }
 
     /** {@inheritDoc} */
