@@ -81,7 +81,7 @@ public class TaskSourceFormatter {
                         + format.format(task.getDueDate()) + "\n");
             }
 
-            Set<TaskDependency> dependencies = task.getDependencies();
+            Set<TaskDependency> dependencies = task.getRightDependencies();
             if (dependencies != null && dependencies.size() > 0) {
                 sb.append(INDENT + "dependencies: \n");
 

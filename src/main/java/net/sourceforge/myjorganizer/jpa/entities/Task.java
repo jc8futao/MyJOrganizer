@@ -56,7 +56,9 @@ public class Task {
     private TaskPriority priority = TaskPriority.factory(false, false);
     private String description;
     private String id;
-    private Set<TaskDependency> dependencies = new HashSet<TaskDependency>();
+    private Set<TaskDependency> rightDeps = new HashSet<TaskDependency>();
+    private Set<TaskDependency> leftDeps;
+
     /**
      * <p>
      * Constructor for Task.
@@ -85,7 +87,8 @@ public class Task {
      * @param name
      *            a {@link java.lang.String} object.
      * @param priority
-     *            a {@link net.sourceforge.myjorganizer.jpa.entities.TaskPriority}
+     *            a
+     *            {@link net.sourceforge.myjorganizer.jpa.entities.TaskPriority}
      *            object.
      */
     public Task(String name, TaskPriority priority) {
@@ -174,6 +177,16 @@ public class Task {
      * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     public Task setStatus(TaskStatus status) {
+        if (status != null && "closed".equals(status.getId())) {
+            for (TaskDependency dep : getRightDependencies()) {
+                if (!"closed".equals(dep.getLeft().getStatus().getId())) {
+                    throw new IllegalStateException("Task "
+                            + dep.getLeft().getId()
+                            + " must be completed before " + getId());
+                }
+            }
+        }
+
         this.status = status;
 
         return this;
@@ -233,7 +246,8 @@ public class Task {
      * </p>
      * 
      * @param priority
-     *            a {@link net.sourceforge.myjorganizer.jpa.entities.TaskPriority}
+     *            a
+     *            {@link net.sourceforge.myjorganizer.jpa.entities.TaskPriority}
      *            object.
      * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
@@ -368,21 +382,24 @@ public class Task {
         return this;
     }
 
-    /**
-     * <p>
-     * Getter for the field <code>dependencies</code>.
-     * </p>
-     * 
-     * @return a {@link java.util.Set} object.
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "left")
-    public Set<TaskDependency> getDependencies() {
-        return this.dependencies;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "right")
+    public Set<TaskDependency> getRightDependencies() {
+        return this.rightDeps;
     }
 
     @SuppressWarnings("unused")
-    private void setDependencies(Set<TaskDependency> dependencies) {
-        this.dependencies = dependencies;
+    private void setRightDependencies(Set<TaskDependency> dependencies) {
+        this.rightDeps = dependencies;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "left")
+    public Set<TaskDependency> getLeftDependencies() {
+        return this.leftDeps;
+    }
+
+    @SuppressWarnings("unused")
+    private void setLeftDependencies(Set<TaskDependency> dependencies) {
+        this.leftDeps = dependencies;
     }
 
     @Override
@@ -391,7 +408,7 @@ public class Task {
         int result = 1;
         result = prime * result + completion;
         result = prime * result
-                + ((dependencies == null) ? 0 : dependencies.hashCode());
+                + ((rightDeps == null) ? 0 : rightDeps.hashCode());
         result = prime * result
                 + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((dueDate == null) ? 0 : dueDate.hashCode());
@@ -416,10 +433,10 @@ public class Task {
         Task other = (Task) obj;
         if (completion != other.completion)
             return false;
-        if (dependencies == null) {
-            if (other.dependencies != null)
+        if (rightDeps == null) {
+            if (other.rightDeps != null)
                 return false;
-        } else if (!dependencies.equals(other.dependencies))
+        } else if (!rightDeps.equals(other.rightDeps))
             return false;
         if (description == null) {
             if (other.description != null)

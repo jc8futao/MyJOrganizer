@@ -22,7 +22,9 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 
 import net.sourceforge.myjorganizer.jpa.dao.JPATaskDAO;
+import net.sourceforge.myjorganizer.jpa.dao.TaskStatusDAO;
 import net.sourceforge.myjorganizer.jpa.entities.Task;
+import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
 /**
  * <p>
@@ -87,8 +89,11 @@ public class TaskSetModel extends ObservableEntityModel<Task> {
     public void markAsDone(String id) {
         EntityTransaction tx = beginTransaction();
 
+        TaskStatus closed = getStatusDao().find("closed");
+        
         Task task = getDao().find(id);
         if (task != null) {
+            task.setStatus(closed);
             task.setCompletion(100);
             commitAndNotify(tx);
         } else {
@@ -113,5 +118,9 @@ public class TaskSetModel extends ObservableEntityModel<Task> {
         tx.commit();
 
         return task;
+    }
+
+    protected TaskStatusDAO getStatusDao() {
+        return new TaskStatusDAO(getEntityManager());
     }
 }

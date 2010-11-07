@@ -41,10 +41,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 
-import net.sourceforge.myjorganizer.jpa.entities.TaskPriority;
-import net.sourceforge.myjorganizer.jpa.entities.Task;
-import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -125,6 +121,19 @@ public class TaskTest {
         assertEquals(status, task.getStatus());
     }
 
+    @Test(expected=IllegalStateException.class)
+    public void testClosingWithOpenLeftDependencies() {
+        Task left = new Task("left");
+        left.setId("left");
+        
+        left.setStatus(new TaskStatus("open"));
+        task.setId("teskedTask");
+        
+        task.getRightDependencies().add(TaskDependency.before(left, task));
+        
+        task.setStatus(new TaskStatus("closed"));
+    }
+
     @Test
     public void testStatusSetterIsFluent() {
         assertEquals(task, task.setStatus(null));
@@ -199,7 +208,7 @@ public class TaskTest {
         task.setUrgent(true);
         assertTrue(task.isUrgent());
     }
-    
+
     @Test
     public void testSetUrgentReturnsTask() {
         assertEquals(task, task.setUrgent(true));

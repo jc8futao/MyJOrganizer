@@ -56,11 +56,11 @@ public class TaskTreeView extends AbstractTaskView implements Observer {
     private void addWithDependencies(DefaultMutableTreeNode node, Task t) {
         DefaultMutableTreeNode currentNode = new DefaultMutableTreeNode(t);
 
-        if (t.getDependencies().size() > 0) {
+        if (t.getRightDependencies().size() > 0) {
             DefaultMutableTreeNode depNode = new DefaultMutableTreeNode(
                     _("TASK_DEPENDENCIES"));
 
-            for (TaskDependency dep : t.getDependencies()) {
+            for (TaskDependency dep : t.getRightDependencies()) {
                 depNode.add(new DefaultMutableTreeNode(dep));
             }
 

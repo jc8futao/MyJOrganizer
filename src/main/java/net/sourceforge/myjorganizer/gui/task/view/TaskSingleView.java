@@ -24,10 +24,9 @@ import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
 import net.sourceforge.myjorganizer.gui.NullableFormattedTextField;
-import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
-import net.sourceforge.myjorganizer.jpa.entities.TaskPriority;
 import net.sourceforge.myjorganizer.jpa.entities.Task;
+import net.sourceforge.myjorganizer.jpa.entities.TaskPriority;
 import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
 public class TaskSingleView extends AbstractTaskView {
@@ -36,7 +35,6 @@ public class TaskSingleView extends AbstractTaskView {
     private JButton cancelButton;
     private JComboBox statusCombo;
     private final DefaultComboBoxModel statusComboModel = new DefaultComboBoxModel();
-    private final DefaultComboBoxModel parentComboModel = new DefaultComboBoxModel();
     private JCheckBox importantCheck;
     private JCheckBox urgentCheck;
     private JTextField idText;
@@ -58,7 +56,6 @@ public class TaskSingleView extends AbstractTaskView {
     private final ParallelGroup rightGroup = layout.createParallelGroup();
     private final SequentialGroup vGroup = layout.createSequentialGroup();
     private final SequentialGroup hGroup = layout.createSequentialGroup();
-    private JLabel parentLabel;
 
     /**
      * 
@@ -71,20 +68,7 @@ public class TaskSingleView extends AbstractTaskView {
 
     @Override
     public Observer getTaskSetModelObserver() {
-        return new Observer() {
-
-            @Override
-            public void update(Observable o, Object arg) {
-                TaskSetModel model = (TaskSetModel) o;
-
-                parentComboModel.removeAllElements();
-                parentComboModel.addElement(null);
-
-                for (Task task : model.getList()) {
-                    parentComboModel.addElement(task);
-                }
-            }
-        };
+        return null;
     }
 
     @Override
@@ -174,7 +158,7 @@ public class TaskSingleView extends AbstractTaskView {
         for (JTextComponent c : toReset) {
             c.setText(null);
         }
-        
+
         completionText.setText("0");
 
         JCheckBox[] checks = { urgentCheck, importantCheck };
