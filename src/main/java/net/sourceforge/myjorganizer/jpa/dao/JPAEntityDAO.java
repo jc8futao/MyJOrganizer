@@ -7,8 +7,10 @@ import javax.persistence.EntityManager;
 import net.sourceforge.myjorganizer.dao.EntityDAO;
 
 /**
- * <p>JPAEntityDAO class.</p>
- *
+ * <p>
+ * JPAEntityDAO class.
+ * </p>
+ * 
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
@@ -16,14 +18,18 @@ public class JPAEntityDAO<T> implements EntityDAO<T> {
 
     private final EntityManager entityManager;
     private final Class<T> class1;
-    
 
     /**
-     * <p>Constructor for JPAEntityDAO.</p>
-     *
-     * @param entityManager a {@link javax.persistence.EntityManager} object.
-     * @param class1 a {@link java.lang.Class} object.
-     * @param <T> a T object.
+     * <p>
+     * Constructor for JPAEntityDAO.
+     * </p>
+     * 
+     * @param entityManager
+     *            a {@link javax.persistence.EntityManager} object.
+     * @param class1
+     *            a {@link java.lang.Class} object.
+     * @param <T>
+     *            a T object.
      */
     public JPAEntityDAO(EntityManager entityManager, Class<T> class1) {
         this.entityManager = entityManager;
@@ -37,8 +43,10 @@ public class JPAEntityDAO<T> implements EntityDAO<T> {
     }
 
     /**
-     * <p>Getter for the field <code>entityManager</code>.</p>
-     *
+     * <p>
+     * Getter for the field <code>entityManager</code>.
+     * </p>
+     * 
      * @return a {@link javax.persistence.EntityManager} object.
      */
     public EntityManager getEntityManager() {
@@ -85,5 +93,22 @@ public class JPAEntityDAO<T> implements EntityDAO<T> {
 
     public void refresh(T entity) {
         getEntityManager().refresh(entity);
+    }
+
+    @Override
+    public void detachMany(Iterable<T> entities) {
+        for (T entity : entities)
+            detach(entity);
+    }
+
+    @Override
+    public void refreshMany(Iterable<T> entities) {
+        for (T entity : entities)
+            refresh(entity);
+    }
+
+    @Override
+    public void detach(T entity) {
+        getEntityManager().detach(entity);
     }
 }

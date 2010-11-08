@@ -5,10 +5,10 @@ import javax.validation.ConstraintValidatorContext;
 
 import net.sourceforge.myjorganizer.jpa.entities.TaskDependency;
 
-public class TaskDependencyValidator implements ConstraintValidator<LeftRightCheck, TaskDependency> {
+public class TaskDependencyValidator implements ConstraintValidator<TaskDependencyCheck, TaskDependency> {
 
     @Override
-    public void initialize(LeftRightCheck constraintAnnotation) {
+    public void initialize(TaskDependencyCheck constraintAnnotation) {
     }
 
     @Override

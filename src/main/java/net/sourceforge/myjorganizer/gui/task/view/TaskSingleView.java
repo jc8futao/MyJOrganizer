@@ -3,6 +3,8 @@ package net.sourceforge.myjorganizer.gui.task.view;
 import static net.sourceforge.myjorganizer.i18n.Translator._;
 
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
@@ -18,6 +20,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -56,6 +59,7 @@ public class TaskSingleView extends AbstractTaskView {
     private final ParallelGroup rightGroup = layout.createParallelGroup();
     private final SequentialGroup vGroup = layout.createSequentialGroup();
     private final SequentialGroup hGroup = layout.createSequentialGroup();
+    private final DateFormat format = DateFormat.getDateInstance();
 
     /**
      * 
@@ -187,7 +191,7 @@ public class TaskSingleView extends AbstractTaskView {
                 .addComponent(left).addComponent(right));
     }
 
-    public Task getTask() {
+    public Task getTask() throws ParseException {
         Task task = new Task()
                 .setId(idText.getText())
                 .setTitle(titleText.getText())
@@ -202,6 +206,19 @@ public class TaskSingleView extends AbstractTaskView {
             task.setStatus((TaskStatus) selected);
         }
 
+        if (!"".equals(dueDateText.getText())) {
+            task.setDueDate(format.parse(dueDateText.getText()));
+        }
+
+        if (!"".equals(startDateText.getText())) {
+            task.setStartDate(format.parse(startDateText.getText()));
+        }
+
         return task;
+    }
+
+    public void showError(String error) {
+        JOptionPane.showMessageDialog(this, error, _("ERROR"),
+                JOptionPane.ERROR_MESSAGE);
     }
 }

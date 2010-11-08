@@ -24,6 +24,7 @@ import java.util.Observable;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
+import javax.persistence.RollbackException;
 
 import net.sourceforge.myjorganizer.jpa.dao.JPAEntityDAO;
 
@@ -31,9 +32,10 @@ import net.sourceforge.myjorganizer.jpa.dao.JPAEntityDAO;
  * <p>
  * Abstract ObservableEntityModel class.
  * </p>
- *
+ * 
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
- * @version $Id: ObservableEntityModel.java 106 2010-10-28 08:34:07Z dbellettini$
+ * @version $Id: ObservableEntityModel.java 106 2010-10-28 08:34:07Z
+ *          dbellettini$
  */
 public abstract class ObservableEntityModel<T> extends Observable {
 
@@ -45,11 +47,14 @@ public abstract class ObservableEntityModel<T> extends Observable {
      * <p>
      * Constructor for ObservableEntityModel.
      * </p>
-     *
+     * 
      * @param entityManager
      *            a {@link javax.persistence.EntityManager} object.
-     * @param dao a {@link net.sourceforge.myjorganizer.jpa.dao.JPAEntityDAO} object.
-     * @param <T> a T object.
+     * @param dao
+     *            a {@link net.sourceforge.myjorganizer.jpa.dao.JPAEntityDAO}
+     *            object.
+     * @param <T>
+     *            a T object.
      */
     protected ObservableEntityModel(EntityManager entityManager,
             JPAEntityDAO<T> dao) {
@@ -61,7 +66,7 @@ public abstract class ObservableEntityModel<T> extends Observable {
      * <p>
      * Getter for the field <code>entityManager</code>.
      * </p>
-     *
+     * 
      * @return a {@link javax.persistence.EntityManager} object.
      */
     public EntityManager getEntityManager() {
@@ -69,9 +74,12 @@ public abstract class ObservableEntityModel<T> extends Observable {
     }
 
     /**
-     * <p>update</p>
-     *
-     * @param entity a T object.
+     * <p>
+     * update
+     * </p>
+     * 
+     * @param entity
+     *            a T object.
      */
     public void update(T entity) {
         EntityTransaction tx = beginTransaction();
@@ -80,17 +88,27 @@ public abstract class ObservableEntityModel<T> extends Observable {
             getDao().merge(entity);
         } catch (PersistenceException e) {
             tx.rollback();
+
             throw e;
         }
-
-        commitAndNotify(tx);
+        try {
+            commitAndNotify(tx);
+        } catch (RollbackException e) {
+            tx = beginTransaction();
+            
+            getDao().refresh(entity);
+            
+            commitAndNotify(tx);
+            
+            throw e;
+        }
     }
 
     /**
      * <p>
      * beginTransaction
      * </p>
-     *
+     * 
      * @return a {@link javax.persistence.EntityTransaction} object.
      */
     protected EntityTransaction beginTransaction() {
@@ -103,7 +121,7 @@ public abstract class ObservableEntityModel<T> extends Observable {
      * <p>
      * commitAndNotify
      * </p>
-     *
+     * 
      * @param tx
      *            a {@link javax.persistence.EntityTransaction} object.
      */
@@ -118,7 +136,7 @@ public abstract class ObservableEntityModel<T> extends Observable {
      * <p>
      * getList
      * </p>
-     *
+     * 
      * @return a {@link java.util.Collection} object.
      */
     public Collection<T> getList() {
@@ -126,9 +144,12 @@ public abstract class ObservableEntityModel<T> extends Observable {
     }
 
     /**
-     * <p>delete</p>
-     *
-     * @param entity a T object.
+     * <p>
+     * delete
+     * </p>
+     * 
+     * @param entity
+     *            a T object.
      */
     public void delete(T entity) {
         EntityTransaction tx = beginTransaction();
@@ -145,9 +166,12 @@ public abstract class ObservableEntityModel<T> extends Observable {
     }
 
     /**
-     * <p>add</p>
-     *
-     * @param entity a T object.
+     * <p>
+     * add
+     * </p>
+     * 
+     * @param entity
+     *            a T object.
      */
     public void add(T entity) {
         EntityTransaction tx = beginTransaction();
@@ -160,13 +184,22 @@ public abstract class ObservableEntityModel<T> extends Observable {
             throw e;
         }
 
-        commitAndNotify(tx);
+        try {
+            commitAndNotify(tx);
+        } catch (RollbackException e) {
+            getEntityManager().detach(entity);
+
+            throw e;
+        }
     }
 
     /**
-     * <p>updateMany</p>
-     *
-     * @param entities a {@link java.lang.Iterable} object.
+     * <p>
+     * updateMany
+     * </p>
+     * 
+     * @param entities
+     *            a {@link java.lang.Iterable} object.
      */
     public void updateMany(Iterable<T> entities) {
         EntityTransaction tx = beginTransaction();
@@ -176,13 +209,17 @@ public abstract class ObservableEntityModel<T> extends Observable {
             tx.rollback();
             throw e;
         }
+
         commitAndNotify(tx);
     }
 
     /**
-     * <p>addMany</p>
-     *
-     * @param entities a {@link java.lang.Iterable} object.
+     * <p>
+     * addMany
+     * </p>
+     * 
+     * @param entities
+     *            a {@link java.lang.Iterable} object.
      */
     public void addMany(Iterable<T> entities) {
         EntityTransaction tx = beginTransaction();
@@ -202,9 +239,12 @@ public abstract class ObservableEntityModel<T> extends Observable {
     }
 
     /**
-     * <p>rawDelete</p>
-     *
-     * @param entity a T object.
+     * <p>
+     * rawDelete
+     * </p>
+     * 
+     * @param entity
+     *            a T object.
      */
     protected void rawDelete(T entity) {
         getDao().remove(entity);
@@ -212,18 +252,24 @@ public abstract class ObservableEntityModel<T> extends Observable {
     }
 
     /**
-     * <p>Setter for the field <code>list</code>.</p>
-     *
-     * @param list a {@link java.util.List} object.
+     * <p>
+     * Setter for the field <code>list</code>.
+     * </p>
+     * 
+     * @param list
+     *            a {@link java.util.List} object.
      */
     protected void setList(List<T> list) {
         this.list = list;
     }
 
     /**
-     * <p>Getter for the field <code>dao</code>.</p>
-     *
-     * @return a {@link net.sourceforge.myjorganizer.jpa.dao.JPAEntityDAO} object.
+     * <p>
+     * Getter for the field <code>dao</code>.
+     * </p>
+     * 
+     * @return a {@link net.sourceforge.myjorganizer.jpa.dao.JPAEntityDAO}
+     *         object.
      */
     public JPAEntityDAO<T> getDao() {
         return dao;

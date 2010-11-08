@@ -30,6 +30,12 @@ public interface EntityDAO<T> {
      * @param entities a {@link java.lang.Iterable} object.
      */
     public void persistMany(Iterable<T> entities);
+    
+    public void detachMany(Iterable<T> entities);
+    
+    public void detach(T entity);
+    
+    public void refreshMany(Iterable<T> entities);
 
     /**
      * <p>merge</p>

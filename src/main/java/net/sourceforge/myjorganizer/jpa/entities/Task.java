@@ -34,6 +34,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import net.sourceforge.myjorganizer.jpa.validator.TaskConstraintCheck;
+
 import com.davidebellettini.gui.utils.ShowInTable;
 
 /**
@@ -45,7 +47,8 @@ import com.davidebellettini.gui.utils.ShowInTable;
 
 @Entity
 @Table(name = "tasks")
-public class Task {
+@TaskConstraintCheck
+public class Task implements Cloneable {
 
     private String name;
     private Date dueDate;
@@ -178,8 +181,8 @@ public class Task {
      */
     public Task setStatus(TaskStatus status) {
         if (status != null && "closed".equals(status.getId())) {
-            for (TaskDependency dep : getLeftDependencies()) {
-                if (!"closed".equals(dep.getRight().getStatus().getId())) {
+            for (TaskDependency dep : getRightDependencies()) {
+                if (!"closed".equals(dep.getLeft().getStatus().getId())) {
                     throw new IllegalStateException("Task "
                             + dep.getLeft().getId()
                             + " must be completed before " + getId());
@@ -213,10 +216,6 @@ public class Task {
      * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     public Task setCompletion(int completion) {
-        if (completion < 0 || completion > 100)
-            throw new IllegalArgumentException(
-                    "Completion must be between 0 and 100");
-
         this.completion = completion;
 
         return this;

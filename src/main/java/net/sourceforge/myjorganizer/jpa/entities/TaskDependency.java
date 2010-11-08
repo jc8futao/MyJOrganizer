@@ -25,6 +25,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import net.sourceforge.myjorganizer.jpa.validator.TaskDependencyCheck;
+
 /**
  * Represents a dependency between tasks
  * 
@@ -33,6 +35,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name = "task_dependencies", uniqueConstraints=@UniqueConstraint(columnNames={"left_id","right_id"}))
+@TaskDependencyCheck
 public class TaskDependency {
 
     private Task left;

@@ -152,16 +152,6 @@ public class TaskTest {
         assertSame(task, task.setId("1"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testCompletionCannotBeNegative() {
-        task.setCompletion(-1);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testCompletionCannotBeMoreThan100() {
-        task.setCompletion(101);
-    }
-
     @Test
     public void testCompletionAccessors() {
         for (int i = 0; i <= 100; i++) {

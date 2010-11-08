@@ -21,10 +21,13 @@ import static net.sourceforge.myjorganizer.i18n.Translator._;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.util.Observer;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.swing.JTabbedPane;
+import javax.validation.ValidationException;
 
 import net.sourceforge.myjorganizer.gui.task.model.TaskDependencyModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskEvent;
@@ -33,8 +36,8 @@ import net.sourceforge.myjorganizer.gui.task.model.TaskModels;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
 import net.sourceforge.myjorganizer.gui.task.view.AbstractTaskView;
-import net.sourceforge.myjorganizer.gui.task.view.TaskSingleView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskFourQuadrantsView;
+import net.sourceforge.myjorganizer.gui.task.view.TaskSingleView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskSourceView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskStatView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskTableView;
@@ -129,7 +132,7 @@ public class TaskController implements TaskEventListener {
         addView(treeView);
         addView(fourQuadrantsView);
         addView(statView);
-        
+
         initTaskAddView();
 
         int i = 0;
@@ -202,11 +205,23 @@ public class TaskController implements TaskEventListener {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                Task task = taskAddView.getTask();
-                taskModels.getTaskModel().add(task);
-                pane.remove(taskAddView);
-                pane.setSelectedIndex(1);
-                taskAddView.reset();
+
+                try {
+                    Task task = taskAddView.getTask();
+                    taskModels.getTaskModel().add(task);
+                    pane.remove(taskAddView);
+                    pane.setSelectedIndex(1);
+                    taskAddView.reset();
+                } catch (PersistenceException ex) {
+                    taskAddView.showError(_("ERROR_PERSISTENCE"));
+                    ex.printStackTrace();
+                } catch (ValidationException ex) {
+                    taskAddView.showError(_("ERROR_INVALID_DATA"));
+                    ex.printStackTrace();
+                } catch (ParseException ex) {
+                    taskAddView.showError(_("ERROR_INVALID_DATA"));
+                    ex.printStackTrace();
+                }
             }
         });
 
