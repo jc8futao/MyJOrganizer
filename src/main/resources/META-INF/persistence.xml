@@ -26,6 +26,7 @@
 		<class>net.sourceforge.myjorganizer.jpa.entities.Task</class>
 		<class>net.sourceforge.myjorganizer.jpa.entities.TaskDependency</class>
 		<class>net.sourceforge.myjorganizer.jpa.entities.TaskStatus</class>
+		<class>net.sourceforge.myjorganizer.jpa.entities.TaskPriority</class>
 		<properties>
 		    <property name="hibernate.hbm2ddl.auto" value="update" />
 		    
