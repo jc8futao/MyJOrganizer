@@ -43,7 +43,7 @@ public class SampleData {
      * @param statusModel a {@link net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel} object.
      */
     public static void loadSampleTaskData(TaskSetModel taskSetModel, TaskStatusModel statusModel) {
-        TaskStatus open = statusModel.getById("open");
+        TaskStatus open = statusModel.find("open");
         
         ArrayList<Task> tasks = new ArrayList<Task>();
         tasks.add(new Task("Asta eBay"));

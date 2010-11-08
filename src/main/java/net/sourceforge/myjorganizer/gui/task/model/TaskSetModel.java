@@ -90,7 +90,7 @@ public class TaskSetModel extends ObservableEntityModel<Task> {
         EntityTransaction tx = beginTransaction();
 
         TaskStatus closed = getStatusDao().find("closed");
-        
+
         Task task = getDao().find(id);
         if (task != null) {
             task.setStatus(closed);
@@ -118,6 +118,20 @@ public class TaskSetModel extends ObservableEntityModel<Task> {
         tx.commit();
 
         return task;
+    }
+
+    @Override
+    public void update(Task task) {
+        String taskID;
+        if (task.getStatus() == null) {
+            taskID = "open";
+        } else {
+            taskID = task.getStatus().getId();
+        }
+
+        task.setStatus(getStatusDao().find(taskID));
+
+        super.update(task);
     }
 
     protected TaskStatusDAO getStatusDao() {

@@ -57,7 +57,7 @@ public class TaskStatusModel extends ObservableEntityModel<TaskStatus> {
      * @param id a {@link java.lang.String} object.
      * @return a {@link net.sourceforge.myjorganizer.jpa.entities.TaskStatus} object.
      */
-    public TaskStatus getById(String id) {
+    public TaskStatus find(String id) {
         EntityTransaction tx = beginTransaction();
         TaskStatus status = getEntityManager().find(TaskStatus.class, id);
 

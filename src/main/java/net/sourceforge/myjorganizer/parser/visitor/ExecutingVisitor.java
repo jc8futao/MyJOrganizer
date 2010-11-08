@@ -6,6 +6,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.persistence.PersistenceException;
+
 import net.sourceforge.myjorganizer.gui.task.model.TaskDependencyModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskModels;
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
@@ -50,12 +52,12 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
     private ArrayList<TaskDependency> dependenciesToAdd = new ArrayList<TaskDependency>();
     private DependencyMode depMode = DependencyMode.ADD;
     private HashMap<DependencyMode, DependencyParser> parserModes = new HashMap<ExecutingVisitor.DependencyMode, ExecutingVisitor.DependencyParser>();
-    
+
     public ExecutingVisitor(TaskModels models) {
         this.taskModel = models.getTaskModel();
         this.statusModel = models.getStatusModel();
         this.depModel = models.getDependencyModel();
-        
+
         parserModes.put(DependencyMode.ADD, new DependencyParser() {
             @Override
             public void parse(boolean before, String taskId) {
@@ -72,15 +74,15 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
                 dependenciesToAdd.add(dependency);
             }
         });
-        
+
         parserModes.put(DependencyMode.DELETE, new DependencyParser() {
 
             @Override
             public void parse(boolean before, String taskId) {
                 String left = before ? currentTask.getId() : taskId;
                 String right = before ? taskId : currentTask.getId();
-                
-                depModel.deleteFromId(left, right);            
+
+                depModel.deleteFromId(left, right);
             }
         });
     }
@@ -99,6 +101,10 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
     public void visit(TaskInsertCommand n) {
         this.currentTask = new Task();
         n.f1.accept(this);
+
+        if (currentTask.getStatus() == null) {
+            currentTask.setStatus(statusModel.find("open"));
+        }
 
         taskModel.add(currentTask);
         depModel.addMany(dependenciesToAdd);
@@ -176,7 +182,7 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
                 }
             }
         };
-        
+
         n.f2.accept(this);
         tokenParser = null;
     }
@@ -206,7 +212,7 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
                     currentTask.setStartDate(null);
                 } else {
                     try {
-                        currentTask.setDueDate(formatter.parse(node));
+                        currentTask.setStartDate(formatter.parse(node));
                     } catch (ParseException e) {
                         throw new RuntimeException(e);
                     }
@@ -245,7 +251,7 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
     @Override
     public void visit(TaskStatus n) {
         net.sourceforge.myjorganizer.jpa.entities.TaskStatus status = statusModel
-                .getById(unescape(n.f2.tokenImage));
+                .find(unescape(n.f2.tokenImage));
 
         currentTask.setStatus(status);
 
@@ -266,9 +272,9 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
         };
 
         n.f0.accept(this);
-        
+
         this.tokenParser = null;
-        
+
         parserModes.get(depMode).parse(before, n.f1.tokenImage);
     }
 
@@ -305,9 +311,12 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
      */
     public void visit(TaskUpdateCommand n) {
         currentTask = taskModel.find(n.f2.tokenImage);
-        
+
+        if (currentTask == null)
+            throw new PersistenceException("Task not found");
+
         n.f4.accept(this);
-        
+
         taskModel.update(currentTask);
     }
 
@@ -351,22 +360,24 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
      * </PRE>
      */
     public void visit(DependencyAdd n) {
-        depMode=DependencyMode.ADD;
+        depMode = DependencyMode.ADD;
         n.f2.accept(this);
     }
 
     @Override
     public void visit(DependencyDelete n) {
-        depMode=DependencyMode.DELETE;
+        depMode = DependencyMode.DELETE;
         n.f2.accept(this);
     }
 
-    private enum DependencyMode { ADD, DELETE }
+    private enum DependencyMode {
+        ADD, DELETE
+    }
 
     private interface TokenParser {
         public void parseToken(String node);
     }
-    
+
     private interface DependencyParser {
         public void parse(boolean before, String taskId);
     }

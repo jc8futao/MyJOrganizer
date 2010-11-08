@@ -181,6 +181,7 @@ public abstract class ObservableEntityModel<T> extends Observable {
             list.add(entity);
         } catch (PersistenceException e) {
             tx.rollback();
+            
             throw e;
         }
 

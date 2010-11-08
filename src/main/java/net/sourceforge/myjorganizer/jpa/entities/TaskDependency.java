@@ -35,7 +35,7 @@ import net.sourceforge.myjorganizer.jpa.validator.TaskDependencyCheck;
  */
 @Entity
 @Table(name = "task_dependencies", uniqueConstraints=@UniqueConstraint(columnNames={"left_id","right_id"}))
-@TaskDependencyCheck
+//@TaskDependencyCheck
 public class TaskDependency {
 
     private Task left;
