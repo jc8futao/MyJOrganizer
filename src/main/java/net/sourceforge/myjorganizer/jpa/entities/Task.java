@@ -57,7 +57,7 @@ public class Task {
     private String description;
     private String id;
     private Set<TaskDependency> rightDeps = new HashSet<TaskDependency>();
-    private Set<TaskDependency> leftDeps;
+    private Set<TaskDependency> leftDeps = new HashSet<TaskDependency>();
 
     /**
      * <p>
@@ -178,8 +178,8 @@ public class Task {
      */
     public Task setStatus(TaskStatus status) {
         if (status != null && "closed".equals(status.getId())) {
-            for (TaskDependency dep : getRightDependencies()) {
-                if (!"closed".equals(dep.getLeft().getStatus().getId())) {
+            for (TaskDependency dep : getLeftDependencies()) {
+                if (!"closed".equals(dep.getRight().getStatus().getId())) {
                     throw new IllegalStateException("Task "
                             + dep.getLeft().getId()
                             + " must be completed before " + getId());

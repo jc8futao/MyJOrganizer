@@ -23,6 +23,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  * Represents a dependency between tasks
@@ -31,7 +32,7 @@ import javax.persistence.Table;
  * @version $Id$
  */
 @Entity
-@Table(name = "task_dependencies")
+@Table(name = "task_dependencies", uniqueConstraints=@UniqueConstraint(columnNames={"left_id","right_id"}))
 public class TaskDependency {
 
     private Task left;

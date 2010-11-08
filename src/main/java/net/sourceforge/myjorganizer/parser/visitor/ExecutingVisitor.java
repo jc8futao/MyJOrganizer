@@ -68,7 +68,7 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
                     dependency = TaskDependency.after(currentTask, otherTask);
                 }
 
-                dependency.getLeft().getRightDependencies().add(dependency);
+                dependency.getLeft().getLeftDependencies().add(dependency);
                 dependenciesToAdd.add(dependency);
             }
         });
@@ -80,7 +80,7 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
                 String left = before ? currentTask.getId() : taskId;
                 String right = before ? taskId : currentTask.getId();
                 
-                depModel.deleteFromId(left, right);                
+                depModel.deleteFromId(left, right);            
             }
         });
     }
@@ -262,15 +262,14 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
             @Override
             public void parseToken(String node) {
                 before = "before".equals(node);
-                System.err.println(node);
             }
         };
 
         n.f0.accept(this);
         
-        parserModes.get(depMode).parse(before, n.f1.tokenImage);
-
         this.tokenParser = null;
+        
+        parserModes.get(depMode).parse(before, n.f1.tokenImage);
     }
 
     @Override
@@ -343,6 +342,14 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
     }
 
     @Override
+    /**
+     * Grammar production:
+     * <PRE>
+     * f0 -> &lt;ADD&gt;
+     * f1 -> &lt;DEPENDENCY&gt;
+     * f2 -> DependencyDefinition()
+     * </PRE>
+     */
     public void visit(DependencyAdd n) {
         depMode=DependencyMode.ADD;
         n.f2.accept(this);
@@ -351,6 +358,7 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
     @Override
     public void visit(DependencyDelete n) {
         depMode=DependencyMode.DELETE;
+        n.f2.accept(this);
     }
 
     private enum DependencyMode { ADD, DELETE }

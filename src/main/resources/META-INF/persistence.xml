@@ -27,15 +27,20 @@
 		<class>net.sourceforge.myjorganizer.jpa.entities.TaskDependency</class>
 		<class>net.sourceforge.myjorganizer.jpa.entities.TaskStatus</class>
 		<properties>
+		    <property name="hibernate.hbm2ddl.auto" value="update" />
+		    
+		    <!--
 			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
-			<property name="hibernate.hbm2ddl.auto" value="update" />
-
 			<property name="hibernate.connection.driver_class" value="org.h2.Driver" />
 			<property name="hibernate.connection.url" value="jdbc:h2:file:~/myjorganizer" />
-			<!--  
+			-->
+			  
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost/myjorganizer" />
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
 			<property name="hibernate.connection.username" value="myjorganizer" />
 			<property name="hibernate.connection.password" value="myjorganizer" />
-			-->
+			
 			<property name="javax.persistence.validation.mode" value="callback, ddl"/>
 		</properties>
 	</persistence-unit>
