@@ -1,6 +1,7 @@
 package net.sourceforge.myjorganizer.gui.task.model;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 import net.sourceforge.myjorganizer.jpa.dao.JPATaskDependencyDAO;
 import net.sourceforge.myjorganizer.jpa.entities.TaskDependency;
@@ -24,5 +25,11 @@ public class TaskDependencyModel extends ObservableEntityModel<TaskDependency> {
 
         this.setList(entityManager.createQuery("FROM TaskDependency",
                 TaskDependency.class).getResultList());
+    }
+
+    public void deleteFromId(String left, String right) {
+        EntityTransaction tx = beginTransaction();
+        ((JPATaskDependencyDAO)getDao()).deleteFromId(left, right);
+        commitAndNotify(tx);
     }
 }

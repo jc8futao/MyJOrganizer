@@ -4,6 +4,7 @@ import static net.sourceforge.myjorganizer.parser.StringUtils.unescape;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import net.sourceforge.myjorganizer.gui.task.model.TaskDependencyModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskModels;
@@ -11,12 +12,13 @@ import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
 import net.sourceforge.myjorganizer.jpa.entities.Task;
 import net.sourceforge.myjorganizer.jpa.entities.TaskDependency;
+import net.sourceforge.myjorganizer.parser.syntaxtree.DependencyAdd;
 import net.sourceforge.myjorganizer.parser.syntaxtree.DependencyDefinition;
+import net.sourceforge.myjorganizer.parser.syntaxtree.DependencyDelete;
 import net.sourceforge.myjorganizer.parser.syntaxtree.DependencyList;
+import net.sourceforge.myjorganizer.parser.syntaxtree.EditableField;
 import net.sourceforge.myjorganizer.parser.syntaxtree.NodeToken;
 import net.sourceforge.myjorganizer.parser.syntaxtree.OptionalField;
-import net.sourceforge.myjorganizer.parser.syntaxtree.TaskCommand;
-import net.sourceforge.myjorganizer.parser.syntaxtree.TaskCommands;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskCompletion;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskDefinition;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskDeleteCommand;
@@ -28,12 +30,14 @@ import net.sourceforge.myjorganizer.parser.syntaxtree.TaskInsertCommand;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskStartDate;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskStatus;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskTitle;
+import net.sourceforge.myjorganizer.parser.syntaxtree.TaskUpdateCommand;
 import net.sourceforge.myjorganizer.parser.syntaxtree.TaskUrgency;
+import net.sourceforge.myjorganizer.parser.syntaxtree.UpdateField;
 
 /**
  * 
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
- *
+ * 
  */
 public class ExecutingVisitor extends AbstractDepthFirstVisitor {
 
@@ -41,14 +45,44 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
     private TaskStatusModel statusModel;
     private Task currentTask;
     private TaskDependencyModel depModel;
-    private NodeParser tokenParser;
+    private TokenParser tokenParser;
     private boolean before;
-    private ArrayList<TaskDependency> dependencies = new ArrayList<TaskDependency>();
-
+    private ArrayList<TaskDependency> dependenciesToAdd = new ArrayList<TaskDependency>();
+    private DependencyMode depMode = DependencyMode.ADD;
+    private HashMap<DependencyMode, DependencyParser> parserModes = new HashMap<ExecutingVisitor.DependencyMode, ExecutingVisitor.DependencyParser>();
+    
     public ExecutingVisitor(TaskModels models) {
         this.taskModel = models.getTaskModel();
         this.statusModel = models.getStatusModel();
         this.depModel = models.getDependencyModel();
+        
+        parserModes.put(DependencyMode.ADD, new DependencyParser() {
+            @Override
+            public void parse(boolean before, String taskId) {
+                Task otherTask = taskModel.find(taskId);
+                TaskDependency dependency;
+
+                if (before) {
+                    dependency = TaskDependency.before(currentTask, otherTask);
+                } else {
+                    dependency = TaskDependency.after(currentTask, otherTask);
+                }
+
+                dependency.getLeft().getRightDependencies().add(dependency);
+                dependenciesToAdd.add(dependency);
+            }
+        });
+        
+        parserModes.put(DependencyMode.DELETE, new DependencyParser() {
+
+            @Override
+            public void parse(boolean before, String taskId) {
+                String left = before ? currentTask.getId() : taskId;
+                String right = before ? taskId : currentTask.getId();
+                
+                depModel.deleteFromId(left, right);                
+            }
+        });
     }
 
     @Override
@@ -58,20 +92,6 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
         }
     }
 
-    @Override
-    /**
-     * Grammar production:
-     * f0 -> ( TaskCommand() )*
-     */
-    public void visit(TaskCommands n) {
-        n.f0.accept(this);
-    }
-
-    @Override
-    public void visit(TaskCommand n) {
-        n.f0.accept(this);
-    }
-
     /**
      * Grammar production: f0 -> <INSERT> f1 -> TaskDefinition()
      */
@@ -79,9 +99,9 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
     public void visit(TaskInsertCommand n) {
         this.currentTask = new Task();
         n.f1.accept(this);
-        
+
         taskModel.add(currentTask);
-        depModel.addMany(dependencies);
+        depModel.addMany(dependenciesToAdd);
     }
 
     @Override
@@ -136,8 +156,29 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
     }
 
     @Override
+    /**
+     * Grammar production:
+     * <PRE>
+     * f0 -> &lt;DESCRIPTION&gt;
+     * f1 -> &lt;COLON&gt;
+     * f2 -> ( &lt;STRING_LITERAL&gt; | &lt;NULL&gt; )
+     * </PRE>
+     */
     public void visit(TaskDescription n) {
-        currentTask.setDescription(unescape(n.f2.tokenImage));
+        tokenParser = new TokenParser() {
+
+            @Override
+            public void parseToken(String node) {
+                if ("null".equals(node)) {
+                    currentTask.setDescription(null);
+                } else {
+                    currentTask.setDescription(unescape(node));
+                }
+            }
+        };
+        
+        n.f2.accept(this);
+        tokenParser = null;
     }
 
     @Override
@@ -157,21 +198,48 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
 
     @Override
     public void visit(TaskStartDate n) {
-        try {
-            currentTask.setStartDate(formatter.parse(n.f2.tokenImage));
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        tokenParser = new TokenParser() {
+
+            @Override
+            public void parseToken(String node) {
+                if ("null".equals(node)) {
+                    currentTask.setStartDate(null);
+                } else {
+                    try {
+                        currentTask.setDueDate(formatter.parse(node));
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        };
+
+        n.f2.accept(this);
+
+        tokenParser = null;
     }
 
     @Override
     public void visit(TaskDueDate n) {
-        try {
-            currentTask.setDueDate(formatter.parse(n.f2.tokenImage));
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        tokenParser = new TokenParser() {
 
+            @Override
+            public void parseToken(String node) {
+                if ("null".equals(node)) {
+                    currentTask.setDueDate(null);
+                } else {
+                    try {
+                        currentTask.setDueDate(formatter.parse(node));
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        };
+
+        n.f2.accept(this);
+
+        tokenParser = null;
     }
 
     @Override
@@ -190,7 +258,7 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
      * f1 -> <IDENTIFIER>
      */
     public void visit(DependencyDefinition n) {
-        this.tokenParser = new NodeParser() {
+        this.tokenParser = new TokenParser() {
             @Override
             public void parseToken(String node) {
                 before = "before".equals(node);
@@ -199,20 +267,10 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
         };
 
         n.f0.accept(this);
+        
+        parserModes.get(depMode).parse(before, n.f1.tokenImage);
 
         this.tokenParser = null;
-
-        Task otherTask = taskModel.find(n.f1.tokenImage);
-        TaskDependency dependency;
-
-        if (before) {
-            dependency = TaskDependency.before(currentTask, otherTask);
-        } else {
-            dependency = TaskDependency.after(currentTask, otherTask);
-        }
-        
-        dependency.getLeft().getRightDependencies().add(dependency);
-        dependencies.add(dependency);
     }
 
     @Override
@@ -228,12 +286,80 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
         n.f2.accept(this);
     }
 
-    private interface NodeParser {
-        public void parseToken(String node);
-    }
-
     @Override
     public void visit(OptionalField n) {
         n.f0.accept(this);
+    }
+
+    @Override
+    /**
+     * Grammar production:
+     * <PRE>
+     * f0 -> &lt;UPDATE&gt;
+     * f1 -> &lt;TASK&gt;
+     * f2 -> &lt;IDENTIFIER&gt;
+     * f3 -> &lt;COLON&gt;
+     * f4 -> ( UpdateField() )+
+     * f5 -> &lt;END&gt;
+     * f6 -> &lt;UPDATE&gt;
+     * </PRE>
+     */
+    public void visit(TaskUpdateCommand n) {
+        currentTask = taskModel.find(n.f2.tokenImage);
+        
+        n.f4.accept(this);
+        
+        taskModel.update(currentTask);
+    }
+
+    @Override
+    /**
+     * Grammar production:
+     * <PRE>
+     * f0 -> TaskTitle()
+     *       | TaskCompletion()
+     *       | TaskUrgency()
+     *       | TaskImportance()
+     *       | TaskStatus()
+     *       | TaskStartDate()
+     *       | TaskDueDate()
+     * </PRE>
+     */
+    public void visit(EditableField n) {
+        n.f0.accept(this);
+    }
+
+    @Override
+    /**
+     * Grammar production:
+     * <PRE>
+     * f0 -> &lt;SET&gt; EditableField()
+     *       | DependencyAdd()
+     *       | DependencyDelete()
+     * </PRE>
+     */
+    public void visit(UpdateField n) {
+        n.f0.accept(this);
+    }
+
+    @Override
+    public void visit(DependencyAdd n) {
+        depMode=DependencyMode.ADD;
+        n.f2.accept(this);
+    }
+
+    @Override
+    public void visit(DependencyDelete n) {
+        depMode=DependencyMode.DELETE;
+    }
+
+    private enum DependencyMode { ADD, DELETE }
+
+    private interface TokenParser {
+        public void parseToken(String node);
+    }
+    
+    private interface DependencyParser {
+        public void parse(boolean before, String taskId);
     }
 }

@@ -9,6 +9,8 @@ import net.sourceforge.myjorganizer.parser.syntaxtree.NodeList;
 import net.sourceforge.myjorganizer.parser.syntaxtree.NodeListOptional;
 import net.sourceforge.myjorganizer.parser.syntaxtree.NodeOptional;
 import net.sourceforge.myjorganizer.parser.syntaxtree.NodeSequence;
+import net.sourceforge.myjorganizer.parser.syntaxtree.TaskCommand;
+import net.sourceforge.myjorganizer.parser.syntaxtree.TaskCommands;
 
 /**
  * <p>
@@ -72,5 +74,15 @@ public abstract class AbstractDepthFirstVisitor implements Visitor {
     public void visit(NodeSequence n) {
         for (Enumeration<Node> e = n.elements(); e.hasMoreElements();)
             e.nextElement().accept(this);
+    }
+
+    @Override
+    public void visit(TaskCommand n) {
+        n.f0.accept(this);
+    }
+
+    @Override
+    public void visit(TaskCommands n) {
+        n.f0.accept(this);
     }
 }
