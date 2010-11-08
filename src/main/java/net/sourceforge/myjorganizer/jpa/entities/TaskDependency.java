@@ -24,8 +24,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-
-import net.sourceforge.myjorganizer.jpa.validator.TaskDependencyCheck;
+import javax.validation.constraints.NotNull;
 
 /**
  * Represents a dependency between tasks
@@ -77,6 +76,7 @@ public class TaskDependency {
      * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     @ManyToOne
+    @NotNull
     public Task getLeft() {
         return this.left;
     }
@@ -89,6 +89,7 @@ public class TaskDependency {
      * @return a {@link net.sourceforge.myjorganizer.jpa.entities.Task} object.
      */
     @ManyToOne
+    @NotNull
     public Task getRight() {
         return this.right;
     }

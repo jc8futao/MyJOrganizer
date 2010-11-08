@@ -227,15 +227,14 @@ public abstract class ObservableEntityModel<T> extends Observable {
 
         try {
             getDao().persistMany(entities);
+            for (T entity : entities) {
+                getList().add(entity);
+            }
         } catch (PersistenceException e) {
             tx.rollback();
             throw e;
         }
-
-        for (T entity : entities) {
-            getList().add(entity);
-        }
-
+        
         commitAndNotify(tx);
     }
 
