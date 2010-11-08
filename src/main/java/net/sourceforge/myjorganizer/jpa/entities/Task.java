@@ -31,7 +31,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -48,7 +47,7 @@ import com.davidebellettini.gui.utils.ShowInTable;
 
 @Entity
 @Table(name = "tasks")
-//@TaskConstraintCheck
+@TaskConstraintCheck
 public class Task implements Cloneable {
 
     private String name;

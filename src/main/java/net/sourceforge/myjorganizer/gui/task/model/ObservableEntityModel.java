@@ -20,11 +20,16 @@ package net.sourceforge.myjorganizer.gui.task.model;
 import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.RollbackException;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.ValidationException;
+import javax.validation.Validator;
 
 import net.sourceforge.myjorganizer.jpa.dao.JPAEntityDAO;
 
@@ -42,6 +47,7 @@ public abstract class ObservableEntityModel<T> extends Observable {
     private final EntityManager entityManager;
     private Collection<T> list;
     private final JPAEntityDAO<T> dao;
+    private Validator validator;
 
     /**
      * <p>
@@ -82,6 +88,8 @@ public abstract class ObservableEntityModel<T> extends Observable {
      *            a T object.
      */
     public void update(T entity) {
+        ensureIsValid(entity);
+        
         EntityTransaction tx = beginTransaction();
 
         try {
@@ -95,41 +103,13 @@ public abstract class ObservableEntityModel<T> extends Observable {
             commitAndNotify(tx);
         } catch (RollbackException e) {
             tx = beginTransaction();
-            
+
             getDao().refresh(entity);
-            
+
             commitAndNotify(tx);
-            
+
             throw e;
         }
-    }
-
-    /**
-     * <p>
-     * beginTransaction
-     * </p>
-     * 
-     * @return a {@link javax.persistence.EntityTransaction} object.
-     */
-    protected EntityTransaction beginTransaction() {
-        EntityTransaction tx = entityManager.getTransaction();
-        tx.begin();
-        return tx;
-    }
-
-    /**
-     * <p>
-     * commitAndNotify
-     * </p>
-     * 
-     * @param tx
-     *            a {@link javax.persistence.EntityTransaction} object.
-     */
-    protected void commitAndNotify(EntityTransaction tx) {
-        tx.commit();
-
-        setChanged();
-        notifyObservers();
     }
 
     /**
@@ -174,6 +154,8 @@ public abstract class ObservableEntityModel<T> extends Observable {
      *            a T object.
      */
     public void add(T entity) {
+        ensureIsValid(entity);
+        
         EntityTransaction tx = beginTransaction();
 
         try {
@@ -181,7 +163,7 @@ public abstract class ObservableEntityModel<T> extends Observable {
             list.add(entity);
         } catch (PersistenceException e) {
             tx.rollback();
-            
+
             throw e;
         }
 
@@ -203,6 +185,8 @@ public abstract class ObservableEntityModel<T> extends Observable {
      *            a {@link java.lang.Iterable} object.
      */
     public void updateMany(Iterable<T> entities) {
+        ensureIsValid(entities);
+        
         EntityTransaction tx = beginTransaction();
         try {
             getDao().mergeMany(entities);
@@ -223,6 +207,7 @@ public abstract class ObservableEntityModel<T> extends Observable {
      *            a {@link java.lang.Iterable} object.
      */
     public void addMany(Iterable<T> entities) {
+        ensureIsValid(entities);
         EntityTransaction tx = beginTransaction();
 
         try {
@@ -234,8 +219,48 @@ public abstract class ObservableEntityModel<T> extends Observable {
             tx.rollback();
             throw e;
         }
-        
+
         commitAndNotify(tx);
+    }
+
+    /**
+     * <p>
+     * Getter for the field <code>dao</code>.
+     * </p>
+     * 
+     * @return a {@link net.sourceforge.myjorganizer.jpa.dao.JPAEntityDAO}
+     *         object.
+     */
+    public JPAEntityDAO<T> getDao() {
+        return dao;
+    }
+
+    /**
+     * <p>
+     * beginTransaction
+     * </p>
+     * 
+     * @return a {@link javax.persistence.EntityTransaction} object.
+     */
+    protected EntityTransaction beginTransaction() {
+        EntityTransaction tx = entityManager.getTransaction();
+        tx.begin();
+        return tx;
+    }
+
+    /**
+     * <p>
+     * commitAndNotify
+     * </p>
+     * 
+     * @param tx
+     *            a {@link javax.persistence.EntityTransaction} object.
+     */
+    protected void commitAndNotify(EntityTransaction tx) {
+        tx.commit();
+
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -263,15 +288,26 @@ public abstract class ObservableEntityModel<T> extends Observable {
         this.list = list;
     }
 
-    /**
-     * <p>
-     * Getter for the field <code>dao</code>.
-     * </p>
-     * 
-     * @return a {@link net.sourceforge.myjorganizer.jpa.dao.JPAEntityDAO}
-     *         object.
-     */
-    public JPAEntityDAO<T> getDao() {
-        return dao;
+    protected Validator getValidator() {
+
+        if (this.validator == null)
+            this.validator = Validation.buildDefaultValidatorFactory()
+                    .getValidator();
+
+        return this.validator;
+    }
+
+    protected void ensureIsValid(T entity) {
+        Set<ConstraintViolation<T>> violations = getValidator().validate(
+                entity);
+    
+        if (violations.size() > 0) {
+            throw new ValidationException("Validation failed");
+        }
+    }
+
+    protected void ensureIsValid(Iterable<T> entities) {
+        for (T entity : entities)
+            ensureIsValid(entity);
     }
 }
