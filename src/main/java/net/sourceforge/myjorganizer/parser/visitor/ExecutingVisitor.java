@@ -102,10 +102,6 @@ public class ExecutingVisitor extends AbstractDepthFirstVisitor {
         this.currentTask = new Task();
         n.f1.accept(this);
 
-        if (currentTask.getStatus() == null) {
-            currentTask.setStatus(statusModel.find("open"));
-        }
-
         taskModel.add(currentTask);
         depModel.addMany(dependenciesToAdd);
     }
