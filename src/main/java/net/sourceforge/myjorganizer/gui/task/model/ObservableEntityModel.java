@@ -31,6 +31,9 @@ import javax.validation.Validation;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sourceforge.myjorganizer.jpa.dao.JPAEntityDAO;
 
 /**
@@ -48,6 +51,8 @@ public abstract class ObservableEntityModel<T> extends Observable {
     private Collection<T> list;
     private final JPAEntityDAO<T> dao;
     private Validator validator;
+    private static Logger logger = LoggerFactory
+            .getLogger(ObservableEntityModel.class);
 
     /**
      * <p>
@@ -88,8 +93,10 @@ public abstract class ObservableEntityModel<T> extends Observable {
      *            a T object.
      */
     public void update(T entity) {
+        getLogger().info(
+                "Updating entity (" + entity.getClass() + ") " + entity);
         ensureIsValid(entity);
-        
+
         EntityTransaction tx = beginTransaction();
 
         try {
@@ -155,7 +162,7 @@ public abstract class ObservableEntityModel<T> extends Observable {
      */
     public void add(T entity) {
         ensureIsValid(entity);
-        
+
         EntityTransaction tx = beginTransaction();
 
         try {
@@ -185,8 +192,10 @@ public abstract class ObservableEntityModel<T> extends Observable {
      *            a {@link java.lang.Iterable} object.
      */
     public void updateMany(Iterable<T> entities) {
+        getLogger().debug("updateMany() invoked");
+
         ensureIsValid(entities);
-        
+
         EntityTransaction tx = beginTransaction();
         try {
             getDao().mergeMany(entities);
@@ -298,9 +307,9 @@ public abstract class ObservableEntityModel<T> extends Observable {
     }
 
     protected void ensureIsValid(T entity) {
-        Set<ConstraintViolation<T>> violations = getValidator().validate(
-                entity);
-    
+        Set<ConstraintViolation<T>> violations = getValidator()
+                .validate(entity);
+
         if (violations.size() > 0) {
             throw new ValidationException("Validation failed");
         }
@@ -309,5 +318,9 @@ public abstract class ObservableEntityModel<T> extends Observable {
     protected void ensureIsValid(Iterable<T> entities) {
         for (T entity : entities)
             ensureIsValid(entity);
+    }
+
+    private static Logger getLogger() {
+        return logger;
     }
 }

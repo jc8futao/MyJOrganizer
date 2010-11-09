@@ -37,7 +37,8 @@ public class BasicDataLoader {
      */
     public static void ensureStatuses(EntityManager em) {
         TaskStatus[] statuses = { new TaskStatus("open"),
-                new TaskStatus("closed"), new TaskStatus("postponed") };
+                new TaskStatus("closed"), new TaskStatus("postponed"),
+                new TaskStatus("canceled") };
 
         for (TaskStatus status : statuses) {
             if (null == em.find(TaskStatus.class, status.getId())) {
