@@ -19,30 +19,43 @@ package net.sourceforge.myjorganizer.i18n;
 
 import java.util.ResourceBundle;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
- * <p>Translator class.</p>
- *
+ * <p>
+ * Translator class.
+ * </p>
+ * 
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
 public class Translator {
     private static ResourceBundle bundle;
+    private static Logger logger = LoggerFactory.getLogger(Translator.class);
+
     static {
         try {
             bundle = ResourceBundle.getBundle("messages");
         } catch (Exception e) {
+            logger.error("Unable to get message bundle", e);
         }
     }
 
     /**
-     * <p>_</p>
-     *
-     * @param source a {@link java.lang.String} object.
+     * <p>
+     * _
+     * </p>
+     * 
+     * @param source
+     *            a {@link java.lang.String} object.
      * @return a {@link java.lang.String} object.
      */
     public static String _(String source) {
         if (bundle != null && bundle.containsKey(source))
             return bundle.getString(source);
+
+        logger.error("Missing translation for key " + source);
 
         return "@" + source;
     }
