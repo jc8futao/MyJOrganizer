@@ -14,12 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with MyJOrganizer.  If not, see <http://www.gnu.org/licenses/>.
  */
-package net.sourceforge.myjorganizer.jpa.entities;
+package net.sourceforge.myjorganizer.gui;
 
 import java.util.ArrayList;
 
 import net.sourceforge.myjorganizer.gui.task.model.TaskSetModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskStatusModel;
+import net.sourceforge.myjorganizer.jpa.entities.Task;
+import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
 /**
  * <p>

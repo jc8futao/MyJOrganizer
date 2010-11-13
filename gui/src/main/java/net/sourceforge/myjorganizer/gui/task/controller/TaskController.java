@@ -29,6 +29,7 @@ import javax.persistence.PersistenceException;
 import javax.swing.JTabbedPane;
 import javax.validation.ValidationException;
 
+import net.sourceforge.myjorganizer.gui.SampleData;
 import net.sourceforge.myjorganizer.gui.task.model.TaskDependencyModel;
 import net.sourceforge.myjorganizer.gui.task.model.TaskEvent;
 import net.sourceforge.myjorganizer.gui.task.model.TaskEventListener;
@@ -42,7 +43,6 @@ import net.sourceforge.myjorganizer.gui.task.view.TaskSourceView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskStatView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskTableView;
 import net.sourceforge.myjorganizer.gui.task.view.TaskTreeView;
-import net.sourceforge.myjorganizer.jpa.entities.SampleData;
 import net.sourceforge.myjorganizer.jpa.entities.Task;
 import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
