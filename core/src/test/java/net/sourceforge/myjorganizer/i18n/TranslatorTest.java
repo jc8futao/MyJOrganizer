@@ -40,13 +40,13 @@ import org.junit.Test;
 
 public class TranslatorTest {
 
-    @Test
-    public void testUnsupportedTranslation() {
-        assertEquals("@Smurfs", Translator._("Smurfs"));
-    }
+	@Test
+	public void testUnsupportedTranslation() {
+		assertEquals("@Smurfs", Translator._("Smurfs"));
+	}
 
-    @Test
-    public void testPresentTranslation() {
-        assertEquals("File", Translator._("FILE_MENU"));
-    }
+	@Test
+	public void testPresentTranslation() {
+		assertEquals("File", Translator._("FILE_MENU"));
+	}
 }
