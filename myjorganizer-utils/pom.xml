@@ -9,7 +9,7 @@
 		<version>0.1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.davidebellettini</groupId>
-	<artifactId>utils</artifactId>
+	<artifactId>myjorganizer-utils</artifactId>
 	<version>0.1.1-SNAPSHOT</version>
 	<name>utils</name>
 	<url>http://maven.apache.org</url>

@@ -10,7 +10,7 @@
 		<relativePath>..</relativePath>
 	</parent>
 	<groupId>net.sourceforge.myjorganizer</groupId>
-	<artifactId>gui</artifactId>
+	<artifactId>myjorganizer-gui</artifactId>
 	<version>0.1.1-SNAPSHOT</version>
 	<name>gui</name>
 	<url>http://maven.apache.org</url>
