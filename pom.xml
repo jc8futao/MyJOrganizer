@@ -4,7 +4,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sourceforge.myjorganizer</groupId>
-	<artifactId>MyJOrganizer</artifactId>
+	<artifactId>myjorganizer</artifactId>
 	<version>0.1.1-SNAPSHOT</version>
 	<name>myjorganizer</name>
 	<description>Simple Swing-Base Personal Information Management</description>
@@ -23,9 +23,9 @@
 	</licenses>
 
 	<modules>
-		<module>core</module>
-		<module>gui</module>
-		<module>utils</module>
+		<module>myjorganizer-core</module>
+		<module>myjorganizer-gui</module>
+		<module>myjorganizer-utils</module>
 	</modules>
 
 	<build>
