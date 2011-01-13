@@ -4,7 +4,7 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>MyJOrganizer</artifactId>
+		<artifactId>myjorganizer</artifactId>
 		<groupId>net.sourceforge.myjorganizer</groupId>
 		<version>0.1.1-SNAPSHOT</version>
 		<relativePath>..</relativePath>
@@ -26,8 +26,13 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.jdesktop</groupId>
+			<artifactId>appframework</artifactId>
+			<version>1.0.3</version>
+		</dependency>
+		<dependency>
 			<groupId>com.davidebellettini</groupId>
-			<artifactId>utils</artifactId>
+			<artifactId>myjorganizer-utils</artifactId>
 			<version>0.1.1-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
