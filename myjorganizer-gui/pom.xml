@@ -20,7 +20,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>net.sourceforge.myjorganizer</groupId>
-			<artifactId>core</artifactId>
+			<artifactId>myjorganizer-core</artifactId>
 			<version>0.1.1-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
