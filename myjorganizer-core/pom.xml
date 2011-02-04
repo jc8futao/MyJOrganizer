@@ -29,7 +29,6 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>3.6.0.Final</version>
-			<type>pom</type>
 			<scope>compile</scope>
 		</dependency>
 		<!-- Hibernate uses slf4j for logging, for our purposes here use the simple 
