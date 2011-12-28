@@ -20,7 +20,7 @@ package net.sourceforge.myjorganizer.gui.task.model;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-import net.sourceforge.myjorganizer.jpa.dao.TaskStatusDAO;
+import net.sourceforge.myjorganizer.jpa.dao.JPATaskStatusDAO;
 import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
 /**
@@ -42,7 +42,7 @@ public class TaskStatusModel extends ObservableEntityModel<TaskStatus> {
      *            a {@link javax.persistence.EntityManager} object.
      */
     public TaskStatusModel(EntityManager entityManager) {
-        super(entityManager, new TaskStatusDAO(entityManager));
+        super(entityManager, new JPATaskStatusDAO(entityManager));
 
         EntityTransaction tx = beginTransaction();
 

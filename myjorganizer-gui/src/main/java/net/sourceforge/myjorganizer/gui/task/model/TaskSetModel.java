@@ -22,7 +22,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 
 import net.sourceforge.myjorganizer.jpa.dao.JPATaskDAO;
-import net.sourceforge.myjorganizer.jpa.dao.TaskStatusDAO;
+import net.sourceforge.myjorganizer.jpa.dao.JPATaskStatusDAO;
 import net.sourceforge.myjorganizer.jpa.entities.Task;
 import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
@@ -134,7 +134,7 @@ public class TaskSetModel extends ObservableEntityModel<Task> {
         super.update(task);
     }
 
-    protected TaskStatusDAO getStatusDao() {
-        return new TaskStatusDAO(getEntityManager());
+    protected JPATaskStatusDAO getStatusDao() {
+        return new JPATaskStatusDAO(getEntityManager());
     }
 }
