@@ -2,6 +2,8 @@ package net.sourceforge.myjorganizer.jpa.dao;
 
 import javax.persistence.EntityManager;
 
+import com.google.inject.Inject;
+
 import net.sourceforge.myjorganizer.dao.TaskStatusDAO;
 import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
 
@@ -24,6 +26,7 @@ public class JPATaskStatusDAO extends JPAEntityDAO<TaskStatus> implements
 	 * @param entityManager
 	 *            a {@link javax.persistence.EntityManager} object.
 	 */
+	@Inject
 	public JPATaskStatusDAO(EntityManager entityManager) {
 		super(entityManager, TaskStatus.class);
 	}

@@ -19,45 +19,44 @@ import net.sourceforge.myjorganizer.jpa.entities.TaskDependency;
  */
 public class TaskDependencyModel extends ObservableEntityModel<TaskDependency> {
 
-    /**
-     * <p>
-     * Constructor for TaskDependencyModel.
-     * </p>
-     * 
-     * @param entityManager
-     *            a {@link javax.persistence.EntityManager} object.
-     */
-    public TaskDependencyModel(EntityManager entityManager) {
-        super(entityManager, new JPATaskDependencyDAO(entityManager,
-                TaskDependency.class));
+	/**
+	 * <p>
+	 * Constructor for TaskDependencyModel.
+	 * </p>
+	 * 
+	 * @param entityManager
+	 *            a {@link javax.persistence.EntityManager} object.
+	 */
+	public TaskDependencyModel(EntityManager entityManager) {
+		super(entityManager, new JPATaskDependencyDAO(entityManager));
 
-        this.setList(entityManager.createQuery("FROM TaskDependency",
-                TaskDependency.class).getResultList());
-    }
+		this.setList(entityManager.createQuery("FROM TaskDependency",
+				TaskDependency.class).getResultList());
+	}
 
-    public void deleteFromId(String left, String right) {
-        EntityTransaction tx = beginTransaction();
-        try {
-            TaskDependency dependency = ((JPATaskDependencyDAO) getDao())
-                    .findFromId(left, right);
-            getEntityManager().remove(dependency);
+	public void deleteFromId(String left, String right) {
+		EntityTransaction tx = beginTransaction();
+		try {
+			TaskDependency dependency = ((JPATaskDependencyDAO) getDao())
+					.findFromId(left, right);
+			getEntityManager().remove(dependency);
 
-            Set<TaskDependency> leftdeps = dependency.getLeft()
-                    .getLeftDependencies();
-            if (leftdeps != null)
-                leftdeps.remove(dependency);
+			Set<TaskDependency> leftdeps = dependency.getLeft()
+					.getLeftDependencies();
+			if (leftdeps != null)
+				leftdeps.remove(dependency);
 
-            Set<TaskDependency> rightdeps = dependency.getRight()
-                    .getRightDependencies();
+			Set<TaskDependency> rightdeps = dependency.getRight()
+					.getRightDependencies();
 
-            if (rightdeps != null)
-                rightdeps.remove(dependency);
+			if (rightdeps != null)
+				rightdeps.remove(dependency);
 
-            getList().remove(dependency);
-        } catch (PersistenceException e) {
-            tx.rollback();
-            throw e;
-        }
-        commitAndNotify(tx);
-    }
+			getList().remove(dependency);
+		} catch (PersistenceException e) {
+			tx.rollback();
+			throw e;
+		}
+		commitAndNotify(tx);
+	}
 }

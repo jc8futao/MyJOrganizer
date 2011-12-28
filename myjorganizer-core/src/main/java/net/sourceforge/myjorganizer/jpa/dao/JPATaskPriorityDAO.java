@@ -2,7 +2,9 @@ package net.sourceforge.myjorganizer.jpa.dao;
 
 import javax.persistence.EntityManager;
 
-import net.sourceforge.myjorganizer.dao.PriorityDAO;
+import com.google.inject.Inject;
+
+import net.sourceforge.myjorganizer.dao.TaskPriorityDAO;
 import net.sourceforge.myjorganizer.jpa.entities.TaskPriority;
 
 /**
@@ -13,8 +15,8 @@ import net.sourceforge.myjorganizer.jpa.entities.TaskPriority;
  * @author Davide Bellettini <dbellettini@users.sourceforge.net>
  * @version $Id$
  */
-public class JPAPriorityDAO extends JPAEntityDAO<TaskPriority> implements
-		PriorityDAO {
+public class JPATaskPriorityDAO extends JPAEntityDAO<TaskPriority> implements
+		TaskPriorityDAO {
 	/**
 	 * <p>
 	 * Constructor for PriorityDAO.
@@ -23,7 +25,8 @@ public class JPAPriorityDAO extends JPAEntityDAO<TaskPriority> implements
 	 * @param entityManager
 	 *            a {@link javax.persistence.EntityManager} object.
 	 */
-	public JPAPriorityDAO(EntityManager entityManager) {
+	@Inject
+	public JPATaskPriorityDAO(EntityManager entityManager) {
 		super(entityManager, TaskPriority.class);
 	}
 }

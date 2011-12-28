@@ -1,5 +1,7 @@
 package net.sourceforge.myjorganizer.dao;
 
-public interface TaskStatusDAO {
+import net.sourceforge.myjorganizer.jpa.entities.TaskStatus;
+
+public interface TaskStatusDAO extends EntityDAO<TaskStatus> {
 
 }

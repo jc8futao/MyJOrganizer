@@ -2,6 +2,8 @@ package net.sourceforge.myjorganizer.jpa.dao;
 
 import javax.persistence.EntityManager;
 
+import com.google.inject.Inject;
+
 import net.sourceforge.myjorganizer.dao.TaskDAO;
 import net.sourceforge.myjorganizer.jpa.entities.Task;
 
@@ -18,6 +20,7 @@ public class JPATaskDAO extends JPAEntityDAO<Task> implements TaskDAO {
      *
      * @param entityManager a {@link javax.persistence.EntityManager} object.
      */
+	@Inject
     public JPATaskDAO(EntityManager entityManager) {
         super(entityManager, Task.class);
     }

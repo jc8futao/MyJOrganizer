@@ -3,6 +3,8 @@ package net.sourceforge.myjorganizer.jpa.dao;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import com.google.inject.Inject;
+
 import net.sourceforge.myjorganizer.dao.TaskDependencyDAO;
 import net.sourceforge.myjorganizer.jpa.entities.TaskDependency;
 
@@ -28,9 +30,9 @@ public class JPATaskDependencyDAO extends JPAEntityDAO<TaskDependency>
 	 * @param class1
 	 *            a {@link java.lang.Class} object.
 	 */
-	public JPATaskDependencyDAO(EntityManager entityManager,
-			Class<TaskDependency> class1) {
-		super(entityManager, class1);
+	@Inject
+	public JPATaskDependencyDAO(EntityManager entityManager) {
+		super(entityManager, TaskDependency.class);
 	}
 
 	public TaskDependency findFromId(String left, String right) {

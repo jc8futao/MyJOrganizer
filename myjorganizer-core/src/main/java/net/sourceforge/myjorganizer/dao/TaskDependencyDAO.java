@@ -1,5 +1,7 @@
 package net.sourceforge.myjorganizer.dao;
 
-public interface TaskDependencyDAO {
+import net.sourceforge.myjorganizer.jpa.entities.TaskDependency;
+
+public interface TaskDependencyDAO extends EntityDAO<TaskDependency> {
 
 }
